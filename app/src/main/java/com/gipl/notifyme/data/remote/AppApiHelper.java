@@ -20,6 +20,8 @@ package com.gipl.notifyme.data.remote;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
+import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.google.gson.Gson;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 
@@ -48,11 +50,20 @@ public class AppApiHelper implements ApiHelper {
 
 
     @Override
-    public Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq) throws JSONException {
+    public Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq) {
         return Rx2AndroidNetworking.post(ApiEndPoint.SEND_OTP)
-                .addJSONObjectBody(new JSONObject(new Gson().toJson(sendOTPReq)))
+                .addBodyParameter(sendOTPReq)
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(SendOtpRes.class);
+    }
+
+    @Override
+    public Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.VERIFY_OTP)
+                .addBodyParameter(verifyOtpReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(VerifyOtpRsp.class);
     }
 }

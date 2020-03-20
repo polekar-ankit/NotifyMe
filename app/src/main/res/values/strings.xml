@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NotifyMe</string>
+    <string name="app_name">Notify Me</string>
     <string name="msg_default_wait">Please Wait...</string>
     <string name="msg_no_internet_connectivity">No internet connection</string>
     <string name="exception_not_found">Something went wrong</string>
@@ -10,4 +10,7 @@
     <string name="btn_submit">Submit</string>
     <string name="msg_error_emp_id">Please enter employee Id</string>
     <string name="btn_ok">Ok</string>
+    <string name="hint_otp">OTP</string>
+    <string name="msg_otp_note_sub_text">Otp has been successfully send to\n</string>
+    <string name="msg_otp_error">OTP should not be empty</string>
 </resources>

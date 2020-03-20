@@ -12,8 +12,6 @@ import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
-import org.json.JSONException;
-
 import io.reactivex.functions.Consumer;
 
 public class LoginViewModel extends BaseViewModel {
@@ -34,6 +32,8 @@ public class LoginViewModel extends BaseViewModel {
         return empId;
     }
 
+
+
     public void sendOtp() {
         empIdError.set(null);
 
@@ -42,20 +42,15 @@ public class LoginViewModel extends BaseViewModel {
             return;
         }
         getResponseMutableLiveData().postValue(Response.loading());
-        try {
-            getCompositeDisposable().add(userUseCase.sendOtp(empId.get())
-                    .subscribeOn(getSchedulerProvider().io())
-                    .observeOn(getSchedulerProvider().ui())
-                    .subscribe(sendOtpRes -> {
-                        if (sendOtpRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-                            getResponseMutableLiveData().postValue(Response.success(sendOtpRes.getUser()));
-                        } else {
-                            getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(sendOtpRes.getApiError().getErrorMessage()))));
-                        }
-                    }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            getResponseMutableLiveData().postValue(Response.error(e));
-        }
+        getCompositeDisposable().add(userUseCase.sendOtp(empId.get())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(sendOtpRes -> {
+                    if (sendOtpRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getResponseMutableLiveData().postValue(Response.success(sendOtpRes.getUser()));
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(sendOtpRes.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 }

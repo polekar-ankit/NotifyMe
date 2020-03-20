@@ -18,6 +18,8 @@ package com.gipl.notifyme.data.remote;
 
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
+import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 
 import org.json.JSONException;
 
@@ -28,5 +30,7 @@ import io.reactivex.Single;
  */
 
 public interface ApiHelper {
-    Single<SendOtpRes>sendOtp(SendOTPReq sendOTPReq) throws JSONException;
+    Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq);
+
+    Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq);
 }

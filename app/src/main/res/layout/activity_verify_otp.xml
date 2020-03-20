@@ -6,76 +6,72 @@
     <data>
 
         <variable
-            name="loginView"
-            type="com.gipl.notifyme.ui.login.LoginViewModel" />
+            name="verifyOtp"
+            type="com.gipl.notifyme.ui.otpverify.OtpVerifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#fff"
-        android:layout_height="match_parent">
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/_120sdp"
-            android:layout_height="@dimen/_120sdp"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{@string/msg_otp_note_sub_text+``+verifyOtp.mobileNumber}"
+            android:textColor="@color/color_otp_verify"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.36"
-            app:srcCompat="@drawable/gadre_logo" />
+            app:layout_constraintVertical_bias="0.44" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            setError="@{loginView.empIdError}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="@dimen/_20sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6">
+            app:layout_constraintTop_toBottomOf="@+id/textView">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_employee_id"
+                android:id="@+id/tiet_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_employee_id"
+                android:hint="@string/hint_otp"
                 android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="6"
                 android:singleLine="true"
-                android:inputType="textCapCharacters"
-                android:text="@={loginView.empId}" />
+                android:text="@={verifyOtp.otp}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
-            style="@style/buttonStyle"
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:onClick="@{()->loginView.sendOtp()}"
+            android:onClick="@{()->verifyOtp.generateFBTokenAndAuth()}"
             android:text="@string/btn_submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@color/colorPrimary"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/gadre_logo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

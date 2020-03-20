@@ -28,6 +28,7 @@ public final class ApiEndPoint {
     //    define api names
 //    static final String FIND_USERS = BuildConfig.BASE_URL + "/User/FindUsers";
     static final String SEND_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/SendOTP";
+    static final String VERIFY_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/Login";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

@@ -23,9 +23,6 @@ package com.gipl.notifyme.data.local.prefs;
  */
 
 public interface PreferencesHelper {
-
-    String getSessionId();
-
-    void setSessionId(String sessionId);
-
+    boolean isLogin();
+    void setIsLogin();
 }

@@ -29,7 +29,7 @@ import javax.inject.Inject;
 
 public class AppPreferencesHelper implements PreferencesHelper {
 
-    private static final String PREF_KEY_SESSION_ID = "PREF_SESSION_ID";
+    private static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
 
 
     private final SharedPreferences mPrefs;
@@ -41,13 +41,12 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
 
     @Override
-    public String getSessionId() {
-        return mPrefs.getString(PREF_KEY_SESSION_ID, "");
+    public boolean isLogin() {
+        return mPrefs.getBoolean(KEY_IS_LOGIN, false);
     }
 
     @Override
-    public void setSessionId(String sessionId) {
-        mPrefs.edit().putString(PREF_KEY_SESSION_ID, sessionId).apply();
+    public void setIsLogin() {
+        mPrefs.edit().putBoolean(KEY_IS_LOGIN, true).apply();
     }
-
 }
