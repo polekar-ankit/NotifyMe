@@ -4,6 +4,8 @@
     <string name="msg_no_internet_connectivity">No internet connection</string>
     <string name="exception_not_found">Something went wrong</string>
     <string name="unkonw_host_exception">Sorry!We are unable to connect with server</string>
+    <string name="notification_channel_id_default">NotifyMe</string>
+    <string name="notification_channel_name_default">NotifyMe Alerts</string>
     <string name="hint_employee_id">Employee Id</string>
     <string name="btn_submit">Submit</string>
     <string name="msg_error_emp_id">Please enter employee Id</string>
