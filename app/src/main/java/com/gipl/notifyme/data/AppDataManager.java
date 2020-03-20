@@ -3,10 +3,16 @@ package com.gipl.notifyme.data;
 import android.content.Context;
 
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
+import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
+import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.remote.ApiHelper;
+
+import org.json.JSONException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import io.reactivex.Single;
 
 
 /**
@@ -20,7 +26,6 @@ public class AppDataManager implements DataManager {
     private final Context mContext;
 
 
-
     private final PreferencesHelper mPreferencesHelper;
 
     @Inject
@@ -31,10 +36,7 @@ public class AppDataManager implements DataManager {
     }
 
 
-
-
     @Override
-
     public Context getContext() {
         return mContext;
     }
@@ -47,6 +49,10 @@ public class AppDataManager implements DataManager {
 
     @Override
     public void setSessionId(String sessionId) {
+    }
 
+    @Override
+    public Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq) throws JSONException {
+        return mApiHelper.sendOtp(sendOTPReq);
     }
 }

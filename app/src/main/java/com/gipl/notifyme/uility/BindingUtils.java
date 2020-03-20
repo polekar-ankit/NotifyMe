@@ -4,6 +4,9 @@ import android.widget.EditText;
 
 import androidx.databinding.BindingAdapter;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 
 public final class BindingUtils {
 
@@ -19,5 +22,9 @@ public final class BindingUtils {
         }
     }
 
+    @BindingAdapter("setError")
+    public static void setError(TextInputLayout inputEditText, String error) {
+        inputEditText.setError(error);
+    }
 
 }

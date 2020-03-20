@@ -20,6 +20,7 @@ package com.gipl.notifyme.di.module;
 import android.app.Application;
 import android.content.Context;
 
+import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.AppDataManager;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.local.prefs.AppPreferencesHelper;
@@ -67,7 +68,7 @@ public class AppModule {
     @Provides
     @PreferenceInfo
     String providePreferenceName() {
-        return "AppPref";
+        return BuildConfig.PREF_NAME;
     }
 
     @Provides

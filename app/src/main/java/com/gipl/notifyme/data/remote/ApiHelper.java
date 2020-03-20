@@ -16,10 +16,17 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
+import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+
+import org.json.JSONException;
+
+import io.reactivex.Single;
+
 /**
  * Created by amitshekhar on 07/07/17.
  */
 
 public interface ApiHelper {
-
+    Single<SendOtpRes>sendOtp(SendOTPReq sendOTPReq) throws JSONException;
 }

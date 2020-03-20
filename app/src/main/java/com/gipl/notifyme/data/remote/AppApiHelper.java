@@ -17,11 +17,29 @@
 package com.gipl.notifyme.data.remote;
 
 
+import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
+import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+import com.google.gson.Gson;
+import com.rx2androidnetworking.Rx2AndroidNetworking;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Single;
+import okhttp3.OkHttpClient;
+
 @Singleton
 public class AppApiHelper implements ApiHelper {
+
+
+    private HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+            .addInterceptor(httpLoggingInterceptor)
+            .build();
 
 
     @Inject
@@ -29,4 +47,12 @@ public class AppApiHelper implements ApiHelper {
     }
 
 
+    @Override
+    public Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq) throws JSONException {
+        return Rx2AndroidNetworking.post(ApiEndPoint.SEND_OTP)
+                .addJSONObjectBody(new JSONObject(new Gson().toJson(sendOTPReq)))
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(SendOtpRes.class);
+    }
 }

@@ -15,8 +15,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", rootProject.dev_server_url)
+            buildConfigField("String", "NOYIFY_ME", rootProject.noyifyMe)
+            buildConfigField("String", "PREF_NAME", rootProject.prefName)
+        }
         release {
-            minifyEnabled false
+            buildConfigField("String", "BASE_URL", rootProject.live_server_url)
+            buildConfigField("String", "NOYIFY_ME", rootProject.noyifyMe)
+            buildConfigField("String", "PREF_NAME", rootProject.prefName)
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -57,5 +65,7 @@ dependencies {
     //diamension
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.1.0'
 
 }

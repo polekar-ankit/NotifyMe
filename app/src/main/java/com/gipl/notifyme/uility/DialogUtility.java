@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gipl.notifyme.R;
+import com.google.android.material.snackbar.Snackbar;
 
 
 /**
@@ -70,4 +71,5 @@ public class DialogUtility {
     public static void showToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
+
 }

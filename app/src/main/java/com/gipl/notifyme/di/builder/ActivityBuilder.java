@@ -16,7 +16,11 @@
 
 package com.gipl.notifyme.di.builder;
 
+import com.gipl.notifyme.ui.login.LoginActivity;
+import com.gipl.notifyme.ui.login.LoginModule;
+
 import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
 /**
  * Created by amitshekhar on 14/09/17.
@@ -24,4 +28,6 @@ import dagger.Module;
 @Module
 public abstract class ActivityBuilder {
 
+    @ContributesAndroidInjector(modules = LoginModule.class)
+    abstract LoginActivity provideLoginActivity();
 }

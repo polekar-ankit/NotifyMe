@@ -1,0 +1,18 @@
+ext {
+
+    serverUrls = [
+            test_server_url = "\" http://gadgrp.seesales.in/\"",
+            dev_server_url = "\" http://gadgrp.seesales.in/\"",
+            live_server_url = "\" http://gadgrp.seesales.in/\"",
+
+            noyifyMe = "\"NoyifyMe\"",
+
+    ]
+
+    versionCode = 8//change it for final build
+    String date = new Date().format("ddMMyy")
+    String time = new Date().format("HHmmss")
+    versionName = versionCode + ".0." + date + "." + time
+    prefName = "\"NotifyMeAppPref\""
+
+}

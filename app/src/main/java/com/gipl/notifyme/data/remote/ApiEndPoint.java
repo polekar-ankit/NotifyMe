@@ -17,6 +17,7 @@
 package com.gipl.notifyme.data.remote;
 
 
+import com.gipl.notifyme.BuildConfig;
 
 /**
  * Created by amitshekhar on 07/07/17.
@@ -24,8 +25,9 @@ package com.gipl.notifyme.data.remote;
 
 public final class ApiEndPoint {
 
-//    define api names
+    //    define api names
 //    static final String FIND_USERS = BuildConfig.BASE_URL + "/User/FindUsers";
+    static final String SEND_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/SendOTP";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable
