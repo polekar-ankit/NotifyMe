@@ -2,6 +2,7 @@ package com.gipl.notifyme.data;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.util.Log;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.uility.NotificationUtils;
@@ -32,7 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        //Log.d(TAG, "Firebase push notification received.");
+        Log.d(TAG, "Firebase push notification received.");
 
         Map<String, String> mapData = remoteMessage.getData();
         if (mapData != null) {

@@ -42,7 +42,7 @@ public class NotificationUtils {
         //Uri alarmSound = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.bell_sound);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
-                //.setSmallIcon(R.drawable.vc_bell)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle(contentTitle)
                 .setContentText(contentText)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
