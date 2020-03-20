@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">NotifyMe</string>
     <string name="msg_default_wait">Please Wait...</string>
+    <string name="msg_no_internet_connectivity">No internet connection</string>
+    <string name="exception_not_found">Something went wrong</string>
+    <string name="unkonw_host_exception">Sorry!We are unable to connect with server</string>
 </resources>
