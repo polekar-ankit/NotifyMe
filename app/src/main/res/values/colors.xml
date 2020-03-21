@@ -6,4 +6,5 @@
     <color name="colorTextPrimary">#383535</color>
     <color name="colorTextSecondary">#6F6C6C</color>
     <color name="color_otp_verify">#606060</color>
+    <color name="colorBgSecondary">#EAE5E5</color>
 </resources>
