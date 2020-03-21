@@ -1,5 +1,7 @@
 package com.gipl.notifyme.ui.notification;
 
+import androidx.databinding.ObservableField;
+
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
@@ -9,11 +11,20 @@ import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
+import io.reactivex.functions.Action;
+
 public class NotificationListViewModel extends BaseViewModel {
-    NotificationUseCase useCase;
+    private NotificationUseCase useCase;
+    private ObservableField<String> lastSync = new ObservableField<>("");
+
     public NotificationListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         useCase = new NotificationUseCase(dataManager);
+        lastSync.set(dataManager.getLastSync());
+    }
+
+    public ObservableField<String> getLastSync() {
+        return lastSync;
     }
 
     public void getAllNotifications() {
@@ -21,11 +32,16 @@ public class NotificationListViewModel extends BaseViewModel {
         GetNotificationsReq req = new GetNotificationsReq();
         req.setStart(0);
         req.setCount(10);
-        // TODO: 21-03-2020 Get employee code from Logged in user
-        req.setEmpCode("G028");
+        req.setEmpCode(getDataManager().getEmpCode());
         getCompositeDisposable().add(useCase.getNotificationsReq(req)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
+                .doFinally(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        lastSync.set(getDataManager().getLastSync());
+                    }
+                })
                 .subscribe(response -> {
                     if (response.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         getResponseMutableLiveData().postValue(Response.success(response));

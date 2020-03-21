@@ -71,4 +71,24 @@ public class AppDataManager implements DataManager {
     public void setIsLogin() {
         mPreferencesHelper.setIsLogin();
     }
+
+    @Override
+    public void setEmpCode(String empCode) {
+        mPreferencesHelper.setEmpCode(empCode);
+    }
+
+    @Override
+    public String getEmpCode() {
+        return mPreferencesHelper.getEmpCode();
+    }
+
+    @Override
+    public void setLastSync(String date) {
+        mPreferencesHelper.setLastSync(date);
+    }
+
+    @Override
+    public String getLastSync() {
+        return mPreferencesHelper.getLastSync();
+    }
 }

@@ -4,33 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.gipl.notifyme.ui.notification.NotificationListViewModel" />
+
         <import type="android.view.View" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/layout_parent"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pull_down"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_notifications"
+        <RelativeLayout
+            android:id="@+id/layout_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent">
 
-        <!--<include
-            android:id="@+id/empty_state"
-            layout="@layout/layout_empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.emptyStateObservable == null ? View.GONE : View.VISIBLE}"
-            app:emptyState="@{viewModel.emptyStateObservable}"
-            android:layout_centerInParent="true">
-        </include>-->
+            <TextView
+                android:id="@+id/tv_last_syc"
+                style="@style/TextPrimaryBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_centerHorizontal="true"
+                android:text="@{@string/lbl_last_sync_on+` `+viewModel.lastSync}" />
 
-    </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tv_last_syc"
+                android:padding="15dp" />
+
+            <!--<include
+                android:id="@+id/empty_state"
+                layout="@layout/layout_empty_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.emptyStateObservable == null ? View.GONE : View.VISIBLE}"
+                app:emptyState="@{viewModel.emptyStateObservable}"
+                android:layout_centerInParent="true">
+            </include>-->
+
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -9,7 +9,7 @@
     </style>
 
     <!-- Theme with toolbar -->
-    <style name="MyToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="MyToolbarTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

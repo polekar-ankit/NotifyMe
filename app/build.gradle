@@ -9,8 +9,8 @@ android {
         applicationId "com.gipl.notifyme"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode rootProject.versionCode
+        versionName rootProject.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,6 +27,7 @@ android {
             buildConfigField("String", "PREF_NAME", rootProject.prefName)
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            setProperty("archivesBaseName", ("NOTIFY_ME" + rootProject.ext.versionName).replace(".", "_"))
         }
     }
     dataBinding {

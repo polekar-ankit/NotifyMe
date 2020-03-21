@@ -14,4 +14,5 @@
     <string name="msg_otp_note_sub_text">Otp has been successfully send to\n</string>
     <string name="msg_otp_error">OTP should not be empty</string>
     <string name="label_for">For</string>
+    <string name="lbl_last_sync_on">Last Sync On :</string>
 </resources>

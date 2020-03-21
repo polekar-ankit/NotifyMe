@@ -17,12 +17,19 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
-
 /**
  * Created by amitshekhar on 07/07/17.
  */
 
 public interface PreferencesHelper {
     boolean isLogin();
+
     void setIsLogin();
+
+    void setEmpCode(String empCode);
+
+    String getEmpCode();
+
+    void setLastSync(String date);
+    String getLastSync();
 }

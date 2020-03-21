@@ -30,6 +30,8 @@ import javax.inject.Inject;
 public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
+    private static final String KEY_EMP_CODE = "KEY_EMP_CODE";
+    private static final String KEY_LAST_SYNC = "KEY_LAST_SYNC";
 
 
     private final SharedPreferences mPrefs;
@@ -48,5 +50,25 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setIsLogin() {
         mPrefs.edit().putBoolean(KEY_IS_LOGIN, true).apply();
+    }
+
+    @Override
+    public void setEmpCode(String empCode) {
+        mPrefs.edit().putString(KEY_EMP_CODE, empCode).apply();
+    }
+
+    @Override
+    public String getEmpCode() {
+        return mPrefs.getString(KEY_EMP_CODE, "");
+    }
+
+    @Override
+    public void setLastSync(String date) {
+        mPrefs.edit().putString(KEY_LAST_SYNC,date).apply();
+    }
+
+    @Override
+    public String getLastSync() {
+        return mPrefs.getString(KEY_LAST_SYNC,"Not Available");
     }
 }

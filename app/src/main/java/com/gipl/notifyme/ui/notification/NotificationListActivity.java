@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -71,6 +72,27 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
 
         //call api to get list of announcements
         getViewModel().getAllNotifications();
+        getViewDataBinding().pullDown.setEnabled(true);
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            adapter.clear();
+            getViewModel().getAllNotifications();
+        });
+        getViewDataBinding().rvNotifications.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvNotifications.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (firstItem != 0) {
+                        getViewDataBinding().pullDown.setEnabled(false);
+                    } else {
+                        getViewDataBinding().pullDown.setEnabled(true);
+                    }
+                }
+            }
+        });
     }
 
     private void processResponse(Response response) {
