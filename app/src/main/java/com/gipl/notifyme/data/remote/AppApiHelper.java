@@ -18,6 +18,8 @@ package com.gipl.notifyme.data.remote;
 
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
@@ -65,5 +67,14 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(VerifyOtpRsp.class);
+    }
+
+    @Override
+    public Single<GetNotificationRes> getNotifications(GetNotificationsReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_NOTIFICATION)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(GetNotificationRes.class);
     }
 }

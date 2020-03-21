@@ -16,6 +16,8 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
@@ -33,4 +35,6 @@ public interface ApiHelper {
     Single<SendOtpRes> sendOtp(SendOTPReq sendOTPReq);
 
     Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq);
+
+    Single<GetNotificationRes> getNotifications(GetNotificationsReq req);
 }

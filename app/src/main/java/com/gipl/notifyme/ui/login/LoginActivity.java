@@ -14,6 +14,7 @@ import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.ui.notification.NotificationListActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -46,6 +47,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         super.onCreate(savedInstanceState);
         loginViewModel.getResponseMutableLiveData().observe(this, this::processResponse);
 
+        // If already login then go to notification list
+        if (getViewModel().getDataManager().isLogin()){
+            NotificationListActivity.start(this);
+        }
     }
 
     @Override

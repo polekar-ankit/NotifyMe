@@ -3,6 +3,8 @@ package com.gipl.notifyme.data;
 import android.content.Context;
 
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.sendotp.User;
@@ -53,6 +55,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq) {
         return mApiHelper.verifyOtp(verifyOtpReq);
+    }
+
+    @Override
+    public Single<GetNotificationRes> getNotifications(GetNotificationsReq req) {
+        return mApiHelper.getNotifications(req);
     }
 
     @Override

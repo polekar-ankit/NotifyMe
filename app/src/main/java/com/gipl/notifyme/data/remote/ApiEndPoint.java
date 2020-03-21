@@ -29,6 +29,7 @@ public final class ApiEndPoint {
 //    static final String FIND_USERS = BuildConfig.BASE_URL + "/User/FindUsers";
     static final String SEND_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/SendOTP";
     static final String VERIFY_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/Login";
+    static final String GET_NOTIFICATION = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Notification/GetAllNotifications";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

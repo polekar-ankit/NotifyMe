@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- Theme with toolbar -->
+    <style name="MyToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="buttonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:textSize">14dp</item>
         <item name="android:background">@color/colorPrimary</item>
@@ -15,6 +22,36 @@
         <item name="android:paddingEnd">@dimen/_5sdp</item>
         <item name="android:textColor">#fff</item>
         <item name="android:minWidth">@dimen/_150sdp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextTitle">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextSubTitle">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextSubTitleBold">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextPrimary">
+    <item name="android:textSize">14dp</item>
+    <item name="android:textColor">@color/colorTextPrimary</item>
+    <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextPrimaryBold">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textStyle">bold</item>
     </style>
 

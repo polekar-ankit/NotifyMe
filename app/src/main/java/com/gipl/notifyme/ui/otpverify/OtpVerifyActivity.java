@@ -13,6 +13,7 @@ import com.gipl.notifyme.databinding.ActivityVerifyOtpBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.ui.notification.NotificationListActivity;
 import com.gipl.notifyme.uility.AppUtility;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -66,6 +67,9 @@ public class OtpVerifyActivity extends BaseActivity<ActivityVerifyOtpBinding, Ot
                 break;
             case SUCCESS:
                 hideLoading();
+                // TODO: 21-03-2020 Save logged in user details (Currently only Emp Code is required)
+                // User is verified successfully. Go to next screen
+                NotificationListActivity.start(this);
                 break;
             case ERROR:
                 hideLoading();

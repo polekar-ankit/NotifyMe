@@ -18,6 +18,8 @@ package com.gipl.notifyme.di.builder;
 
 import com.gipl.notifyme.ui.login.LoginActivity;
 import com.gipl.notifyme.ui.login.LoginModule;
+import com.gipl.notifyme.ui.notification.NotificationListActivity;
+import com.gipl.notifyme.ui.notification.NotificationListModule;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyModule;
 
@@ -35,4 +37,7 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = OtpVerifyModule.class)
     abstract OtpVerifyActivity provideOtpVerifyActivity();
+
+    @ContributesAndroidInjector(modules = NotificationListModule.class)
+    abstract NotificationListActivity provideNotificationListActivity();
 }
