@@ -14,7 +14,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    //keystore password :123456
     buildTypes {
         debug {
             buildConfigField("String", "BASE_URL", rootProject.dev_server_url)
