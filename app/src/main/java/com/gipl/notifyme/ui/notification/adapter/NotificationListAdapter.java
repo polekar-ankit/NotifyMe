@@ -1,5 +1,6 @@
 package com.gipl.notifyme.ui.notification.adapter;
 
+import android.text.util.Linkify;
 import android.view.View;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.notification.Notification;
@@ -24,6 +25,7 @@ public class NotificationListAdapter extends BaseAdapter<NotificationListAdapter
         itemHolder.getBindVariable().setNotification(notification);
         // set onclick listener
         //itemHolder.itemView.setOnClickListener(view-> listener.onItemClick(notification));
+        Linkify.addLinks(itemHolder.getBindVariable().tvMassage, Linkify.WEB_URLS);
     }
 
     public class ItemHolder extends BaseViewHolder<LayoutListItemNotificationBinding> {

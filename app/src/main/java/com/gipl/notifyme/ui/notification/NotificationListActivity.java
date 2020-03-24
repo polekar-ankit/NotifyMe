@@ -2,7 +2,12 @@ package com.gipl.notifyme.ui.notification;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.util.Linkify;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
+import com.gipl.notifyme.data.model.api.notification.Notification;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.databinding.LayoutNotificationListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
@@ -78,6 +84,8 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
             adapter.clear();
             getViewModel().getAllNotifications();
         });
+
+        // pull dpwn refresh
         getViewDataBinding().rvNotifications.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -93,6 +101,28 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.menu_item_share:
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void processResponse(Response response) {

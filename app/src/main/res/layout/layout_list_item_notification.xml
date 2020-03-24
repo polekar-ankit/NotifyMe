@@ -36,11 +36,14 @@
             android:layout_marginTop="@dimen/_5sdp"/>
 
         <TextView
+            android:id="@+id/tv_massage"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@{notification.message}"
             style="@style/TextPrimary"
-            android:ellipsize="end"/>
+            android:ellipsize="end"
+            android:autoLink="web"
+            android:linksClickable="true"/>
 
         <TextView
             android:id="@+id/tv_announcement_date"
