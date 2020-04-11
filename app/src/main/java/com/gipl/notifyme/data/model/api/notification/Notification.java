@@ -16,6 +16,12 @@ public class Notification {
     @SerializedName("sNotificationDate")
     @Expose
     private String notificationDate;
+    @SerializedName("sLinkType")
+    @Expose
+    private String linkType;
+    @SerializedName("sLink")
+    @Expose
+    private String link;
 
     public String getForGroup() {
         return forGroup;
@@ -47,5 +53,21 @@ public class Notification {
 
     public void setNotificationDate(String notificationDate) {
         this.notificationDate = notificationDate;
+    }
+
+    public String getLinkType() {
+        return linkType;
+    }
+
+    public void setLinkType(String linkType) {
+        this.linkType = linkType;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

@@ -1,7 +1,7 @@
 ext {
 
     serverUrls = [
-            test_server_url = "\" http://gadgrp.seesales.in/\"",
+            test_server_url = "\" http://gadgrp1.seesales.in/\"",
             dev_server_url = "\" http://gadgrp.seesales.in/\"",
             live_server_url = "\" http://gadgrp.seesales.in/\"",
 
@@ -14,5 +14,6 @@ ext {
     String time = new Date().format("HHmmss")
     versionName = versionCode + ".0." + date + "." + time
     prefName = "\"NotifyMeAppPref\""
+    exo_player_version = "2.7.3"
 
 }

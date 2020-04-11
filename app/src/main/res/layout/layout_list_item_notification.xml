@@ -7,6 +7,11 @@
         <variable
             name="notification"
             type="com.gipl.notifyme.data.model.api.notification.Notification" />
+        <variable
+            name="linkLabel"
+            type="String" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -44,6 +49,17 @@
             android:ellipsize="end"
             android:autoLink="web"
             android:linksClickable="true"/>
+
+       <!-- <TextView
+            android:id="@+id/label_open"
+            style="@style/TextLabelPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/vc_arrow_right"
+            app:setLinkLabel="@{linkLabel}"
+            android:visibility='@{linkLabel.equals("") ? View.GONE : View.VISIBLE}'
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"/>-->
 
         <TextView
             android:id="@+id/tv_announcement_date"

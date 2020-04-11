@@ -16,12 +16,16 @@
 
 package com.gipl.notifyme.di.builder;
 
+import com.gipl.notifyme.ui.image.ImagePreviewActivity;
+import com.gipl.notifyme.ui.image.ImagePreviewModule;
 import com.gipl.notifyme.ui.login.LoginActivity;
 import com.gipl.notifyme.ui.login.LoginModule;
 import com.gipl.notifyme.ui.notification.NotificationListActivity;
 import com.gipl.notifyme.ui.notification.NotificationListModule;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyModule;
+import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
+import com.gipl.notifyme.ui.videoplayer.PlayerModule;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -40,4 +44,10 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = NotificationListModule.class)
     abstract NotificationListActivity provideNotificationListActivity();
+
+    @ContributesAndroidInjector(modules = ImagePreviewModule.class)
+    abstract ImagePreviewActivity provideImagePreviewActivity();
+
+    @ContributesAndroidInjector(modules = PlayerModule.class)
+    abstract PlayerActivity providePlayerActivity();
 }

@@ -1,5 +1,7 @@
 package com.gipl.notifyme.ui.notification;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -24,10 +26,13 @@ import com.gipl.notifyme.databinding.LayoutNotificationListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
 import com.gipl.notifyme.ui.base.BaseAdapter;
+import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.ui.notification.adapter.NotificationListAdapter;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
+import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
 import com.gipl.notifyme.uility.AppUtility;
+import com.gipl.notifyme.uility.DialogUtility;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -38,6 +43,8 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
     @Inject
     NotificationListViewModel notificationListViewModel;
     NotificationListAdapter adapter;
+    ClipData clipData;
+    ClipboardManager clipboardManager;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, NotificationListActivity.class);
@@ -70,11 +77,36 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         //setup list view
         setListLayout(getViewDataBinding().rvNotifications);
 
+        // Clipboard
+        clipboardManager= (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
         // Create list adapter
         adapter = new NotificationListAdapter();
 
         // set adapter
         setListAdapter(getViewDataBinding().rvNotifications, new ArrayList<>(), adapter);
+        // Set listener to list items
+        adapter.setListener(notification -> {
+            // Check if notification has any link attached and open it according to its type
+            if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())) {
+                ImagePreviewActivity.start(this, notification.getLink());
+            }
+            else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
+                PlayerActivity.start(this, notification.getLink());
+            }
+        });
+
+        // set long click listener
+        adapter.setLongClickListener(notification -> {
+            clipData = ClipData.newPlainText("notification", notification.getForGroup() + "\n\n" +
+                    notification.getTitle() + "\n" +
+                    notification.getMessage() + "\n\n" +
+                    notification.getNotificationDate());
+            clipboardManager.setPrimaryClip(clipData);
+
+            DialogUtility.showToast(this, "Text copied");
+            //getString(R.string.message_text_copied)
+        });
 
         //call api to get list of announcements
         getViewModel().getAllNotifications();
