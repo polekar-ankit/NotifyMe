@@ -8,5 +8,6 @@ public class AppUtility {
     public static class LINK_TYPE {
         public static final String VIDEO = "Video";
         public static final String IMAGE = "Image";
+        public static final String PDF = "Pdf";
     }
 }

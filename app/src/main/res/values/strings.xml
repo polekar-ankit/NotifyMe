@@ -22,4 +22,5 @@
     <string name="activity_video_player">Video Player</string>
     <string name="activity_image_preview">Image Viewer</string>
     <string name="message_text_copied">Text copied</string>
+    <string name="error_pdf_viewer_not_installed">You need install PDF Viewer</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.gipl.notifyme.ui.notification;
 
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -85,6 +86,7 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
 
         // set adapter
         setListAdapter(getViewDataBinding().rvNotifications, new ArrayList<>(), adapter);
+
         // Set listener to list items
         adapter.setListener(notification -> {
             // Check if notification has any link attached and open it according to its type
@@ -94,9 +96,35 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
             else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
                 PlayerActivity.start(this, notification.getLink());
             }
+            else if (AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
+                // Open pdf in browser
+                /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(notification.getLink()));
+                startActivity(browserIntent);*/
+                Intent intent = new Intent();
+                intent.setDataAndType(Uri.parse(notification.getLink()), "application/pdf");
+                // check if there is any app that can open pdf
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException activityNotFound) {
+                    // Tell user that the need to install a pdf viewer
+                    Snackbar mySnackbar = Snackbar.make(getViewDataBinding().getRoot(),
+                            getString(R.string.error_pdf_viewer_not_installed),
+                            Snackbar.LENGTH_INDEFINITE);
+                    // Show snackbar
+                    mySnackbar.setAction(getString(R.string.btn_ok), v -> {
+                        // Redirect to Play Store
+                        Intent playIntent = new Intent(Intent.ACTION_VIEW);
+                        playIntent.setData(Uri.parse(
+                                "http://play.google.com/store/search?q=pdfviewer&c=apps"));
+                        playIntent.setPackage("com.android.vending");
+                        startActivity(playIntent);
+                    });
+                    mySnackbar.show();
+                }
+            }
         });
 
-        // set long click listener
+        // Set long click listener
         adapter.setLongClickListener(notification -> {
             clipData = ClipData.newPlainText("notification", notification.getForGroup() + "\n\n" +
                     notification.getTitle() + "\n" +
