@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Notify Me - Test</string>
+    <string name="app_name">Notify Me</string>
     <string name="msg_default_wait">Please Wait</string>
     <string name="msg_no_internet_connectivity">No internet connection</string>
     <string name="exception_not_found">Something went wrong</string>
-    <string name="unkonw_host_exception">Sorry!We are unable to connect with server</string>
+    <string name="unkonw_host_exception">Sorry! Unable to connect to the server</string>
     <string name="notification_channel_id_default">NotifyMe</string>
     <string name="notification_channel_name_default">NotifyMe Alerts</string>
     <string name="hint_employee_id">Employee Id</string>
@@ -11,7 +11,7 @@
     <string name="msg_error_emp_id">Please enter employee Id</string>
     <string name="btn_ok">Ok</string>
     <string name="hint_otp">OTP</string>
-    <string name="msg_otp_note_sub_text">Otp has been successfully send to\n</string>
+    <string name="msg_otp_note_sub_text">OTP has been sent successfully to\n</string>
     <string name="msg_otp_error">OTP should not be empty</string>
     <string name="label_for">For</string>
     <string name="lbl_last_sync_on">Last Sync On :</string>
@@ -22,5 +22,6 @@
     <string name="activity_video_player">Video Player</string>
     <string name="activity_image_preview">Image Viewer</string>
     <string name="message_text_copied">Text copied</string>
-    <string name="error_pdf_viewer_not_installed">You need install PDF Viewer</string>
+    <string name="error_pdf_viewer_not_installed">You need to install PDF Viewer</string>
+    <string name="activity_notification">NotifyMe</string>
 </resources>

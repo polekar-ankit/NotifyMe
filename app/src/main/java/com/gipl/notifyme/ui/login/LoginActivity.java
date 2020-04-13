@@ -1,8 +1,11 @@
 package com.gipl.notifyme.ui.login;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 
@@ -80,6 +83,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 }
                 break;
         }
+
+        //Hide keyboard after clicking submit
+        getViewDataBinding().tietEmployeeId.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getViewDataBinding().tietEmployeeId.getWindowToken(), 0);
     }
 
 }

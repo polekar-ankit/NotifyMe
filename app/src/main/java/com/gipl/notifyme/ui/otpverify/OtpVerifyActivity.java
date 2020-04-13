@@ -3,6 +3,8 @@ package com.gipl.notifyme.ui.otpverify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 
@@ -82,5 +84,10 @@ public class OtpVerifyActivity extends BaseActivity<ActivityVerifyOtpBinding, Ot
                 }
                 break;
         }
+
+        //Hide keyboard after clicking submit
+        getViewDataBinding().tietOtp.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getViewDataBinding().tietOtp.getWindowToken(), 0);
     }
 }

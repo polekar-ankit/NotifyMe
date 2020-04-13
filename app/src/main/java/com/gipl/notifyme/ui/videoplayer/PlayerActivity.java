@@ -190,9 +190,11 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
     @Override
     public void onStop() {
         super.onStop();
-        playbackPosition = player.getCurrentPosition();
-        currentWindow = player.getCurrentWindowIndex();
-        playWhenReady = player.getPlayWhenReady();
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
+        }
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }

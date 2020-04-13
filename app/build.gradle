@@ -17,12 +17,12 @@ android {
     //keystore password :123456
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", rootProject.test_server_url)
+            buildConfigField("String", "BASE_URL", rootProject.live_server_url)
             buildConfigField("String", "NOYIFY_ME", rootProject.noyifyMe)
             buildConfigField("String", "PREF_NAME", rootProject.prefName)
         }
         release {
-            buildConfigField("String", "BASE_URL", rootProject.test_server_url)
+            buildConfigField("String", "BASE_URL", rootProject.live_server_url)
             buildConfigField("String", "NOYIFY_ME", rootProject.noyifyMe)
             buildConfigField("String", "PREF_NAME", rootProject.prefName)
             minifyEnabled true
