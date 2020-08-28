@@ -12,8 +12,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#fff"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff">
+
 
         <ImageView
             android:id="@+id/imageView"
@@ -27,14 +28,13 @@
             app:layout_constraintVertical_bias="0.36"
             app:srcCompat="@drawable/gadre_logo" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:id="@+id/textInputLayout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            setError="@{loginView.empIdError}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -42,16 +42,41 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.6">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tiet_employee_id"
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/lblEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/lbl_employee_id" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/tiet_employee_id"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_regular"
                 android:hint="@string/hint_employee_id"
                 android:imeOptions="actionDone"
-                android:singleLine="true"
+                android:drawableStart="@drawable/ic_employee_id"
+                android:drawablePadding="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_10sdp"
                 android:inputType="textCapCharacters"
-                android:text="@={loginView.empId}" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:backgroundTint="@color/colorPrimary"
+                android:drawableTint="@color/colorPrimary"
+                android:singleLine="true"
+                android:text="@={loginView.empId}"
+                android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/proxima_nova_alt_regular"
+                android:text="@{loginView.empIdError}"
+                android:textColor="@color/edit_text_error"
+                android:textSize="@dimen/edit_text_error"
+                tools:text="Wrong employee id" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/button"
@@ -76,6 +101,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_180sdp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/bg_initial_footer" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

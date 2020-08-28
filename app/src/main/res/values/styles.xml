@@ -17,7 +17,8 @@
 
     <style name="buttonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:textSize">14dp</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@drawable/bg_custom_button</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
         <item name="android:paddingStart">@dimen/_5sdp</item>
         <item name="android:paddingEnd">@dimen/_5sdp</item>
         <item name="android:textColor">#fff</item>
@@ -25,16 +26,24 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="lblEditText" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
+        <item name="android:textColor">@color/edit_text_title</item>
+        <item name="android:textSize">@dimen/edit_text_title</item>
+    </style>
+
     <style name="TextTitle">
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/proxima_nova_regular</item>
     </style>
 
     <style name="TextSubTitle">
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/colorTextSecondary</item>
         <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
     </style>
 
     <style name="TextSubTitleBold">
@@ -44,15 +53,17 @@
     </style>
 
     <style name="TextPrimary">
-    <item name="android:textSize">14dp</item>
-    <item name="android:textColor">@color/colorTextPrimary</item>
-    <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
     </style>
 
     <style name="TextPrimaryBold">
         <item name="android:textSize">14dp</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
     </style>
 
     <style name="TextLabelPrimary">

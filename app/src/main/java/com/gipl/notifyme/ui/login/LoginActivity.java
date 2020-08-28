@@ -51,9 +51,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         loginViewModel.getResponseMutableLiveData().observe(this, this::processResponse);
 
         // If already login then go to notification list
-        if (getViewModel().getDataManager().isLogin()){
+        if (loginViewModel.getDataManager().isLogin()){
             NotificationListActivity.start(this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        hideKeyboardOnLaunch();
     }
 
     @Override
@@ -87,7 +93,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         //Hide keyboard after clicking submit
         getViewDataBinding().tietEmployeeId.onEditorAction(EditorInfo.IME_ACTION_DONE);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getViewDataBinding().tietEmployeeId.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getViewDataBinding().tietEmployeeId.getWindowToken(), 0);
+        }
     }
 
 }

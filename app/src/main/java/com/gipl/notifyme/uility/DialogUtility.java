@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,16 +52,19 @@ public class DialogUtility {
     public static ProgressDialog showLoadingDialog(Context context, int... messageId) {
 
         ProgressDialog progressDialog = new ProgressDialog(context);
-        if (messageId.length > 0)
-            progressDialog.setMessage(context.getString(messageId[0]));
-        else
-            progressDialog.setMessage(context.getString(R.string.msg_default_wait));
+
         progressDialog.show();
 
 //        if (progressDialog.getWindow() != null) {
 //            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        }
-//        progressDialog.setContentView(R.layout.progress_dialog);
+        progressDialog.setContentView(R.layout.dialog_progress);
+        TextView textView = progressDialog.findViewById(R.id.progress_text);
+        if (messageId.length > 0)
+            textView.setText(context.getString(messageId[0]));
+        else
+            textView.setText(context.getString(R.string.msg_default_wait));
+
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);

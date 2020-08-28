@@ -24,4 +24,5 @@
     <string name="message_text_copied">Text copied</string>
     <string name="error_pdf_viewer_not_installed">You need to install PDF Viewer</string>
     <string name="activity_notification">NotifyMe</string>
+    <string name="lbl_employee_id">Employee Id</string>
 </resources>

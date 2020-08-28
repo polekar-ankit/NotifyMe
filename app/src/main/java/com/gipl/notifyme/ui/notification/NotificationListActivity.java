@@ -11,9 +11,11 @@ import android.provider.Settings;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,7 +85,7 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         setListLayout(getViewDataBinding().rvNotifications);
 
         // Clipboard
-        clipboardManager= (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
         // Create list adapter
         adapter = new NotificationListAdapter();
@@ -96,11 +98,9 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
             // Check if notification has any link attached and open it according to its type
             if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())) {
                 ImagePreviewActivity.start(this, notification.getLink());
-            }
-            else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
+            } else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
                 PlayerActivity.start(this, notification.getLink());
-            }
-            else if (AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
+            } else if (AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
                 // Open pdf in browser
                 /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(notification.getLink()));
                 startActivity(browserIntent);*/
@@ -189,10 +189,19 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void hideLoading() {
+        getViewDataBinding().rvNotifications.setVisibility(View.VISIBLE);
+        getViewDataBinding().loading.setVisibility(View.GONE);
+    }
+
     private void processResponse(Response response) {
         switch (response.status) {
             case LOADING:
-                showLoading();
+//                showLoading();
+                getViewDataBinding().rvNotifications.setVisibility(View.GONE);
+                getViewDataBinding().loading.setVisibility(View.VISIBLE);
                 break;
             case SUCCESS:
                 hideLoading();
@@ -214,19 +223,21 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                 break;
         }
     }
+
     /**
      * This method sets layout of list
      * It also draws dividers between list items / rows.
      * To minimize code this method has been generalized and put in BaseActivity
      * Credits : Anuj Devasthali 24-08-2019
+     *
      * @param recyclerView
      */
     public void setListLayout(RecyclerView recyclerView) {
         // Setup List Layout
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         // Add divider in list items
-        DividerItemDecoration itemDecor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        recyclerView.addItemDecoration(itemDecor);
+//        DividerItemDecoration itemDecor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+//        recyclerView.addItemDecoration(itemDecor);
     }
 
     /**
@@ -234,10 +245,10 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
      * To minimize code this method is generalized and put in BaseActivity
      * Credits : Anuj Devasthali, Ankit Polekar 24-08-2019
      *
-     * @param recyclerView Your recycler view
-     * @param userStatsList Arraylist of data to be shown
+     * @param recyclerView    Your recycler view
+     * @param userStatsList   Arraylist of data to be shown
      * @param userDataAdapter Your list adapter
-     * @param <T> Any object used by your adapter (This will be treated as a row)
+     * @param <T>             Any object used by your adapter (This will be treated as a row)
      */
     public <T extends Object> void setListAdapter(RecyclerView recyclerView,
                                                   ArrayList<T> userStatsList,

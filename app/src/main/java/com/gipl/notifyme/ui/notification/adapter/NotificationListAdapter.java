@@ -29,6 +29,7 @@ public class NotificationListAdapter extends BaseAdapter<NotificationListAdapter
         /*// Set label that prompts to open attachment
         itemHolder.getBindVariable().setLinkLabel(notification.getLinkType());*/
 
+        itemHolder.getBindVariable().ivDataIcon.setImageResource(notification.getResId());
         // set onclick listener only if it has additional link or attachment
         if (!notification.getLinkType().isEmpty()) {
             itemHolder.itemView.setOnClickListener(view -> listener.onItemClick(notification));

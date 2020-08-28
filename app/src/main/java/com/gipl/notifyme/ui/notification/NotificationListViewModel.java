@@ -2,16 +2,20 @@ package com.gipl.notifyme.ui.notification;
 
 import androidx.databinding.ObservableField;
 
+import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
+import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
+import com.gipl.notifyme.data.model.api.notification.Notification;
 import com.gipl.notifyme.domain.NotificationUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
-import io.reactivex.functions.Action;
+import io.reactivex.functions.Function;
 
 public class NotificationListViewModel extends BaseViewModel {
     private NotificationUseCase useCase;
@@ -36,12 +40,7 @@ public class NotificationListViewModel extends BaseViewModel {
         getCompositeDisposable().add(useCase.getNotificationsReq(req)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        lastSync.set(getDataManager().getLastSync());
-                    }
-                })
+                .doFinally(() -> lastSync.set(getDataManager().getLastSync()))
                 .subscribe(response -> {
                     if (response.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         getResponseMutableLiveData().postValue(Response.success(response));

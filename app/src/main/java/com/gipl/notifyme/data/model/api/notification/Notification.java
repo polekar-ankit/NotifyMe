@@ -13,15 +13,38 @@ public class Notification {
     @SerializedName("sMessage")
     @Expose
     private String message;
+
     @SerializedName("sNotificationDate")
     @Expose
     private String notificationDate;
+
     @SerializedName("sLinkType")
     @Expose
     private String linkType;
     @SerializedName("sLink")
     @Expose
     private String link;
+
+    @Expose(deserialize = false, serialize = false)
+    private int resId;
+    @Expose(deserialize = false, serialize = false)
+    private String displayDate;
+
+    public String getDisplayDate() {
+        return displayDate;
+    }
+
+    public void setDisplayDate(String displayDate) {
+        this.displayDate = displayDate;
+    }
+
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
+    }
 
     public String getForGroup() {
         return forGroup;
