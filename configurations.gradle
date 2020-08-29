@@ -14,6 +14,8 @@ ext {
     String time = new Date().format("HHmmss")
     versionName = versionCode + ".0." + date + "." + time
     prefName = "\"NotifyMeAppPref\""
+    dbName = "\"NotifyMeAppDb\""
+
     exo_player_version = "2.7.3"
 
 }

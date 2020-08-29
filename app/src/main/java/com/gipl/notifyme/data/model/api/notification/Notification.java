@@ -1,5 +1,7 @@
 package com.gipl.notifyme.data.model.api.notification;
 
+import androidx.room.Ignore;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,6 +9,7 @@ public class Notification {
     @SerializedName("sFor")
     @Expose
     private String forGroup;
+
     @SerializedName("sTitle")
     @Expose
     private String title;
@@ -26,9 +29,14 @@ public class Notification {
     private String link;
 
     @Expose(deserialize = false, serialize = false)
+    @Ignore
     private int resId;
+
     @Expose(deserialize = false, serialize = false)
+    @Ignore
     private String displayDate;
+
+
 
     public String getDisplayDate() {
         return displayDate;

@@ -71,6 +71,8 @@ public class AppModule {
         return BuildConfig.PREF_NAME;
     }
 
+
+
     @Provides
     @Singleton
     PreferencesHelper providePreferencesHelper(AppPreferencesHelper appPreferencesHelper) {

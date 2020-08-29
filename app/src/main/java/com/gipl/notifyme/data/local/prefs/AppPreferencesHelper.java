@@ -19,7 +19,9 @@ package com.gipl.notifyme.data.local.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.di.PreferenceInfo;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
@@ -32,6 +34,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
     private static final String KEY_EMP_CODE = "KEY_EMP_CODE";
     private static final String KEY_LAST_SYNC = "KEY_LAST_SYNC";
+    private static final String KEY_USER_OBJ = "KEY_USER_OBJ";
+    private static final String KEY_CACHE_NOTIFICATION = "KEY_CACHE_NOTIFICATION";
 
 
     private final SharedPreferences mPrefs;
@@ -63,12 +67,33 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setUserObj(User user) {
+        mPrefs.edit().putString(KEY_USER_OBJ, new Gson().toJson(user)).apply();
+    }
+
+    @Override
+    public User getUserObj() {
+        String user = mPrefs.getString(KEY_USER_OBJ, "");
+        return user.isEmpty() ? null : new Gson().fromJson(user, User.class);
+    }
+
+    @Override
     public void setLastSync(String date) {
-        mPrefs.edit().putString(KEY_LAST_SYNC,date).apply();
+        mPrefs.edit().putString(KEY_LAST_SYNC, date).apply();
     }
 
     @Override
     public String getLastSync() {
-        return mPrefs.getString(KEY_LAST_SYNC,"Not Available");
+        return mPrefs.getString(KEY_LAST_SYNC, "Not Available");
+    }
+
+    @Override
+    public void setTotalNotificationCache(int count) {
+        mPrefs.edit().putInt(KEY_CACHE_NOTIFICATION,count).apply();
+    }
+
+    @Override
+    public int getCacheNotificationCount() {
+        return mPrefs.getInt(KEY_CACHE_NOTIFICATION,0);
     }
 }

@@ -5,6 +5,7 @@ import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 

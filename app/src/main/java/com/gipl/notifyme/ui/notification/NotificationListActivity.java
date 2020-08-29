@@ -8,24 +8,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.lifecycle.Transformations;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
-import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.Notification;
-import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.databinding.LayoutNotificationListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
@@ -33,7 +29,6 @@ import com.gipl.notifyme.ui.base.BaseAdapter;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.ui.notification.adapter.NotificationListAdapter;
-import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
 import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
@@ -141,11 +136,13 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         });
 
         //call api to get list of announcements
+        getViewModel().getNotificationList().observe(this, this::processNotificationList);
         getViewModel().getAllNotifications();
+
         getViewDataBinding().pullDown.setEnabled(true);
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);
-            adapter.clear();
+//            adapter.clear();
             getViewModel().getAllNotifications();
         });
 
@@ -165,6 +162,13 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                 }
             }
         });
+    }
+
+    private void processNotificationList(ArrayList<Notification> notifications) {
+        if (notifications != null && notifications.size() > 0) {
+            adapter.addItems(notifications);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -205,11 +209,6 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                 break;
             case SUCCESS:
                 hideLoading();
-                if (response.data instanceof GetNotificationRes) {
-                    GetNotificationRes res = (GetNotificationRes) response.data;
-                    adapter.addItems(res.getNotifications());
-                    adapter.notifyDataSetChanged();
-                }
                 break;
             case ERROR:
                 hideLoading();

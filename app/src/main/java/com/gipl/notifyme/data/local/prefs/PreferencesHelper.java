@@ -17,6 +17,8 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
+import com.gipl.notifyme.data.model.api.sendotp.User;
+
 /**
  * Created by amitshekhar on 07/07/17.
  */
@@ -30,6 +32,16 @@ public interface PreferencesHelper {
 
     String getEmpCode();
 
+    void setUserObj(User user);
+
+    User getUserObj();
+
     void setLastSync(String date);
+
     String getLastSync();
+
+    //nofication cache
+    void setTotalNotificationCache(int count);
+
+    int getCacheNotificationCount();
 }

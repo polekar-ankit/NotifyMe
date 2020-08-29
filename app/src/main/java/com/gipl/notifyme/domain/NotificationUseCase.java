@@ -1,13 +1,20 @@
 package com.gipl.notifyme.domain;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
+
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.notification.Notification;
+import com.gipl.notifyme.data.model.db.TNotification;
 import com.gipl.notifyme.uility.AppUtility;
+import com.gipl.notifyme.uility.TimeUtility;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -20,36 +27,57 @@ public class NotificationUseCase extends UseCase {
         super(dataManager);
     }
 
+    public LiveData<ArrayList<Notification>> getNotificationList() {
+        return Transformations.map(dataManager.getNotificationList(),
+                input -> {
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
+                    dataManager.setLastSync(simpleDateFormat.format(calendar.getTime()));
+
+                    SimpleDateFormat onlyDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                    SimpleDateFormat onlyTime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+                    long daysInMilli = 1000 * 60 * 60 * 24;
+
+
+                    for (Notification notification :
+                            input) {
+                        if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())
+                                || AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())
+                                || AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
+                            notification.setResId(R.drawable.ic_attchment);
+                        } else {
+                            if (notification.getMessage().contains("http://"))
+                                notification.setResId(R.drawable.ic_link);
+                        }
+                        Date notiDate;
+                        try {
+                            notiDate = simpleDateFormat.parse(notification.getNotificationDate());
+                            float timeDiff = calendar.getTime().getTime() - notiDate.getTime();
+                            if (timeDiff == daysInMilli) {
+                                notification.setDisplayDate(onlyTime.format(notiDate));
+                            } else
+                                notification.setDisplayDate(onlyDate.format(notiDate));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                    return (ArrayList<Notification>) input;
+                });
+    }
+
     public Single<GetNotificationRes> getNotificationsReq(GetNotificationsReq req) {
         return dataManager.getNotifications(req).map(getNotificationRes -> {
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
-            dataManager.setLastSync(simpleDateFormat.format(calendar.getTime()));
-
-            SimpleDateFormat onlyDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-            SimpleDateFormat onlyTime = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-
-            long daysInMilli = 1000 * 60 * 60 * 24;
-
-
-            for (Notification notification :
-                    getNotificationRes.getNotifications()) {
-                if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())
-                        || AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())
-                        || AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
-                    notification.setResId(R.drawable.ic_attchment);
-                } else {
-                    if (notification.getMessage().contains("http://"))
-                        notification.setResId(R.drawable.ic_link);
+            if (getNotificationRes.getNotifications() != null) {
+                String cacheTime = TimeUtility.getCurrentTimeInDbFormat();
+                for (Notification notification :
+                        getNotificationRes.getNotifications()) {
+                    dataManager.insertNotification(new TNotification(notification, cacheTime));
                 }
-                Date notiDate = simpleDateFormat.parse(notification.getNotificationDate());
-                float timeDiff = calendar.getTime().getTime() - notiDate.getTime();
-                if (timeDiff == daysInMilli) {
-                    notification.setDisplayDate(onlyTime.format(notiDate));
-                } else
-                    notification.setDisplayDate(onlyDate.format(notiDate));
-
             }
+            dataManager.setTotalNotificationCache(dataManager.getTotalNotificationCacheRm());
             return getNotificationRes;
         });
     }

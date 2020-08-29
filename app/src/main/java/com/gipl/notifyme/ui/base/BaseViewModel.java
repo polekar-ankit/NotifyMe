@@ -64,8 +64,8 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
 
-    public boolean isNetworkConnected(Context context) {
-        return NetworkUtils.isNetworkConnected(context);
+    public boolean isNetworkConnected() {
+        return NetworkUtils.isNetworkConnected(getDataManager().getContext());
     }
 
 }

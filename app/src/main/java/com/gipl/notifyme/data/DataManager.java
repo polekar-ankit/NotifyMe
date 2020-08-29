@@ -19,6 +19,7 @@ package com.gipl.notifyme.data;
 
 import android.content.Context;
 
+import com.gipl.notifyme.data.local.db.IDbManager;
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
 import com.gipl.notifyme.data.remote.ApiHelper;
 
@@ -26,6 +27,6 @@ import com.gipl.notifyme.data.remote.ApiHelper;
  * Created by amitshekhar on 07/07/17.
  */
 
-public interface DataManager extends PreferencesHelper, ApiHelper {
+public interface DataManager extends PreferencesHelper, ApiHelper, IDbManager {
     Context getContext();
 }
