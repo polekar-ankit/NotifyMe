@@ -25,4 +25,12 @@
     <string name="error_pdf_viewer_not_installed">You need to install PDF Viewer</string>
     <string name="activity_notification">NotifyMe</string>
     <string name="lbl_employee_id">Employee Id</string>
+    <string name="nav_title_notification">Notification</string>
+    <string name="nav_title_user">Me</string>
+    <string name="btn_lbl_check_in">Check-In</string>
+    <string name="btn_lbl_check_out">Check-Out</string>
+    <string name="btn_lbl_apply_for_leave">Apply For Leave</string>
+    <string name="btn_lbl_attendance">Attendance</string>
+    <string name="btn_lbl_rescan">Rescan</string>
+    <string name="activity_title_check_in">Check-In</string>
 </resources>

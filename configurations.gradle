@@ -16,6 +16,6 @@ ext {
     prefName = "\"NotifyMeAppPref\""
     dbName = "\"NotifyMeAppDb\""
 
-    exo_player_version = "2.7.3"
+    exo_player_version = "2.10.6"
 
 }

@@ -236,8 +236,11 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
 
     private void initializePlayer() {
 
-        player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
-                new DefaultTrackSelector(), new DefaultLoadControl());
+//        player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
+//                new DefaultTrackSelector(), new DefaultLoadControl());
+
+        player = ExoPlayerFactory.newSimpleInstance(this,new DefaultRenderersFactory(this)
+                ,new DefaultTrackSelector(), new DefaultLoadControl());
         player.addListener(new ExoPlayerEventsListener(new WeakReference<Context>(this)));
         playerView.setPlayer(player);
         player.setPlayWhenReady(playWhenReady);

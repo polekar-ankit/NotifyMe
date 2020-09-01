@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_180sdp"
+                android:layout_height="@dimen/footer_img_height"
                 android:layout_alignParentBottom="true"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/bg_initial_footer" />

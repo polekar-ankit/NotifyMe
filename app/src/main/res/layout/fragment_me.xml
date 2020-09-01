@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="me"
+            type="com.gipl.notifyme.ui.me.MeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
+            android:layout_marginTop="@dimen/_20sdp"
+            app:cardCornerRadius="@dimen/_70sdp"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.88"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_default_user" />
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_emp_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:textColor="#290B0B"
+            android:textSize="@dimen/me_emp_code"
+            android:textStyle="bold"
+            android:text="@{me.empCode}"
+            app:layout_constraintBottom_toBottomOf="@+id/cardView"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintHorizontal_bias="0.113"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.110000014"
+            tools:text="G031" />
+
+        <TextView
+            android:id="@+id/tv_emp_name"
+            style="@style/lblMeEmpOtherInfo"
+            android:layout_width="wrap_content"
+            android:text="@{me.empName}"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_emp_code"
+            app:layout_constraintTop_toBottomOf="@+id/tv_emp_code"
+            tools:text="Ankit Polekar" />
+
+        <TextView
+            android:id="@+id/tv_emp_plant"
+            style="@style/lblMeEmpOtherInfo"
+            android:layout_width="wrap_content"
+            android:text="@{me.empPlant}"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_emp_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_emp_name"
+            tools:text="GIPL" />
+
+        <TextView
+            android:id="@+id/tv_emp_mo_no"
+            style="@style/lblMeEmpOtherInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{me.empMoNumber}"
+            app:layout_constraintEnd_toStartOf="@+id/cardView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/tv_emp_plant"
+            app:layout_constraintTop_toBottomOf="@+id/tv_emp_plant"
+            tools:text="8788221042" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.20" />
+
+        <Button
+            android:id="@+id/btn_check_in"
+            style="@style/meEmpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_check_in"
+            android:text="@string/btn_lbl_check_in"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+        <Button
+            android:id="@+id/btn_check_out"
+            style="@style/meEmpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/ic_check_out"
+            android:text="@string/btn_lbl_check_out"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_check_in" />
+
+        <Button
+            style="@style/meEmpButton"
+            android:id="@+id/btn_apply_leave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/ic_apply_leave"
+            android:text="@string/btn_lbl_apply_for_leave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_check_out" />
+
+        <Button
+            android:id="@+id/button6"
+            style="@style/meEmpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_lbl_attendance"
+            android:drawableLeft="@drawable/ic_attendance"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

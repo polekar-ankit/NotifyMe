@@ -7,14 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.Transformations;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,8 +19,8 @@ import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.notification.Notification;
 import com.gipl.notifyme.databinding.LayoutNotificationListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
-import com.gipl.notifyme.ui.base.BaseActivity;
 import com.gipl.notifyme.ui.base.BaseAdapter;
+import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.ui.notification.adapter.NotificationListAdapter;
@@ -38,18 +33,18 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class NotificationListActivity extends BaseActivity<LayoutNotificationListBinding, NotificationListViewModel> {
+public class NotificationListFragment extends BaseFragment<LayoutNotificationListBinding, NotificationListViewModel> {
     @Inject
     NotificationListViewModel notificationListViewModel;
     NotificationListAdapter adapter;
     ClipData clipData;
     ClipboardManager clipboardManager;
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, NotificationListActivity.class);
-        context.startActivity(intent);
-        ((BaseActivity) context).finish();
-    }
+//    public static void start(Context context) {
+//        Intent intent = new Intent(context, NotificationListActivity.class);
+//        context.startActivity(intent);
+//        ((BaseActivity) context).finish();
+//    }
 
     @Override
     public int getBindingVariable() {
@@ -67,20 +62,20 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         // Set title
-        getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
+        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
 
         // Observe changes in response handled by view model
-        getViewModel().getResponseMutableLiveData().observe(this, this::processResponse);
+        getViewModel().getResponseMutableLiveData().observe(getViewLifecycleOwner(), this::processResponse);
 
         //setup list view
         setListLayout(getViewDataBinding().rvNotifications);
 
         // Clipboard
-        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager) getBaseActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         // Create list adapter
         adapter = new NotificationListAdapter();
@@ -92,9 +87,9 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         adapter.setListener(notification -> {
             // Check if notification has any link attached and open it according to its type
             if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())) {
-                ImagePreviewActivity.start(this, notification.getLink());
+                ImagePreviewActivity.start(getBaseActivity(), notification.getLink());
             } else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
-                PlayerActivity.start(this, notification.getLink());
+                PlayerActivity.start(getBaseActivity(), notification.getLink());
             } else if (AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {
                 // Open pdf in browser
                 /*Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(notification.getLink()));
@@ -131,12 +126,12 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                     notification.getNotificationDate());
             clipboardManager.setPrimaryClip(clipData);
 
-            DialogUtility.showToast(this, "Text copied");
+            DialogUtility.showToast(getBaseActivity(), "Text copied");
             //getString(R.string.message_text_copied)
         });
 
         //call api to get list of announcements
-        getViewModel().getNotificationList().observe(this, this::processNotificationList);
+        getViewModel().getNotificationList().observe(getViewLifecycleOwner(), this::processNotificationList);
         getViewModel().getAllNotifications();
 
         getViewDataBinding().pullDown.setEnabled(true);
@@ -164,35 +159,13 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
         });
     }
 
+
     private void processNotificationList(ArrayList<Notification> notifications) {
         if (notifications != null && notifications.size() > 0) {
             adapter.addItems(notifications);
             adapter.notifyDataSetChanged();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.menu_item_share:
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     @Override
     public void hideLoading() {
@@ -214,7 +187,7 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
                 hideLoading();
                 if (response.error != null) {
                     Snackbar mySnackbar = Snackbar.make(getViewDataBinding().getRoot(),
-                            ErrorMessageFactory.create(this, (Exception) response.error),
+                            ErrorMessageFactory.create(getBaseActivity(), (Exception) response.error),
                             Snackbar.LENGTH_INDEFINITE);
                     mySnackbar.setAction(getString(R.string.btn_ok), v -> mySnackbar.dismiss());
                     mySnackbar.show();
@@ -233,7 +206,7 @@ public class NotificationListActivity extends BaseActivity<LayoutNotificationLis
      */
     public void setListLayout(RecyclerView recyclerView) {
         // Setup List Layout
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getBaseActivity()));
         // Add divider in list items
 //        DividerItemDecoration itemDecor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
 //        recyclerView.addItemDecoration(itemDecor);

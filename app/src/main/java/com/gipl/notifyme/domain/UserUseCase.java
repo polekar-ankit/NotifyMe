@@ -27,8 +27,10 @@ public class UserUseCase extends UseCase {
 
     public Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq) {
         return dataManager.verifyOtp(verifyOtpReq).map(verifyOtpRsp -> {
-            if (verifyOtpRsp.getUser() != null)
+            if (verifyOtpRsp.getUser() != null) {
                 dataManager.setEmpCode(verifyOtpRsp.getUser().getEmpId());
+                dataManager.setUserObj(verifyOtpRsp.getUser());
+            }
             return verifyOtpRsp;
         });
     }

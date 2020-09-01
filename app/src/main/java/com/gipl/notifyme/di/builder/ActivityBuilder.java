@@ -16,14 +16,20 @@
 
 package com.gipl.notifyme.di.builder;
 
+import com.gipl.notifyme.ui.checkin.CheckInActivity;
+import com.gipl.notifyme.ui.checkin.CheckInModule;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.image.ImagePreviewModule;
 import com.gipl.notifyme.ui.login.LoginActivity;
 import com.gipl.notifyme.ui.login.LoginModule;
-import com.gipl.notifyme.ui.notification.NotificationListActivity;
-import com.gipl.notifyme.ui.notification.NotificationListModule;
+import com.gipl.notifyme.ui.main.MainActivity;
+import com.gipl.notifyme.ui.main.MainModule;
+import com.gipl.notifyme.ui.me.MeFragmentProvider;
+import com.gipl.notifyme.ui.notification.NotificationListFragmentProvider;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyModule;
+import com.gipl.notifyme.ui.splashscreen.SplashScreenActivity;
+import com.gipl.notifyme.ui.splashscreen.SplashScreenModule;
 import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
 import com.gipl.notifyme.ui.videoplayer.PlayerModule;
 
@@ -39,11 +45,20 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = LoginModule.class)
     abstract LoginActivity provideLoginActivity();
 
+    @ContributesAndroidInjector(modules = SplashScreenModule.class)
+    abstract SplashScreenActivity provideSplashScreenActivity();
+
+    @ContributesAndroidInjector(modules = CheckInModule.class)
+    abstract CheckInActivity provideCheckInActivity();
+
     @ContributesAndroidInjector(modules = OtpVerifyModule.class)
     abstract OtpVerifyActivity provideOtpVerifyActivity();
 
-    @ContributesAndroidInjector(modules = NotificationListModule.class)
-    abstract NotificationListActivity provideNotificationListActivity();
+    @ContributesAndroidInjector(modules = {MainModule.class,
+            NotificationListFragmentProvider.class,
+            MeFragmentProvider.class
+    })
+    abstract MainActivity provideMainActivity();
 
     @ContributesAndroidInjector(modules = ImagePreviewModule.class)
     abstract ImagePreviewActivity provideImagePreviewActivity();

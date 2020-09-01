@@ -1,9 +1,8 @@
 package com.gipl.notifyme.ui.login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
@@ -13,14 +12,14 @@ import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.databinding.ActivityLoginBinding;
-import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
+import com.gipl.notifyme.ui.main.MainActivity;
 import com.gipl.notifyme.ui.model.Response;
-import com.gipl.notifyme.ui.notification.NotificationListActivity;
+import com.gipl.notifyme.ui.notification.NotificationListFragment;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
+import com.gipl.notifyme.ui.splashscreen.SplashScreenActivity;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import javax.inject.Inject;
 
@@ -29,6 +28,12 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     @Inject
     LoginViewModel loginViewModel;
     private Snackbar mySnackbar;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+        ((BaseActivity) context).finish();
+    }
 
     @Override
     public int getBindingVariable() {
@@ -50,10 +55,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         super.onCreate(savedInstanceState);
         loginViewModel.getResponseMutableLiveData().observe(this, this::processResponse);
 
-        // If already login then go to notification list
-        if (loginViewModel.getDataManager().isLogin()){
-            NotificationListActivity.start(this);
-        }
+
     }
 
     @Override
