@@ -1,18 +1,21 @@
 package com.gipl.notifyme.domain;
 
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
+import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.lib.GetLibReq;
+import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
-import com.google.gson.Gson;
-
-import org.json.JSONException;
+import com.gipl.notifyme.uility.TimeUtility;
 
 import java.util.Calendar;
 
 import io.reactivex.Single;
-import io.reactivex.functions.Function;
 
 public class UserUseCase extends UseCase {
 
@@ -30,8 +33,46 @@ public class UserUseCase extends UseCase {
             if (verifyOtpRsp.getUser() != null) {
                 dataManager.setEmpCode(verifyOtpRsp.getUser().getEmpId());
                 dataManager.setUserObj(verifyOtpRsp.getUser());
+                dataManager.setSession(verifyOtpRsp.getSession());
             }
             return verifyOtpRsp;
         });
     }
+
+    public Single<GetLibRes> getLib() {
+        GetLibReq getLibReq = new GetLibReq();
+        getLibReq.setSuidSession(dataManager.getSession());
+        getLibReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        return dataManager.getLib(getLibReq).map(getLibRes -> {
+            if (getLibRes.getShiftsList() != null && getLibRes.getShiftsList().size() > 0) {
+                dataManager.setShiftList(getLibRes.getShiftsList());
+            }
+            return getLibRes;
+        });
+    }
+
+    //Todo:need to check paramaeter
+    public Single<CheckInRsp> checkIn(String suidShift) {
+        CheckInReq checkInReq = new CheckInReq();
+        checkInReq.setSuidSession(dataManager.getSession());
+        checkInReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        checkInReq.setSuidShift(suidShift);
+        checkInReq.setCheckTime(TimeUtility.getCurrentUtcDateTimeForApi());
+        return dataManager.checkIn(checkInReq).map(checkInRsp -> {
+            dataManager.setActiveShift(suidShift);
+            return checkInRsp;
+        });
+    }
+
+    //Todo:need to check paramaeter
+    public Single<CheckOutRsp> checkOut(int checkOutType) {
+        CheckOutReq checkOutReq = new CheckOutReq();
+        checkOutReq.setSuidSession(dataManager.getSession());
+        checkOutReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        checkOutReq.setCheckTime(TimeUtility.getCurrentUtcDateTimeForApi());
+        checkOutReq.setSuidShift(dataManager.getActiveShift());
+        checkOutReq.setCheckOutType(checkOutType);
+        return dataManager.checkOut(checkOutReq);
+    }
+
 }

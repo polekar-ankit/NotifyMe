@@ -16,14 +16,18 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
+import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.lib.GetLibReq;
+import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
-
-import org.json.JSONException;
 
 import io.reactivex.Single;
 
@@ -36,5 +40,11 @@ public interface ApiHelper {
 
     Single<VerifyOtpRsp> verifyOtp(VerifyOtpReq verifyOtpReq);
 
+    Single<GetLibRes> getLib(GetLibReq getLibReq);
+
     Single<GetNotificationRes> getNotifications(GetNotificationsReq req);
+
+    Single<CheckInRsp> checkIn(CheckInReq checkInReq);
+
+    Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq);
 }

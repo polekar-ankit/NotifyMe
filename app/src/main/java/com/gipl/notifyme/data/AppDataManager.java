@@ -10,6 +10,13 @@ import androidx.room.Room;
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.local.db.NotifyMeDatabase;
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
+import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
+import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.lib.GetLibReq;
+import com.gipl.notifyme.data.model.api.lib.GetLibRes;
+import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.notification.Notification;
@@ -70,8 +77,23 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public Single<GetLibRes> getLib(GetLibReq getLibReq) {
+        return mApiHelper.getLib(getLibReq);
+    }
+
+    @Override
     public Single<GetNotificationRes> getNotifications(GetNotificationsReq req) {
         return mApiHelper.getNotifications(req);
+    }
+
+    @Override
+    public Single<CheckInRsp> checkIn(CheckInReq checkInReq) {
+        return null;
+    }
+
+    @Override
+    public Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq) {
+        return mApiHelper.checkOut(checkOutReq);
     }
 
     @Override
@@ -92,6 +114,16 @@ public class AppDataManager implements DataManager {
     @Override
     public String getEmpCode() {
         return mPreferencesHelper.getEmpCode();
+    }
+
+    @Override
+    public void setSession(String session) {
+        mPreferencesHelper.setSession(session);
+    }
+
+    @Override
+    public String getSession() {
+        return mPreferencesHelper.getSession();
     }
 
     @Override
@@ -122,6 +154,16 @@ public class AppDataManager implements DataManager {
     @Override
     public int getCacheNotificationCount() {
         return mPreferencesHelper.getCacheNotificationCount();
+    }
+
+    @Override
+    public void setShiftList(List<Shifts> shiftsList) {
+        mPreferencesHelper.setShiftList(shiftsList);
+    }
+
+    @Override
+    public List<Shifts> getShiftList() {
+        return mPreferencesHelper.getShiftList();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.gipl.notifyme.ui.otpverify;
 
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.databinding.ObservableField;
 
@@ -10,7 +9,6 @@ import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
-import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
@@ -20,8 +18,6 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Calendar;
-
-import io.reactivex.functions.Consumer;
 
 public class OtpVerifyViewModel extends BaseViewModel {
     private UserUseCase userUseCase;
@@ -75,10 +71,24 @@ public class OtpVerifyViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(verifyOtpRsp -> {
                     if (verifyOtpRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-                        getResponseMutableLiveData().postValue(Response.success(verifyOtpRsp.getUser()));
-                        getDataManager().setIsLogin();
+//                        getResponseMutableLiveData().postValue(Response.success(verifyOtpRsp.getUser()));
+                        getLib();
+//                        getDataManager().setIsLogin();
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(verifyOtpRsp.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
+    }
+
+    private void getLib() {
+        getCompositeDisposable().add(userUseCase.getLib().subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(getLibRes -> {
+                    if (getLibRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getDataManager().setIsLogin();
+                        getResponseMutableLiveData().postValue(Response.success(getDataManager().getSession()));
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(getLibRes.getApiError().getErrorMessage()))));
                     }
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }

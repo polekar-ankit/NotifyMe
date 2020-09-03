@@ -6,4 +6,5 @@
     <dimen name="footer_img_height">@dimen/_180sdp</dimen>
     <dimen name="me_emp_code">16dp</dimen>
     <dimen name="me_emp_other_info">15dp</dimen>
+    <dimen name="spinner_text">15dp</dimen>
 </resources>

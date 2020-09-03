@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter;
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
@@ -36,17 +37,18 @@ public final class BindingUtils {
         inputEditText.setError(error);
     }
 
-    @BindingAdapter("app:loadImage")
+    @BindingAdapter("loadImage")
     public static void loadImage(ImageView imageView, String url) {
-        Glide.with(imageView.getContext())
+        Glide
+                .with(imageView.getContext())
                 .load(url)
+                .priority(Priority.IMMEDIATE)
+                .centerCrop()
                 .placeholder(R.drawable.image_error)
-                .error(R.drawable.image_error)
-                .transition(DrawableTransitionOptions.withCrossFade())
                 .into(imageView);
     }
 
-    @BindingAdapter("app:loadImageWithProgress")
+    @BindingAdapter("loadImageWithProgress")
     public static void loadImageWithProgress(ImageView imageView, String url) {
         Context context = imageView.getContext();
         CircularProgressDrawable circularProgressDrawable = new CircularProgressDrawable(context);

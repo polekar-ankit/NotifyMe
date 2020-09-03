@@ -29,6 +29,9 @@ public final class ApiEndPoint {
 //    static final String FIND_USERS = BuildConfig.BASE_URL + "/User/FindUsers";
     static final String SEND_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/SendOTP";
     static final String VERIFY_OTP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/Login";
+    static final String GET_LIB = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/GetLib";
+    static final String CHECK_IN = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Attendance/ CheckIn";
+    static final String CHECK_OUT = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Attendance/ CheckOut";
     static final String GET_NOTIFICATION = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Notification/GetAllNotifications";
 
     private ApiEndPoint() {

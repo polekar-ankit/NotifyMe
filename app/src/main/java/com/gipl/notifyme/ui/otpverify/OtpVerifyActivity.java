@@ -70,7 +70,6 @@ public class OtpVerifyActivity extends BaseActivity<ActivityVerifyOtpBinding, Ot
                 break;
             case SUCCESS:
                 hideLoading();
-                // TODO: 21-03-2020 Save logged in user details (Currently only Emp Code is required)
                 // User is verified successfully. Go to next screen
                 MainActivity.start(this);
                 break;

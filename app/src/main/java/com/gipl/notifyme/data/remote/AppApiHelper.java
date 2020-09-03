@@ -18,6 +18,12 @@ package com.gipl.notifyme.data.remote;
 
 
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
+import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
+import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.lib.GetLibReq;
+import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
@@ -70,11 +76,38 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
+    public Single<GetLibRes> getLib(GetLibReq getLibReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_LIB)
+                .addBodyParameter(getLibReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(GetLibRes.class);
+    }
+
+    @Override
     public Single<GetNotificationRes> getNotifications(GetNotificationsReq req) {
         return Rx2AndroidNetworking.post(ApiEndPoint.GET_NOTIFICATION)
                 .addBodyParameter(req)
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(GetNotificationRes.class);
+    }
+
+    @Override
+    public Single<CheckInRsp> checkIn(CheckInReq checkInReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.CHECK_IN)
+                .addBodyParameter(checkInReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(CheckInRsp.class);
+    }
+
+    @Override
+    public Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.CHECK_IN)
+                .addBodyParameter(checkOutReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(CheckOutRsp.class);
     }
 }

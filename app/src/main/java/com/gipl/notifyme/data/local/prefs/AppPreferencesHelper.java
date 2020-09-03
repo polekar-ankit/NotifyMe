@@ -19,9 +19,14 @@ package com.gipl.notifyme.data.local.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.di.PreferenceInfo;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,6 +41,9 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_LAST_SYNC = "KEY_LAST_SYNC";
     private static final String KEY_USER_OBJ = "KEY_USER_OBJ";
     private static final String KEY_CACHE_NOTIFICATION = "KEY_CACHE_NOTIFICATION";
+    private static final String KEY_SHIFT_DATA = "KEY_SHIFT_DATA";
+    private static final String KEY_SESSION = "KEY_SESSION";
+    private static final String KEY_ACTIVE_SHIFT_SUID = "KEY_SHIFT_SUID";
 
 
     private final SharedPreferences mPrefs;
@@ -67,6 +75,26 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setSession(String session) {
+        mPrefs.edit().putString(KEY_SESSION, session).apply();
+    }
+
+    @Override
+    public String getSession() {
+        return mPrefs.getString(KEY_SESSION, "");
+    }
+
+    @Override
+    public void setActiveShift(String suidShift) {
+        mPrefs.edit().putString(KEY_ACTIVE_SHIFT_SUID, suidShift).apply();
+    }
+
+    @Override
+    public String getActiveShift() {
+        return mPrefs.getString(KEY_ACTIVE_SHIFT_SUID, "");
+    }
+
+    @Override
     public void setUserObj(User user) {
         mPrefs.edit().putString(KEY_USER_OBJ, new Gson().toJson(user)).apply();
     }
@@ -89,11 +117,25 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void setTotalNotificationCache(int count) {
-        mPrefs.edit().putInt(KEY_CACHE_NOTIFICATION,count).apply();
+        mPrefs.edit().putInt(KEY_CACHE_NOTIFICATION, count).apply();
     }
 
     @Override
     public int getCacheNotificationCount() {
-        return mPrefs.getInt(KEY_CACHE_NOTIFICATION,0);
+        return mPrefs.getInt(KEY_CACHE_NOTIFICATION, 0);
+    }
+
+    @Override
+    public void setShiftList(List<Shifts> shiftsList) {
+        mPrefs.edit().putString(KEY_SHIFT_DATA, new Gson().toJson(shiftsList)).apply();
+    }
+
+    @Override
+    public List<Shifts> getShiftList() {
+        String json = mPrefs.getString(KEY_SHIFT_DATA, "");
+        if (json.isEmpty())
+            return new ArrayList<>();
+        return new Gson().fromJson(json, new TypeToken<List<Shifts>>() {
+        }.getType());
     }
 }

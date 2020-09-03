@@ -17,7 +17,10 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
+import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.sendotp.User;
+
+import java.util.List;
 
 /**
  * Created by amitshekhar on 07/07/17.
@@ -32,6 +35,15 @@ public interface PreferencesHelper {
 
     String getEmpCode();
 
+    //user data
+    void setSession(String session);
+
+    String getSession();
+
+    void setActiveShift(String suidShift);
+
+    String getActiveShift();
+
     void setUserObj(User user);
 
     User getUserObj();
@@ -44,4 +56,9 @@ public interface PreferencesHelper {
     void setTotalNotificationCache(int count);
 
     int getCacheNotificationCount();
+
+    // Shift data
+    void setShiftList(List<Shifts> shiftsList);
+
+    List<Shifts> getShiftList();
 }
