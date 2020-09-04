@@ -2,9 +2,7 @@ package com.gipl.notifyme.data;
 
 import android.content.Context;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 import androidx.room.Room;
 
 import com.gipl.notifyme.BuildConfig;
@@ -28,7 +26,6 @@ import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.data.model.db.TNotification;
 import com.gipl.notifyme.data.remote.ApiHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;

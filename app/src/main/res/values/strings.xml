@@ -33,4 +33,8 @@
     <string name="btn_lbl_attendance">Attendance</string>
     <string name="btn_lbl_rescan">Rescan</string>
     <string name="activity_title_check_in">Check-In</string>
+    <string name="check_out">Check Out</string>
+    <string name="btn_lbl_lunch">Lunch</string>
+    <string name="btn_lbl_official_out">Official Out</string>
+    <string name="btn_lbl_day_end">Day End</string>
 </resources>

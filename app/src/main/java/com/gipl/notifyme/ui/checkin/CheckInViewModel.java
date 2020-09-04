@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
-import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
@@ -13,8 +12,6 @@ import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
 import java.util.ArrayList;
-
-import io.reactivex.functions.Consumer;
 
 public class CheckInViewModel extends BaseViewModel {
     private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();

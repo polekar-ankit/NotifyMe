@@ -14,6 +14,10 @@ public class CheckInReq extends BaseReq {
     @Expose
     private String attendanceDate;
 
+    public String getCheckTime() {
+        return checkTime;
+    }
+
     @SerializedName("sCheckTime")
     @Expose
     private String checkTime;

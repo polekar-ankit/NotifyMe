@@ -1,6 +1,5 @@
 package com.gipl.notifyme.data.model.api.lib;
 
-import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.BaseRsp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -8,17 +7,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class GetLibRes extends BaseRsp {
-    @SerializedName("sJson")
-    @Expose
-    private String jsonString;
 
     @SerializedName("liShifts")
     @Expose
     private List<Shifts> shiftsList;
+    @SerializedName("sJson")
+    @Expose
+    private SJson sJson;
 
-    public String getJsonString() {
-        return jsonString;
+    public SJson getsJson() {
+        return sJson;
     }
+
 
 
     public List<Shifts> getShiftsList() {

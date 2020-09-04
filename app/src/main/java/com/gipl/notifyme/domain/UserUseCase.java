@@ -1,12 +1,16 @@
 package com.gipl.notifyme.domain;
 
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
+import com.gipl.notifyme.data.model.api.lib.Utility;
+import com.gipl.notifyme.data.model.api.lib.utility.CheckInType;
+import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
@@ -47,6 +51,13 @@ public class UserUseCase extends UseCase {
             if (getLibRes.getShiftsList() != null && getLibRes.getShiftsList().size() > 0) {
                 dataManager.setShiftList(getLibRes.getShiftsList());
             }
+            if (getLibRes.getsJson() != null) {
+                dataManager.setUtility(getLibRes.getsJson().getUtility());
+            } else {
+                Utility utility = new Utility();
+                utility.setCheckInType(new CheckInType());
+                utility.setCheckOutType(new CheckOutType());
+            }
             return getLibRes;
         });
     }
@@ -57,9 +68,13 @@ public class UserUseCase extends UseCase {
         checkInReq.setSuidSession(dataManager.getSession());
         checkInReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         checkInReq.setSuidShift(suidShift);
+        checkInReq.setCheckBy(dataManager.getUtility().getCheckInType().getBitBySelf());
         checkInReq.setCheckTime(TimeUtility.getCurrentUtcDateTimeForApi());
         return dataManager.checkIn(checkInReq).map(checkInRsp -> {
             dataManager.setActiveShift(suidShift);
+            if (checkInRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                dataManager.setCheckInTime(TimeUtility.convertUtcTimeToLong(checkInReq.getCheckTime()));
+            }
             return checkInRsp;
         });
     }
@@ -70,6 +85,7 @@ public class UserUseCase extends UseCase {
         checkOutReq.setSuidSession(dataManager.getSession());
         checkOutReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         checkOutReq.setCheckTime(TimeUtility.getCurrentUtcDateTimeForApi());
+        checkOutReq.setCheckBy(dataManager.getUtility().getCheckInType().getBitBySelf());
         checkOutReq.setSuidShift(dataManager.getActiveShift());
         checkOutReq.setCheckOutType(checkOutType);
         return dataManager.checkOut(checkOutReq);

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.gipl.notifyme.data.model.api.lib.Shifts;
+import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.di.PreferenceInfo;
 import com.google.gson.Gson;
@@ -42,8 +43,10 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_USER_OBJ = "KEY_USER_OBJ";
     private static final String KEY_CACHE_NOTIFICATION = "KEY_CACHE_NOTIFICATION";
     private static final String KEY_SHIFT_DATA = "KEY_SHIFT_DATA";
+    private static final String KEY_UTILITY_LIB = "KEY_UTILITY_LIB";
     private static final String KEY_SESSION = "KEY_SESSION";
     private static final String KEY_ACTIVE_SHIFT_SUID = "KEY_SHIFT_SUID";
+    private static final String KEY_CHECK_IN_TIME = "KEY_CHECK_IN_TIME";
 
 
     private final SharedPreferences mPrefs;
@@ -95,6 +98,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setCheckInTime(long checkInTime) {
+        mPrefs.edit().putLong(KEY_CHECK_IN_TIME,checkInTime).apply();
+    }
+
+    @Override
+    public long getCheckInTime() {
+        return mPrefs.getLong(KEY_CHECK_IN_TIME,0);
+    }
+
+    @Override
     public void setUserObj(User user) {
         mPrefs.edit().putString(KEY_USER_OBJ, new Gson().toJson(user)).apply();
     }
@@ -123,6 +136,17 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public int getCacheNotificationCount() {
         return mPrefs.getInt(KEY_CACHE_NOTIFICATION, 0);
+    }
+
+    @Override
+    public void setUtility(Utility utility) {
+        mPrefs.edit().putString(KEY_UTILITY_LIB, new Gson().toJson(utility)).apply();
+    }
+
+    @Override
+    public Utility getUtility() {
+        String json = mPrefs.getString(KEY_UTILITY_LIB, "");
+        return json.isEmpty() ? null : new Gson().fromJson(json, Utility.class);
     }
 
     @Override
