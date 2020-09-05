@@ -50,6 +50,18 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        meViewModel.endTimer();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        meViewModel.setCheckInTimer();
+    }
+
     private void processReponse(Response response) {
         switch (response.status){
             case LOADING:

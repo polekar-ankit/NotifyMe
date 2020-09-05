@@ -8,6 +8,8 @@
         <variable
             name="me"
             type="com.gipl.notifyme.ui.me.MeViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,10 +20,10 @@
             android:id="@+id/cardView"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="@dimen/_80sdp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
             android:layout_marginTop="@dimen/_20sdp"
             android:elevation="1dp"
             app:cardBackgroundColor="#fff"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.88"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,11 +31,11 @@
 
             <ImageView
                 android:id="@+id/imageView8"
+                loadImageWithProgress="@{me.empImage}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/_2sdp"
                 android:scaleType="centerCrop"
-                loadImageWithProgress="@{me.empImage}"
                 tools:srcCompat="@drawable/ic_default_user" />
         </androidx.cardview.widget.CardView>
 
@@ -42,10 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_regular"
+            android:text="@{me.empCode}"
             android:textColor="#290B0B"
             android:textSize="@dimen/me_emp_code"
             android:textStyle="bold"
-            android:text="@{me.empCode}"
             app:layout_constraintBottom_toBottomOf="@+id/cardView"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.113"
@@ -58,8 +60,8 @@
             android:id="@+id/tv_emp_name"
             style="@style/lblMeEmpOtherInfo"
             android:layout_width="wrap_content"
-            android:text="@{me.empName}"
             android:layout_height="wrap_content"
+            android:text="@{me.empName}"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_emp_code"
@@ -70,8 +72,8 @@
             android:id="@+id/tv_emp_plant"
             style="@style/lblMeEmpOtherInfo"
             android:layout_width="wrap_content"
-            android:text="@{me.empPlant}"
             android:layout_height="wrap_content"
+            android:text="@{me.empPlant}"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_emp_name"
@@ -104,6 +106,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_check_in"
             android:text="@string/btn_lbl_check_in"
+            android:visibility="@{me.checkInDateTime.empty?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,8 +126,8 @@
             app:layout_constraintTop_toBottomOf="@+id/btn_check_in" />
 
         <Button
-            style="@style/meEmpButton"
             android:id="@+id/btn_apply_leave"
+            style="@style/meEmpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -139,9 +142,9 @@
             style="@style/meEmpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_lbl_attendance"
-            android:drawableLeft="@drawable/ic_attendance"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/ic_attendance"
+            android:text="@string/btn_lbl_attendance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
@@ -150,7 +153,8 @@
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@{me.checkInDateTime}"
+            android:visibility="@{me.checkInDateTime.empty?View.GONE:View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@+id/btn_check_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -161,7 +165,11 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:fontFamily="@font/proxima_nova_alt_regular"
+            android:text="@{`Total Hours :`+me.checkInTime}"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="15dp"
+            android:visibility="@{me.checkInDateTime.empty?View.GONE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />

@@ -99,12 +99,12 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public void setCheckInTime(long checkInTime) {
-        mPrefs.edit().putLong(KEY_CHECK_IN_TIME,checkInTime).apply();
+        mPrefs.edit().putLong(KEY_CHECK_IN_TIME, checkInTime).apply();
     }
 
     @Override
     public long getCheckInTime() {
-        return mPrefs.getLong(KEY_CHECK_IN_TIME,0);
+        return mPrefs.getLong(KEY_CHECK_IN_TIME, 0);
     }
 
     @Override

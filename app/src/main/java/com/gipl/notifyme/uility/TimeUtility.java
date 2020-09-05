@@ -3,12 +3,14 @@ package com.gipl.notifyme.uility;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeUtility {
     private static final String DB_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String API_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String DISPLAY_FORMAT = "MM-dd-yyyy HH:mm a";
     private static final String API_ONLY_TIME_FORMAT = "HH:mm";
 
     public static long convertUtcTimeToLong(String time) throws ParseException {
@@ -32,5 +34,39 @@ public class TimeUtility {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_FORMAT,Locale.US);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return simpleDateFormat.format(Calendar.getInstance().getTime());
+    }
+
+    public static String convertUtcMilisecondToDisplay(Long time ){
+        Calendar calCheckIn = Calendar.getInstance();
+        calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calCheckIn.setTimeInMillis(time);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DISPLAY_FORMAT,Locale.US);
+        return simpleDateFormat.format(calCheckIn.getTime());
+    }
+
+    public static long getDiff(long checkInTime) {
+
+        Calendar calCheckIn = Calendar.getInstance();
+        calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calCheckIn.setTimeInMillis(checkInTime);
+
+        Calendar calCurrent = Calendar.getInstance();
+        calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+
+        long diff = calCurrent.getTime().getTime() - calCheckIn.getTime().getTime();
+        return diff;
+    }
+
+
+
+    public static String getCountDownTimer(long diff) {
+        long hrRemain = diff / (1000 * 60 * 60);
+        long hours = Math.abs(hrRemain);
+        long miniRemain = diff % (1000 * 60 * 60);
+        long minutes = Math.abs(miniRemain / (1000 * 60));
+//        long secRemain = miniRemain % (1000 * 60);
+//        long seconds = Math.abs(secRemain / 1000);
+        return hours + "h:" + minutes + "m";
     }
 }

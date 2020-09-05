@@ -1,5 +1,7 @@
 package com.gipl.notifyme.ui.me;
 
+import android.os.CountDownTimer;
+
 import androidx.databinding.ObservableField;
 
 import com.gipl.notifyme.data.DataManager;
@@ -10,9 +12,8 @@ import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
-
-import io.reactivex.functions.Consumer;
 
 public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empName = new ObservableField<>("");
@@ -21,6 +22,14 @@ public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empMoNumber = new ObservableField<>("");
     private ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
     private UserUseCase userUseCase;
+    private CountDownTimer countDownTimer;
+
+    public ObservableField<String> getCheckInDateTime() {
+        return checkInDateTime;
+    }
+
+    private ObservableField<String> checkInDateTime = new ObservableField<>("");
+    private ObservableField<String> checkInTime = new ObservableField<>("");
 
     public MeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -32,9 +41,34 @@ public class MeViewModel extends BaseViewModel {
         empPlant.set("Gadre");
     }
 
-    public void setCheckInTime(){
-        if (!getDataManager().getActiveShift().isEmpty()){
+    public ObservableField<String> getCheckInTime() {
+        return checkInTime;
+    }
 
+    public void setCheckInTimer() {
+        if (!getDataManager().getActiveShift().isEmpty()) {
+            long checkInMili = getDataManager().getCheckInTime();
+            checkInDateTime.set(TimeUtility.convertUtcMilisecondToDisplay(checkInMili));
+            if (countDownTimer != null)
+                countDownTimer.cancel();
+            countDownTimer = new CountDownTimer(TimeUtility.getDiff(checkInMili), 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    checkInTime.set(TimeUtility.getCountDownTimer(millisUntilFinished));
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            };
+            countDownTimer.start();
+        }
+        else checkInDateTime.set("");
+    }
+
+    public void endTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
         }
     }
 
@@ -45,6 +79,8 @@ public class MeViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(checkOutRsp -> {
                     if (checkOutRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getDataManager().setCheckInTime(0);
+                        getDataManager().setActiveShift("");
                         getResponseMutableLiveData().postValue(Response.success(CheckOutRsp.class.getSimpleName()));
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(checkOutRsp.getApiError().getErrorMessage()))));
