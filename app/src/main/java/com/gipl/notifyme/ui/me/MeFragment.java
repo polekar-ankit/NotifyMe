@@ -45,7 +45,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         super.onCreate(savedInstanceState);
         checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
-        meViewModel.getResponseMutableLiveData().observe(this,this::processReponse);
+        meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
         // Set title
         getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
     }
@@ -63,12 +63,15 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     }
 
     private void processReponse(Response response) {
-        switch (response.status){
+        switch (response.status) {
             case LOADING:
                 showLoading();
                 break;
             case SUCCESS:
                 hideLoading();
+                if (response.data instanceof Integer)
+                    DialogUtility.showSnackbar(getViewDataBinding().getRoot(), getString((Integer) response.data));
+
                 break;
             case ERROR:
                 hideLoading();

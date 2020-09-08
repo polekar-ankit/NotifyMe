@@ -38,6 +38,23 @@
         <item name="android:minWidth">@dimen/_150sdp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="buttonStyleBase" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
+        <item name="android:paddingStart">@dimen/_5sdp</item>
+        <item name="android:paddingEnd">@dimen/_5sdp</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:minWidth">@dimen/_150sdp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="btnCheckIn" parent="buttonStyleBase">
+        <item name="android:background">@drawable/bg_btn_check_in</item>
+    </style>
+    <style name="btnRescan" parent="buttonStyleBase">
+        <item name="android:background">@drawable/bg_btn_rescan</item>
+    </style>
+
     <style name="meEmpButton" parent="buttonStyle">
         <item name="android:textSize">16dp</item>
         <item name="android:minWidth">@dimen/_200sdp</item>

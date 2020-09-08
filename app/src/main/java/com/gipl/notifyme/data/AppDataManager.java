@@ -15,6 +15,7 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
+import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.notification.Notification;
@@ -85,7 +86,7 @@ public class AppDataManager implements DataManager {
 
     @Override
     public Single<CheckInRsp> checkIn(CheckInReq checkInReq) {
-        return null;
+        return mApiHelper.checkIn(checkInReq);
     }
 
     @Override
@@ -139,6 +140,26 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public String getActiveShift() {
+        return mPreferencesHelper.getActiveShift();
+    }
+
+    @Override
+    public void setActiveShift(String suidShift) {
+        mPreferencesHelper.setActiveShift(suidShift);
+    }
+
+    @Override
+    public long getCheckInTime() {
+        return mPreferencesHelper.getCheckInTime();
+    }
+
+    @Override
+    public void setCheckInTime(long checkInTime) {
+        mPreferencesHelper.setCheckInTime(checkInTime);
+    }
+
+    @Override
     public String getLastSync() {
         return mPreferencesHelper.getLastSync();
     }
@@ -151,6 +172,16 @@ public class AppDataManager implements DataManager {
     @Override
     public int getCacheNotificationCount() {
         return mPreferencesHelper.getCacheNotificationCount();
+    }
+
+    @Override
+    public Utility getUtility() {
+        return mPreferencesHelper.getUtility();
+    }
+
+    @Override
+    public void setUtility(Utility utility) {
+        mPreferencesHelper.setUtility(utility);
     }
 
     @Override

@@ -26,6 +26,10 @@ public class CheckInReq extends BaseReq {
     @Expose
     private int checkBy;
 
+    @SerializedName("uid")
+    @Expose
+    private String uid;
+
     public void setSuidShift(String suidShift) {
         this.suidShift = suidShift;
     }
@@ -40,5 +44,9 @@ public class CheckInReq extends BaseReq {
 
     public void setCheckBy(int checkBy) {
         this.checkBy = checkBy;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

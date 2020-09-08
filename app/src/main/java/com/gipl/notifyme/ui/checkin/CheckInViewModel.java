@@ -1,7 +1,9 @@
 package com.gipl.notifyme.ui.checkin;
 
+import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
+import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
@@ -11,11 +13,20 @@ import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class CheckInViewModel extends BaseViewModel {
     private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
     private UserUseCase userUseCase;
+
+    public void setScanBarcode(String scanBarcode) throws JSONException {
+        this.scanBarcode = new JSONObject(scanBarcode).getString("uniqueId");
+    }
+
+    private String scanBarcode = "";
 
     public CheckInViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -31,8 +42,25 @@ public class CheckInViewModel extends BaseViewModel {
         shiftLiveData.postValue((ArrayList<Shifts>) getDataManager().getShiftList());
     }
 
+    public void setShiftError(String shiftError) {
+        this.shiftError.set(shiftError);
+    }
+
+    public ObservableField<String> getShiftError() {
+        return shiftError;
+    }
+
+    private ObservableField<String> shiftError = new ObservableField<>("");
+
+
     public void checkIn(String suidShift) {
-        getCompositeDisposable().add(userUseCase.checkIn(suidShift)
+        shiftError.set("");
+        if (suidShift == null) {
+            shiftError.set(getDataManager().getContext().getString(R.string.shift_not_select_error));
+            return;
+        }
+        getResponseMutableLiveData().postValue(Response.loading());
+        getCompositeDisposable().add(userUseCase.checkIn(suidShift, scanBarcode)
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(checkInRsp -> {

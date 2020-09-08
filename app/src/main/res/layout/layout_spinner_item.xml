@@ -6,6 +6,9 @@
     android:textColor="@color/colorPrimary"
     android:fontFamily="@font/proxima_nova_regular"
     android:textSize="@dimen/spinner_text"
-    android:padding="@dimen/_5sdp"
+    android:paddingTop="@dimen/_10sdp"
+    android:paddingBottom="@dimen/_10sdp"
+    android:paddingStart="@dimen/_5sdp"
+    android:paddingEnd="@dimen/_5sdp"
     tools:text="Shift" />
 

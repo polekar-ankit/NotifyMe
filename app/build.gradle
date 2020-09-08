@@ -17,7 +17,7 @@ android {
     //keystore password :123456
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL", rootProject.live_server_url)
+            buildConfigField("String", "BASE_URL", rootProject.test_server_url)
             buildConfigField("String", "NOYIFY_ME", rootProject.noyifyMe)
             buildConfigField("String", "PREF_NAME", rootProject.prefName)
             buildConfigField("String", "DB_NAME", rootProject.dbName)
@@ -98,4 +98,5 @@ dependencies {
 
     //barcode
     implementation 'me.dm7.barcodescanner:zbar:1.9.13'
+
 }

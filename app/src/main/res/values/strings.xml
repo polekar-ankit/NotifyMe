@@ -37,4 +37,9 @@
     <string name="btn_lbl_lunch">Lunch</string>
     <string name="btn_lbl_official_out">Official Out</string>
     <string name="btn_lbl_day_end">Day End</string>
+    <string name="invalid_barcode_scan">Scan valid barcode</string>
+    <string name="day_end">Your are successfully checkout</string>
+    <string name="lunch_out">Your are successfully check out for lunch</string>
+    <string name="official_out">Your are successfully checkout for official work</string>
+    <string name="shift_not_select_error">Please select your shift</string>
 </resources>

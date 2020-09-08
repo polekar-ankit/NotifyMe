@@ -104,7 +104,7 @@ public class AppApiHelper implements ApiHelper {
 
     @Override
     public Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq) {
-        return Rx2AndroidNetworking.post(ApiEndPoint.CHECK_IN)
+        return Rx2AndroidNetworking.post(ApiEndPoint.CHECK_OUT)
                 .addBodyParameter(checkOutReq)
                 .setOkHttpClient(okHttpClient)
                 .build()

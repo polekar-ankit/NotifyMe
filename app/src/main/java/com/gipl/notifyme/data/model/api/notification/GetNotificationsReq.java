@@ -1,16 +1,13 @@
 package com.gipl.notifyme.data.model.api.notification;
 
+import com.gipl.notifyme.data.model.api.BaseReq;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GetNotificationsReq {
+public class GetNotificationsReq extends BaseReq {
     @SerializedName("sEmpCode")
     @Expose
     private String empCode;
-
-    @SerializedName("suidSession ")
-    @Expose
-    private String suidSession = "";
 
     @SerializedName("isPagination")
     @Expose
@@ -30,14 +27,7 @@ public class GetNotificationsReq {
 
     public GetNotificationsReq() {
     }
-
-    public String getSuidSession() {
-        return suidSession;
-    }
-
-    public void setSuidSession(String suidSession) {
-        this.suidSession = suidSession;
-    }
+    
 
     public boolean getPagination() {
         return pagination;

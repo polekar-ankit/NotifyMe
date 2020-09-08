@@ -13,9 +13,9 @@ public class GetLibRes extends BaseRsp {
     private List<Shifts> shiftsList;
     @SerializedName("sJson")
     @Expose
-    private SJson sJson;
+    private String sJson;
 
-    public SJson getsJson() {
+    public String getsJson() {
         return sJson;
     }
 

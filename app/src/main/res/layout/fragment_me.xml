@@ -131,6 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:enabled="false"
             android:drawableLeft="@drawable/ic_apply_leave"
             android:text="@string/btn_lbl_apply_for_leave"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:enabled="false"
             android:drawableLeft="@drawable/ic_attendance"
             android:text="@string/btn_lbl_attendance"
             app:layout_constraintEnd_toEndOf="parent"
@@ -159,7 +161,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:layout_constraintVertical_bias="0.32999998" />
+            app:layout_constraintVertical_bias="0.63"
+            tools:text="sdasdasad" />
 
         <TextView
             android:id="@+id/textView7"
@@ -167,7 +170,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/proxima_nova_alt_regular"
             android:text="@{`Total Hours :`+me.checkInTime}"
-            android:textColor="@color/colorTextPrimary"
+            android:textColor="@color/colorPrimary"
             android:textSize="15dp"
             android:visibility="@{me.checkInDateTime.empty?View.GONE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"

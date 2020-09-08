@@ -28,6 +28,10 @@ public class Shifts {
     @Expose
     private String workingHours;
 
+    public Shifts(String shiftName) {
+        this.shiftName = shiftName;
+    }
+
     @Override
     public String toString() {
         return shiftName;

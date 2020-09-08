@@ -11,6 +11,7 @@ import com.gipl.notifyme.domain.NotificationUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ public class NotificationListViewModel extends BaseViewModel {
     public void getAllNotifications() {
         if (isNetworkConnected()) {
             GetNotificationsReq req = new GetNotificationsReq();
+            req.setSuidSession(getDataManager().getSession());
+            req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
             req.setStart(getDataManager().getCacheNotificationCount());
             if (req.getStart() == 0) {
                 getResponseMutableLiveData().setValue(Response.loading());

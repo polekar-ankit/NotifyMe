@@ -4,9 +4,10 @@ import android.os.CountDownTimer;
 
 import androidx.databinding.ObservableField;
 
+import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
-import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
@@ -23,11 +24,6 @@ public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
     private UserUseCase userUseCase;
     private CountDownTimer countDownTimer;
-
-    public ObservableField<String> getCheckInDateTime() {
-        return checkInDateTime;
-    }
-
     private ObservableField<String> checkInDateTime = new ObservableField<>("");
     private ObservableField<String> checkInTime = new ObservableField<>("");
 
@@ -39,6 +35,10 @@ public class MeViewModel extends BaseViewModel {
         empCode.set(user.getEmpId());
         empMoNumber.set(user.getMobileNumber());
         empPlant.set("Gadre");
+    }
+
+    public ObservableField<String> getCheckInDateTime() {
+        return checkInDateTime;
     }
 
     public ObservableField<String> getCheckInTime() {
@@ -62,8 +62,7 @@ public class MeViewModel extends BaseViewModel {
                 }
             };
             countDownTimer.start();
-        }
-        else checkInDateTime.set("");
+        } else checkInDateTime.set("");
     }
 
     public void endTimer() {
@@ -81,7 +80,16 @@ public class MeViewModel extends BaseViewModel {
                     if (checkOutRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         getDataManager().setCheckInTime(0);
                         getDataManager().setActiveShift("");
-                        getResponseMutableLiveData().postValue(Response.success(CheckOutRsp.class.getSimpleName()));
+                        endTimer();
+                        checkInDateTime.set("");
+                        checkInTime.set("");
+                        CheckOutType checkOutType = getDataManager().getUtility().getCheckOutType();
+                        if (type == checkOutType.getBitDayEnd())
+                            getResponseMutableLiveData().postValue(Response.success(R.string.day_end));
+                        else if (type == checkOutType.getBitLunch())
+                            getResponseMutableLiveData().postValue(Response.success(R.string.lunch_out));
+                        else if (type == checkOutType.getBitOfficialOut())
+                            getResponseMutableLiveData().postValue(Response.success(R.string.official_out));
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(checkOutRsp.getApiError().getErrorMessage()))));
                     }

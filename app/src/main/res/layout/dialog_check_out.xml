@@ -20,11 +20,11 @@
             android:id="@+id/linearLayout14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/bg_dialog"
             android:minWidth="@dimen/_200sdp"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/_25sdp"
+            android:paddingBottom="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view">
@@ -78,43 +78,64 @@
                 android:textSize="@dimen/check_out_confirmation" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:minWidth="@dimen/_200sdp"
                 android:orientation="horizontal">
 
-                <Button
+                <TextView
                     android:id="@+id/btn_lunch"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:background="@drawable/bg_custom_button"
                     android:drawableTop="@drawable/ic_lunch"
                     android:fontFamily="@font/proxima_nova_alt_regular"
                     android:text="@string/btn_lbl_lunch"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:textAllCaps="false"
                     android:textSize="15dp" />
 
-                <Button
+                <TextView
                     android:id="@+id/btn_office_out"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_weight="1"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:background="@drawable/bg_custom_button"
                     android:drawableTop="@drawable/ic_official_out"
                     android:fontFamily="@font/proxima_nova_alt_regular"
                     android:text="@string/btn_lbl_official_out"
+                    android:textAllCaps="false"
                     android:textSize="15dp" />
 
-                <Button
+                <TextView
                     android:id="@+id/btn_day_end"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.1"
+                    android:textColor="#fff"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:gravity="center"
+                    android:background="@drawable/bg_custom_button"
                     android:drawableTop="@drawable/ic_day_end"
                     android:fontFamily="@font/proxima_nova_alt_regular"
                     android:text="@string/btn_lbl_day_end"
+                    android:textAllCaps="false"
                     android:textSize="15dp" />
             </LinearLayout>
 
@@ -128,7 +149,7 @@
             app:layout_constraintEnd_toEndOf="@+id/linearLayout14"
             app:layout_constraintStart_toStartOf="@+id/linearLayout14"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_check_out" />
+            app:srcCompat="@drawable/ic_check_out_dialog" />
 
         <View
             android:id="@+id/view"

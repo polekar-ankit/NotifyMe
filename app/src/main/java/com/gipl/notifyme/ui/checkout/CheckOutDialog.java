@@ -53,5 +53,8 @@ public class CheckOutDialog extends BaseDialog<DialogCheckOutBinding, CheckOutVi
             getCheckOutTypeLiveData().postValue(checkOutViewModel.getCheckOutType().getBitOfficialOut());
             dismissDialog();
         });
+        getViewBinding().ivCancel.setOnClickListener(v->{
+            dismissDialog();
+        });
     }
 }

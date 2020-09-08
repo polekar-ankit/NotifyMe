@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gipl.notifyme.R;
+import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.google.android.material.snackbar.Snackbar;
 
 
@@ -74,6 +75,16 @@ public class DialogUtility {
 
     public static void showToast(Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public static Snackbar showSnackbar(View view,String msg){
+        Snackbar mySnackbar = Snackbar.make(view,
+                msg,
+                Snackbar.LENGTH_INDEFINITE);
+        mySnackbar.setAction(view.getContext().getString(R.string.btn_ok), v -> mySnackbar.dismiss());
+        mySnackbar.show();
+        return mySnackbar;
     }
 
 }

@@ -8,6 +8,7 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
+import com.gipl.notifyme.data.model.api.lib.SJson;
 import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckInType;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
@@ -16,6 +17,7 @@ import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.uility.TimeUtility;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
@@ -52,7 +54,8 @@ public class UserUseCase extends UseCase {
                 dataManager.setShiftList(getLibRes.getShiftsList());
             }
             if (getLibRes.getsJson() != null) {
-                dataManager.setUtility(getLibRes.getsJson().getUtility());
+                SJson sJson = new Gson().fromJson(getLibRes.getsJson(),SJson.class);
+                dataManager.setUtility(sJson.getUtility());
             } else {
                 Utility utility = new Utility();
                 utility.setCheckInType(new CheckInType());
@@ -63,16 +66,17 @@ public class UserUseCase extends UseCase {
     }
 
     //Todo:need to check paramaeter
-    public Single<CheckInRsp> checkIn(String suidShift) {
+    public Single<CheckInRsp> checkIn(String suidShift, String barcode) {
         CheckInReq checkInReq = new CheckInReq();
         checkInReq.setSuidSession(dataManager.getSession());
         checkInReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        checkInReq.setUid(barcode);
         checkInReq.setSuidShift(suidShift);
         checkInReq.setCheckBy(dataManager.getUtility().getCheckInType().getBitBySelf());
         checkInReq.setCheckTime(TimeUtility.getCurrentUtcDateTimeForApi());
         return dataManager.checkIn(checkInReq).map(checkInRsp -> {
-            dataManager.setActiveShift(suidShift);
             if (checkInRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                dataManager.setActiveShift(suidShift);
                 dataManager.setCheckInTime(TimeUtility.convertUtcTimeToLong(checkInReq.getCheckTime()));
             }
             return checkInRsp;

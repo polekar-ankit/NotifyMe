@@ -3,8 +3,9 @@ package com.gipl.notifyme.ui.checkin;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,7 +14,12 @@ import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.databinding.ActivityCheckInBinding;
+import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseActivity;
+import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.DialogUtility;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -44,6 +50,7 @@ public class CheckInActivity extends BaseActivity<ActivityCheckInBinding, CheckI
     }
 
     private void processShift(ArrayList<Shifts> shifts) {
+        shifts.add(0, new Shifts("Select"));
         ArrayAdapter<Shifts> shiftsArrayAdapter = new ArrayAdapter<>(this, R.layout.layout_spinner_item, shifts);
         getViewDataBinding().spinner.setAdapter(shiftsArrayAdapter);
     }
@@ -56,18 +63,56 @@ public class CheckInActivity extends BaseActivity<ActivityCheckInBinding, CheckI
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         checkInViewModel.getShiftLiveData().observe(this, this::processShift);
+        checkInViewModel.getResponseMutableLiveData().observe(this, this::processResponse);
 
         mScannerView = new ZBarScannerView(this);
+
+        getViewDataBinding().btnCheckIn.setEnabled(false);
         getViewDataBinding().contentFrame.addView(mScannerView);
+
         getViewDataBinding().btnRescan.setOnClickListener(v -> {
             getViewDataBinding().btnRescan.setEnabled(false);
+            getViewDataBinding().btnCheckIn.setEnabled(false);
+            getViewDataBinding().tvScanBarcodeError.setVisibility(View.VISIBLE);
             mScannerView.resumeCameraPreview(CheckInActivity.this);
         });
         getViewDataBinding().btnCheckIn.setOnClickListener(v -> {
             Shifts shifts = (Shifts) getViewDataBinding().spinner.getSelectedItem();
             checkInViewModel.checkIn(shifts.getSuidShift());
         });
+        getViewDataBinding().spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    checkInViewModel.setShiftError(getString(R.string.shift_not_select_error));
 
+                } else
+                    checkInViewModel.setShiftError("");
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private void processResponse(Response response) {
+        switch (response.status) {
+            case LOADING:
+                showLoading();
+                break;
+            case SUCCESS:
+                hideLoading();
+                finish();
+                break;
+            case ERROR:
+                hideLoading();
+                DialogUtility.showToast(this, ErrorMessageFactory.create(this, (Exception) response.error));
+                break;
+        }
     }
 
     @Override
@@ -102,7 +147,16 @@ public class CheckInActivity extends BaseActivity<ActivityCheckInBinding, CheckI
     @Override
     public void handleResult(Result rawResult) {
         getViewDataBinding().btnRescan.setEnabled(true);
-        Toast.makeText(this, "Contents = " + rawResult.getContents() +
-                ", Format = " + rawResult.getBarcodeFormat().getName(), Toast.LENGTH_SHORT).show();
+        getViewDataBinding().btnCheckIn.setEnabled(true);
+        getViewDataBinding().tvScanBarcodeError.setVisibility(View.GONE);
+//        Toast.makeText(this, "Contents = " + rawResult.getContents() +
+//                ", Format = " + rawResult.getBarcodeFormat().getName(), Toast.LENGTH_SHORT).show();
+
+        try {
+            checkInViewModel.setScanBarcode(rawResult.getContents());
+        } catch (JSONException e) {
+            DialogUtility.showToast(this, getString(R.string.invalid_barcode_scan));
+        }
+
     }
 }
