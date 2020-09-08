@@ -32,7 +32,10 @@ public final class ApiEndPoint {
     static final String GET_LIB = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Auth/GetLib";
     static final String CHECK_IN = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Attendance/CheckIn";
     static final String CHECK_OUT = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Attendance/CheckOut";
+    static final String ADD_MODIFY_LEAVE = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Leave/AddOrModifyLeaveRequest";
+    static final String GET_LEAVE_TYPE = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Leave/GetLeaveAprovalsList";
     static final String GET_NOTIFICATION = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Notification/GetAllNotifications";
+    static final String GET_LEAVE_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Leave/GetLeaveRequestsList";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

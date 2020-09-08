@@ -16,10 +16,14 @@
 
 package com.gipl.notifyme.di.builder;
 
+import com.gipl.notifyme.ui.addleave.AddModifyLeaveFragmentProvider;
 import com.gipl.notifyme.ui.checkin.CheckInActivity;
 import com.gipl.notifyme.ui.checkin.CheckInModule;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.image.ImagePreviewModule;
+import com.gipl.notifyme.ui.leavelist.LeaveListFragmentProvider;
+import com.gipl.notifyme.ui.leavemain.LeaveMainActivity;
+import com.gipl.notifyme.ui.leavemain.LeaveMainModule;
 import com.gipl.notifyme.ui.login.LoginActivity;
 import com.gipl.notifyme.ui.login.LoginModule;
 import com.gipl.notifyme.ui.main.MainActivity;
@@ -47,6 +51,11 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = SplashScreenModule.class)
     abstract SplashScreenActivity provideSplashScreenActivity();
+
+    @ContributesAndroidInjector(modules = {LeaveMainModule.class,
+            LeaveListFragmentProvider.class,
+            AddModifyLeaveFragmentProvider.class})
+    abstract LeaveMainActivity provideLeaveMainActivity();
 
     @ContributesAndroidInjector(modules = CheckInModule.class)
     abstract CheckInActivity provideCheckInActivity();

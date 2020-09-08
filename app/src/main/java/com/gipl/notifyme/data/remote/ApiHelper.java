@@ -16,10 +16,16 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
+import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
+import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
@@ -47,4 +53,11 @@ public interface ApiHelper {
     Single<CheckInRsp> checkIn(CheckInReq checkInReq);
 
     Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq);
+
+    //leave
+    Single<GetLeaveRsp> getLeaveRequestList(GetLeavesReq getLeavesListReq);
+
+    Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq);
+
+    Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq);
 }

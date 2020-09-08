@@ -1,5 +1,6 @@
 package com.gipl.notifyme.uility;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,6 +17,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -85,6 +92,35 @@ public class DialogUtility {
         mySnackbar.setAction(view.getContext().getString(R.string.btn_ok), v -> mySnackbar.dismiss());
         mySnackbar.show();
         return mySnackbar;
+    }
+
+    public static DatePickerDialog getDatePickerDialog(Context context,
+                                                       String sDefaultDate,
+                                                       long nMaxDate,
+                                                       long nMinDate,
+                                                       DatePickerDialog.OnDateSetListener dateListener) {
+        Date date;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat(TimeUtility.ONLY_DATE_FORMAT, Locale.US);
+            date = sdf.parse(sDefaultDate.isEmpty() ? TimeUtility.getTodayOnlyDateInDisplayFormat() : sDefaultDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(context, dateListener, calendar.get(Calendar.YEAR)
+                    , calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+            if (nMaxDate != 0)
+                datePickerDialog.getDatePicker().setMaxDate(nMaxDate);
+            if (nMinDate != 0)
+                datePickerDialog.getDatePicker().setMinDate(nMinDate);
+
+
+//            datePickerDialog.show();
+            return datePickerDialog;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

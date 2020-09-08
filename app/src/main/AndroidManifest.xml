@@ -65,6 +65,11 @@
             android:label="@string/activity_video_player"
             android:theme="@style/MyToolbarTheme" />
 
+        <activity
+            android:name=".ui.leavemain.LeaveMainActivity"
+            android:label="@string/activity_leave_list"
+            android:theme="@style/MyToolbarTheme" />
+
         <service
             android:name=".data.MyFirebaseMessagingService"
             android:exported="false">

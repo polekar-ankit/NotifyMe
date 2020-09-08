@@ -21,17 +21,17 @@ import java.util.ArrayList;
 public class CheckInViewModel extends BaseViewModel {
     private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
     private UserUseCase userUseCase;
-
-    public void setScanBarcode(String scanBarcode) throws JSONException {
-        this.scanBarcode = new JSONObject(scanBarcode).getString("uniqueId");
-    }
-
     private String scanBarcode = "";
+    private ObservableField<String> shiftError = new ObservableField<>("");
 
     public CheckInViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         userUseCase = new UserUseCase(dataManager);
         getShiftData();
+    }
+
+    public void setScanBarcode(String scanBarcode) throws JSONException {
+        this.scanBarcode = new JSONObject(scanBarcode).getString("uniqueId");
     }
 
     public MutableLiveData<ArrayList<Shifts>> getShiftLiveData() {
@@ -42,16 +42,13 @@ public class CheckInViewModel extends BaseViewModel {
         shiftLiveData.postValue((ArrayList<Shifts>) getDataManager().getShiftList());
     }
 
-    public void setShiftError(String shiftError) {
-        this.shiftError.set(shiftError);
-    }
-
     public ObservableField<String> getShiftError() {
         return shiftError;
     }
 
-    private ObservableField<String> shiftError = new ObservableField<>("");
-
+    public void setShiftError(String shiftError) {
+        this.shiftError.set(shiftError);
+    }
 
     public void checkIn(String suidShift) {
         shiftError.set("");

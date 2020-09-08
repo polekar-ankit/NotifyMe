@@ -42,4 +42,8 @@
     <string name="lunch_out">Your are successfully check out for lunch</string>
     <string name="official_out">Your are successfully checkout for official work</string>
     <string name="shift_not_select_error">Please select your shift</string>
+    <string name="activity_leave_list">Leave requests</string>
+    <string name="lbl_leave_type">Leave</string>
+    <string name="lbl_leave_for">Leave For</string>
+    <string name="lbl_reason">Reason</string>
 </resources>

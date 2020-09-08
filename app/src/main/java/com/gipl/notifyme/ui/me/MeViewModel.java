@@ -1,6 +1,6 @@
 package com.gipl.notifyme.ui.me;
 
-import android.os.CountDownTimer;
+import android.os.SystemClock;
 
 import androidx.databinding.ObservableField;
 
@@ -16,6 +16,9 @@ import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empName = new ObservableField<>("");
     private ObservableField<String> empCode = new ObservableField<>("");
@@ -23,7 +26,7 @@ public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empMoNumber = new ObservableField<>("");
     private ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
     private UserUseCase userUseCase;
-    private CountDownTimer countDownTimer;
+    private ExecutorService countDownTimer;
     private ObservableField<String> checkInDateTime = new ObservableField<>("");
     private ObservableField<String> checkInTime = new ObservableField<>("");
 
@@ -34,7 +37,7 @@ public class MeViewModel extends BaseViewModel {
         empName.set(user.getName());
         empCode.set(user.getEmpId());
         empMoNumber.set(user.getMobileNumber());
-        empPlant.set("Gadre");
+        empPlant.set(user.getPlant());
     }
 
     public ObservableField<String> getCheckInDateTime() {
@@ -49,26 +52,37 @@ public class MeViewModel extends BaseViewModel {
         if (!getDataManager().getActiveShift().isEmpty()) {
             long checkInMili = getDataManager().getCheckInTime();
             checkInDateTime.set(TimeUtility.convertUtcMilisecondToDisplay(checkInMili));
-            if (countDownTimer != null)
-                countDownTimer.cancel();
-            countDownTimer = new CountDownTimer(TimeUtility.getDiff(checkInMili), 1000) {
+            countDownTimer = Executors.newSingleThreadExecutor();
+            countDownTimer.execute(new Runnable() {
                 @Override
-                public void onTick(long millisUntilFinished) {
-                    checkInTime.set(TimeUtility.getCountDownTimer(millisUntilFinished));
+                public void run() {
+                    while (!countDownTimer.isShutdown()) {
+                        checkInTime.set(TimeUtility.getCountDownTimer(TimeUtility.getDiff(checkInMili)));
+                        SystemClock.sleep(1000);
+                    }
                 }
+            });
+//            countDownTimer = new CountDownTimer(TimeUtility.getDiff(checkInMili), 1000) {
+//                @Override
+//                public void onTick(long millisUntilFinished) {
+//                    checkInTime.set(TimeUtility.getCountDownTimer(millisUntilFinished));
+//                }
+//
+//                @Override
+//                public void onFinish() {
+//                }
+//            };
+//            countDownTimer.start();
 
-                @Override
-                public void onFinish() {
-                }
-            };
-            countDownTimer.start();
         } else checkInDateTime.set("");
     }
 
     public void endTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
+//        if (countDownTimer != null) {
+//            countDownTimer.cancel();
+//        }
+        if (countDownTimer != null)
+            countDownTimer.shutdown();
     }
 
     public void checkOut(int type) {

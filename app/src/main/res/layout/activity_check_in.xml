@@ -105,6 +105,7 @@
             android:text="(Scan barcode to enable check in button.)"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@color/edit_text_error"
+            android:textStyle="bold"
             android:textSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

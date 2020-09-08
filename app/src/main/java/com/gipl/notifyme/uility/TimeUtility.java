@@ -8,8 +8,10 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class TimeUtility {
+    public static final String ONLY_DATE_FORMAT = "dd-MMM-yyyy";
     private static final String DB_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String API_FORMAT = "yyyy-MM-dd HH:mm";
+    private static final String API_ONLY_DATE_FORMAT = "yyyy-MM-dd";
     private static final String DISPLAY_FORMAT = "MM-dd-yyyy HH:mm a";
     private static final String API_ONLY_TIME_FORMAT = "HH:mm";
 
@@ -53,9 +55,7 @@ public class TimeUtility {
         Calendar calCurrent = Calendar.getInstance();
         calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-
-        long diff = calCurrent.getTime().getTime() - calCheckIn.getTime().getTime();
-        return diff;
+        return calCurrent.getTime().getTime() - calCheckIn.getTime().getTime();
     }
 
 
@@ -68,5 +68,31 @@ public class TimeUtility {
 //        long secRemain = miniRemain % (1000 * 60);
 //        long seconds = Math.abs(secRemain / 1000);
         return hours + "h:" + minutes + "m";
+    }
+
+    public static String getTodayOnlyDateInDisplayFormat() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
+        return simpleDateFormat.format(Calendar.getInstance().getTime());
+    }
+
+    public static String getDisplayFormattedDate(int year, int month, int date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
+        return simpleDateFormat.format(calendar.getTime());
+    }
+
+    public static Calendar convertDisplayDateTimeToCalender(String fromDate) throws ParseException {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
+        calendar.setTime(simpleDateFormat.parse(fromDate));
+        return calendar;
+    }
+    public static String convertDisplayDateToApi(String fromDate) throws ParseException {
+        SimpleDateFormat onlyDisplayDate = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_DATE_FORMAT, Locale.US);
+        return simpleDateFormat.format(onlyDisplayDate.parse(fromDate));
     }
 }

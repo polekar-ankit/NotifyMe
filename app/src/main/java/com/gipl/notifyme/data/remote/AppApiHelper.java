@@ -17,11 +17,18 @@
 package com.gipl.notifyme.data.remote;
 
 
+import com.androidnetworking.BuildConfig;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
+import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
+import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
@@ -30,11 +37,7 @@ import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
-import com.google.gson.Gson;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -46,14 +49,18 @@ import okhttp3.OkHttpClient;
 public class AppApiHelper implements ApiHelper {
 
 
-    private HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    private OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-            .addInterceptor(httpLoggingInterceptor)
-            .build();
+    private OkHttpClient okHttpClient;
 
 
     @Inject
     public AppApiHelper() {
+//        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+            okHttpClient = new OkHttpClient().newBuilder()
+                    .addInterceptor(httpLoggingInterceptor)
+                    .build();
+//        } else okHttpClient = new OkHttpClient().newBuilder()
+//                .build();
     }
 
 
@@ -109,5 +116,32 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(CheckOutRsp.class);
+    }
+
+    @Override
+    public Single<GetLeaveRsp> getLeaveRequestList(GetLeavesReq getLeavesListReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_LEAVE_LIST)
+                .addBodyParameter(getLeavesListReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(GetLeaveRsp.class);
+    }
+
+    @Override
+    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.ADD_MODIFY_LEAVE)
+                .addBodyParameter(addModifyLeaveReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(AddModifyLeaveRsp.class);
+    }
+
+    @Override
+    public Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_LEAVE_TYPE)
+                .addBodyParameter(leaveTypeReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(LeaveTypeRsp.class);
     }
 }

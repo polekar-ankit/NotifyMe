@@ -14,6 +14,7 @@ import com.gipl.notifyme.databinding.FragmentMeBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.checkout.CheckOutDialog;
+import com.gipl.notifyme.ui.leavemain.LeaveMainActivity;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
 
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Inject
     MeViewModel meViewModel;
+    private CheckOutDialog checkOutDialog;
 
     @Override
     public int getBindingVariable() {
@@ -37,8 +39,6 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public MeViewModel getViewModel() {
         return meViewModel;
     }
-
-    private CheckOutDialog checkOutDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,8 +88,9 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().btnCheckIn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_checkInActivity));
-        getViewDataBinding().btnCheckOut.setOnClickListener(v -> {
-            checkOutDialog.show();
+        getViewDataBinding().btnCheckOut.setOnClickListener(v -> checkOutDialog.show());
+        getViewDataBinding().btnApplyLeave.setOnClickListener(v->{
+            LeaveMainActivity.start(requireContext());
         });
     }
 

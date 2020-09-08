@@ -7,28 +7,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class User implements Parcelable {
-    @SerializedName("sEmpCode")
-    @Expose
-    private String empId;
-    @SerializedName("sMobileNo")
-    @Expose
-    private String mobileNumber;
-    @SerializedName("sName")
-    @Expose
-    private String name;
-
-    public User(String empId, String mobileNumber, String name) {
-        this.empId = empId;
-        this.mobileNumber = mobileNumber;
-        this.name = name;
-    }
-
-    protected User(Parcel in) {
-        empId = in.readString();
-        mobileNumber = in.readString();
-        name = in.readString();
-    }
-
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel in) {
@@ -40,6 +18,50 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+    @SerializedName("sEmpCode")
+    @Expose
+    private String empId;
+    @SerializedName("sMobileNo")
+    @Expose
+    private String mobileNumber;
+    @SerializedName("sName")
+    @Expose
+    private String name;
+    @SerializedName("suidUser ")
+    @Expose
+    private String suidUser;
+    @SerializedName("sPlant")
+    @Expose
+    private String plant;
+    @SerializedName("sGender")
+    @Expose
+    private String gender;
+
+    public User(String empId, String mobileNumber, String name) {
+        this.empId = empId;
+        this.mobileNumber = mobileNumber;
+        this.name = name;
+    }
+
+    protected User(Parcel in) {
+        empId = in.readString();
+        mobileNumber = in.readString();
+        name = in.readString();
+        plant = in.readString();
+        gender = in.readString();
+    }
+
+    public String getSuidUser() {
+        return suidUser;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getPlant() {
+        return plant == null || plant.isEmpty() ? "Gadre" : plant;
+    }
 
     public String getEmpId() {
         return empId;
@@ -75,5 +97,7 @@ public class User implements Parcelable {
         dest.writeString(empId);
         dest.writeString(mobileNumber);
         dest.writeString(name);
+        dest.writeString(plant);
+        dest.writeString(gender);
     }
 }
