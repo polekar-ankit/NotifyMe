@@ -54,7 +54,7 @@ public class UserUseCase extends UseCase {
                 dataManager.setShiftList(getLibRes.getShiftsList());
             }
             if (getLibRes.getsJson() != null) {
-                SJson sJson = new Gson().fromJson(getLibRes.getsJson(),SJson.class);
+                SJson sJson = new Gson().fromJson(getLibRes.getsJson(), SJson.class);
                 dataManager.setUtility(sJson.getUtility());
             } else {
                 Utility utility = new Utility();
@@ -77,7 +77,9 @@ public class UserUseCase extends UseCase {
         return dataManager.checkIn(checkInReq).map(checkInRsp -> {
             if (checkInRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                 dataManager.setActiveShift(suidShift);
-                dataManager.setCheckInTime(TimeUtility.convertUtcTimeToLong(checkInReq.getCheckTime()));
+                dataManager.setCheckType(dataManager.getUtility().getCheckType().getBitCheckIn());
+                if (dataManager.getCheckInTime() <= 0)//this means last check out is done for lunch or official out
+                    dataManager.setCheckInTime(TimeUtility.convertUtcTimeToLong(checkInReq.getCheckTime()));
             }
             return checkInRsp;
         });

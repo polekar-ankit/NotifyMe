@@ -1,0 +1,22 @@
+package com.gipl.notifyme.data.model.api.lib.utility;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class CheckType {
+    @SerializedName("BIT_CHECKIN")
+    @Expose
+    private int BitCheckIn = 1;
+
+    @SerializedName("BIT_CHECKOUT")
+    @Expose
+    private int BitCheckOut = 2;
+
+    public int getBitCheckIn() {
+        return BitCheckIn;
+    }
+
+    public int getBitCheckOut() {
+        return BitCheckOut;
+    }
+}

@@ -31,11 +31,17 @@ public class TimeUtility {
         return simpleDateFormat.format(Calendar.getInstance().getTime());
     }
 
-
-    public static String getCurrentOnlyTimeForApi() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_FORMAT,Locale.US);
-        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-        return simpleDateFormat.format(Calendar.getInstance().getTime());
+    /**
+     * convert milliseconds to only time(hh:mm) format
+     * @param time
+     * @return
+     */
+    public static String convertUtcMillisecondToTime(long time) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
+        calendar.setTimeInMillis(time);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_TIME_FORMAT,Locale.US);
+        return simpleDateFormat.format(calendar.getTime());
     }
 
     public static String convertUtcMilisecondToDisplay(Long time ){

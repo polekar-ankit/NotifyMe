@@ -2,6 +2,7 @@ package com.gipl.notifyme.data.model.api.lib;
 
 import com.gipl.notifyme.data.model.api.lib.utility.CheckInType;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
+import com.gipl.notifyme.data.model.api.lib.utility.CheckType;
 import com.gipl.notifyme.data.model.api.lib.utility.LeaveFor;
 import com.gipl.notifyme.data.model.api.lib.utility.LeaveStatus;
 import com.google.gson.annotations.Expose;
@@ -23,6 +24,13 @@ public class Utility {
     @SerializedName("LEAVEFOR")
     @Expose
     private LeaveFor leaveFor;
+    @SerializedName("CHECKTYPE")
+    @Expose
+    private CheckType checkType = new CheckType();
+
+    public CheckType getCheckType() {
+        return checkType;
+    }
 
     public LeaveFor getLeaveFor() {
         return leaveFor;

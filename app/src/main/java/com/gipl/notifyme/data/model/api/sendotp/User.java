@@ -27,7 +27,7 @@ public class User implements Parcelable {
     @SerializedName("sName")
     @Expose
     private String name;
-    @SerializedName("suidUser ")
+    @SerializedName("suidUser")
     @Expose
     private String suidUser;
     @SerializedName("sPlant")

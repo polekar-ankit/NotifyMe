@@ -59,6 +59,10 @@ public interface PreferencesHelper {
 
     void setCheckInTime(long checkInTime);
 
+    int getCheckType();
+
+    void setCheckType(int checkType);
+
     //nofication cache
     void setTotalNotificationCache(int count);
 

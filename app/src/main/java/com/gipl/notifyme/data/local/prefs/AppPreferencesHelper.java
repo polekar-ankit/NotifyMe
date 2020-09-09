@@ -47,6 +47,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_SESSION = "KEY_SESSION";
     private static final String KEY_ACTIVE_SHIFT_SUID = "KEY_SHIFT_SUID";
     private static final String KEY_CHECK_IN_TIME = "KEY_CHECK_IN_TIME";
+    private static final String KEY_CHECK_TYPE = "KEY_CHECK_TYPE";
 
 
     private final SharedPreferences mPrefs;
@@ -100,6 +101,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setCheckInTime(long checkInTime) {
         mPrefs.edit().putLong(KEY_CHECK_IN_TIME, checkInTime).apply();
+    }
+
+    @Override
+    public int getCheckType() {
+        return mPrefs.getInt(KEY_CHECK_TYPE,2);
+    }
+
+    @Override
+    public void setCheckType(int checkType) {
+        mPrefs.edit().putInt(KEY_CHECK_TYPE,checkType).apply();
     }
 
     @Override

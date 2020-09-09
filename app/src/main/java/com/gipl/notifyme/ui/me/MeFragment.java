@@ -54,12 +54,14 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public void onStop() {
         super.onStop();
         meViewModel.endTimer();
+        meViewModel.removeEmpCheckInStatusListener();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         meViewModel.setCheckInTimer();
+        meViewModel.setEmpCheckInStatusListener();
     }
 
     private void processReponse(Response response) {
@@ -89,9 +91,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().btnCheckIn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_checkInActivity));
         getViewDataBinding().btnCheckOut.setOnClickListener(v -> checkOutDialog.show());
-        getViewDataBinding().btnApplyLeave.setOnClickListener(v->{
-            LeaveMainActivity.start(requireContext());
-        });
+        getViewDataBinding().btnApplyLeave.setOnClickListener(v-> LeaveMainActivity.start(requireContext()));
     }
 
 

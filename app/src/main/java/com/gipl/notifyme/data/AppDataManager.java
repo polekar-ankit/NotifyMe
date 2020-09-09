@@ -181,6 +181,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public int getCheckType() {
+        return mPreferencesHelper.getCheckType();
+    }
+
+    @Override
+    public void setCheckType(int checkType) {
+        mPreferencesHelper.setCheckType(checkType);
+    }
+
+    @Override
     public String getLastSync() {
         return mPreferencesHelper.getLastSync();
     }
