@@ -65,6 +65,8 @@ public class MeViewModel extends BaseViewModel {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             Log.d("firebase", snapshot.toString());
+            if (snapshot.getValue()==null)
+                return;
                 Employee employee = new Employee(snapshot);
                 if (getDataManager().getCheckType()!=employee.getCheckType()){
                     getDataManager().setCheckType(employee.getCheckType());
@@ -150,8 +152,9 @@ public class MeViewModel extends BaseViewModel {
         CheckOutType checkOutType = getDataManager().getUtility().getCheckOutType();
         Employee employee = new Employee(getDataManager().getUtility().getCheckType().getBitCheckOut(),
                 suidShift,
-                type==checkOutType.getBitDayEnd()?TimeUtility.convertUtcTimeToLong(checkTime):getDataManager().getCheckInTime(),
-                getDataManager().getUtility().getCheckInType().getBitBySelf(), type);
+                type==checkOutType.getBitDayEnd()?0:getDataManager().getCheckInTime(),
+                getDataManager().getUtility().getCheckInType().getBitBySelf(), type,
+                TimeUtility.convertUtcTimeToLong(checkTime));
 
         getDataManager().setCheckType(getDataManager().getUtility().getCheckType().getBitCheckOut());
 

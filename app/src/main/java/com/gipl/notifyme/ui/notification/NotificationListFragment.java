@@ -66,7 +66,7 @@ public class NotificationListFragment extends BaseFragment<LayoutNotificationLis
         super.onViewCreated(view, savedInstanceState);
 
         // Set title
-        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
+        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
 
         // Observe changes in response handled by view model
         getViewModel().getResponseMutableLiveData().observe(getViewLifecycleOwner(), this::processResponse);

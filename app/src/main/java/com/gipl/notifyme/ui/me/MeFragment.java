@@ -47,7 +47,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
         // Set title
-        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0");
+        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
     }
 
     @Override

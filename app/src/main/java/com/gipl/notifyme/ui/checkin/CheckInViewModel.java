@@ -91,9 +91,10 @@ public class CheckInViewModel extends BaseViewModel {
 
     private void updateFirebaseNode(String suidShift,String checkTime) throws ParseException {
         Employee employee = new Employee(getDataManager().getUtility().getCheckType().getBitCheckIn(),
-                suidShift, TimeUtility.convertUtcTimeToLong(checkTime),
+                suidShift, getDataManager().getCheckInTime(),
                 getDataManager().getUtility().getCheckInType().getBitBySelf(),
-                -1
+                -1,
+                TimeUtility.convertUtcTimeToLong(checkTime)
                 );
         firebaseDb.setEmployeeCheckInStatus(employee, task -> {
             if (task.isSuccessful()) {

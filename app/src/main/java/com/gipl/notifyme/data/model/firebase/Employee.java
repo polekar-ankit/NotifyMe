@@ -7,25 +7,36 @@ public class Employee {
     private int checkType;
     private String suidShift;
     private long checkTime;
+    private long dtModified;
     private int checkBy;
     private int checkOutType;
     private String displayCheckTime;
-
-    public Employee(DataSnapshot snapshot){
+    public Employee(DataSnapshot snapshot) {
         this.checkType = Integer.parseInt(snapshot.child("checkType").getValue().toString());
         this.suidShift = snapshot.child("suidShift").getValue().toString();
-        this.checkTime = (long) snapshot.child("checkTime").getValue();
+        this.checkTime = Long.parseLong(snapshot.child("checkTime").getValue().toString());
         this.checkBy = Integer.parseInt(snapshot.child("checkBy").getValue().toString());
         this.checkOutType = Integer.parseInt(snapshot.child("checkOutType").getValue().toString());
-        this.displayCheckTime = snapshot.child("checkOutType").getValue().toString();
+        this.displayCheckTime = snapshot.child("displayCheckTime").getValue().toString();
+        if (snapshot.hasChild("dtModified"))
+            this.dtModified = Long.parseLong(snapshot.child("dtModified").getValue().toString());
     }
-    public Employee(int checkType, String suidShift, long checkTime, int checkBy,int checkOutType) {
+    public Employee(int checkType, String suidShift, long checkTime, int checkBy, int checkOutType,long dtModified) {
         this.checkType = checkType;
         this.suidShift = suidShift;
         this.checkTime = checkTime;
         this.checkBy = checkBy;
         this.checkOutType = checkOutType;
-        this.displayCheckTime = TimeUtility.convertUtcMillisecondToTime(checkTime);
+        this.displayCheckTime = TimeUtility.convertUtcMillisecondToTime(dtModified);
+        this.dtModified = dtModified;
+    }
+
+    public long getDtModified() {
+        return dtModified;
+    }
+
+    public void setDtModified(long dtModified) {
+        this.dtModified = dtModified;
     }
 
     public int getCheckOutType() {
