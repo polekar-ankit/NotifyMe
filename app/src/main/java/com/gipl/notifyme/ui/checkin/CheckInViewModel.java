@@ -81,8 +81,8 @@ public class CheckInViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(checkInRsp -> {
                     if (checkInRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-//                        getResponseMutableLiveData().postValue(Response.success(true));
-                        updateFirebaseNode(suidShift,checkInRsp.getTag());
+                        getResponseMutableLiveData().postValue(Response.success(true));
+//                        updateFirebaseNode(suidShift,checkInRsp.getTag());
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(checkInRsp.getApiError().getErrorMessage()))));
                     }

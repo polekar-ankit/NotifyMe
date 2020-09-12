@@ -64,29 +64,27 @@ public class MeViewModel extends BaseViewModel {
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            Log.d("firebase", snapshot.toString());
-            if (snapshot.getValue()==null)
+            if (snapshot.getValue() == null)
                 return;
-                Employee employee = new Employee(snapshot);
-                if (getDataManager().getCheckType()!=employee.getCheckType()){
-                    getDataManager().setCheckType(employee.getCheckType());
-                    if (employee.getCheckType()==getDataManager().getUtility().getCheckType().getBitCheckIn()){
-                        getDataManager().setActiveShift(employee.getSuidShift());
-                        getDataManager().setCheckInTime(employee.getCheckTime());
-                        setCheckInTimer();
-                    }
-                    else {
-                        endTimer();
-                        checkInDateTime.set("");
-                        checkInTime.set("");
-                        showCheckInButton.set(checkInDateTime.get().isEmpty());
-                        getDataManager().setActiveShift("");
-                        endTimer();
-                        if (employee.getCheckOutType() == getDataManager().getUtility().getCheckOutType().getBitDayEnd()) {
-                            getDataManager().setCheckInTime(0);
-                        }
+            Employee employee = new Employee(snapshot);
+            if (getDataManager().getCheckType() != employee.getCheckType()) {
+                getDataManager().setCheckType(employee.getCheckType());
+                if (employee.getCheckType() == getDataManager().getUtility().getCheckType().getBitCheckIn()) {
+                    getDataManager().setActiveShift(employee.getSuidShift());
+                    getDataManager().setCheckInTime(employee.getCheckTime());
+                    setCheckInTimer();
+                } else {
+                    endTimer();
+                    checkInDateTime.set("");
+                    checkInTime.set("");
+                    showCheckInButton.set(checkInDateTime.get().isEmpty());
+                    getDataManager().setActiveShift("");
+                    endTimer();
+                    if (employee.getCheckOutType() == getDataManager().getUtility().getCheckOutType().getBitDayEnd()) {
+                        getDataManager().setCheckInTime(0);
                     }
                 }
+            }
         }
 
         @Override
@@ -140,8 +138,19 @@ public class MeViewModel extends BaseViewModel {
                         endTimer();
                         checkInDateTime.set("");
                         checkInTime.set("");
-                        updateFirebaseNode(getDataManager().getActiveShift(), type, checkOutRsp.getTag());
+                        CheckOutType checkOutType = getDataManager().getUtility().getCheckOutType();
+//                        updateFirebaseNode(getDataManager().getActiveShift(), type, checkOutRsp.getTag());
                         getDataManager().setActiveShift("");
+                        if (type == checkOutType.getBitDayEnd()) {
+                            getResponseMutableLiveData().postValue(Response.success(R.string.day_end));
+                            getDataManager().setCheckInTime(0);
+                        } else if (type == checkOutType.getBitLunch())
+                            getResponseMutableLiveData().postValue(Response.success(R.string.lunch_out));
+                        else if (type == checkOutType.getBitOfficialOut())
+                            getResponseMutableLiveData().postValue(Response.success(R.string.official_out));
+
+                        showCheckInButton.set(checkInDateTime.get().isEmpty());
+
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(checkOutRsp.getApiError().getErrorMessage()))));
                     }
@@ -152,7 +161,7 @@ public class MeViewModel extends BaseViewModel {
         CheckOutType checkOutType = getDataManager().getUtility().getCheckOutType();
         Employee employee = new Employee(getDataManager().getUtility().getCheckType().getBitCheckOut(),
                 suidShift,
-                type==checkOutType.getBitDayEnd()?0:getDataManager().getCheckInTime(),
+                type == checkOutType.getBitDayEnd() ? 0 : getDataManager().getCheckInTime(),
                 getDataManager().getUtility().getCheckInType().getBitBySelf(), type,
                 TimeUtility.convertUtcTimeToLong(checkTime));
 
