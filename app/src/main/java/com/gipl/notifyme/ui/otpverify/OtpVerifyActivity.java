@@ -71,7 +71,15 @@ public class OtpVerifyActivity extends BaseActivity<ActivityVerifyOtpBinding, Ot
             case SUCCESS:
                 hideLoading();
                 // User is verified successfully. Go to next screen
-                MainActivity.start(this);
+                String data = (String) response.data;
+                if (data.equals("OTPResend")) {
+                    mySnackbar = Snackbar.make(getViewDataBinding().getRoot(),
+                            getString(R.string.msg_otp_resend),
+                            Snackbar.LENGTH_INDEFINITE);
+                    mySnackbar.setAction(getString(R.string.btn_ok), v -> mySnackbar.dismiss());
+                    mySnackbar.show();
+                } else
+                    MainActivity.start(this);
                 break;
             case ERROR:
                 hideLoading();

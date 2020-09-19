@@ -13,6 +13,9 @@ public class LeaveApproval {
     @SerializedName("suidLeaveApproval")
     @Expose
     private String suidLeaveApproval;
+    @SerializedName("sDescription")
+    @Expose
+    private String sDescription;
     @SerializedName("sApprovalsRequired")
     @Expose
     private Integer sApprovalsRequired;
@@ -21,9 +24,13 @@ public class LeaveApproval {
         this.sLeaveType = sLeaveType;
     }
 
+    public String getsDescription() {
+        return sDescription;
+    }
+
     @Override
     public String toString() {
-        return sLeaveType;
+        return sDescription != null ? sLeaveType + " (" + sDescription + ")" : sLeaveType;
     }
 
     public Integer getJLeaveType() {

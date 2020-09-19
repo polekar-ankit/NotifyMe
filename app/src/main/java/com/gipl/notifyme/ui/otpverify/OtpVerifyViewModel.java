@@ -80,6 +80,22 @@ public class OtpVerifyViewModel extends BaseViewModel {
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 
+
+    public void reSendOtp() {
+        getResponseMutableLiveData().postValue(Response.loading());
+        getCompositeDisposable().add(userUseCase.sendOtp(user.getEmpId())
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(sendOtpRes -> {
+                    if (sendOtpRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getResponseMutableLiveData().postValue(Response.success("OTPResend"));
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(sendOtpRes.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
+    }
+
+
     private void getLib() {
         getCompositeDisposable().add(userUseCase.getLib().subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())

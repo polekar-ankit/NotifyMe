@@ -152,7 +152,8 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         forArrayList.add(new LeaveFor("Select", -1));
         Utility utility = addModifyLeaveViewModel.getDataManager().getUtility();
         forArrayList.add(new LeaveFor("Full Day", utility.getLeaveFor().getBitFullDay()));
-        forArrayList.add(new LeaveFor("Half Day", utility.getLeaveFor().getBitHalfDay()));
+        forArrayList.add(new LeaveFor("First Half Day", utility.getLeaveFor().getBitFirstHalfDay()));
+        forArrayList.add(new LeaveFor("Second Half Day", utility.getLeaveFor().getBitSecondHalfDay()));
         ArrayAdapter<LeaveFor> leaveForArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
         getViewDataBinding().spinnerLeaveFor.setAdapter(leaveForArrayAdapter);
     }
