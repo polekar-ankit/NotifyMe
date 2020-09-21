@@ -38,8 +38,8 @@ public class NotificationListViewModel extends BaseViewModel {
     public void getAllNotifications() {
         if (isNetworkConnected()) {
             GetNotificationsReq req = new GetNotificationsReq();
-            req.setSuidSession(getDataManager().getSession());
-            req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+//            req.setSuidSession(getDataManager().getSession());
+//            req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
             req.setStart(getDataManager().getCacheNotificationCount());
             if (req.getStart() == 0) {
                 getResponseMutableLiveData().setValue(Response.loading());

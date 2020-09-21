@@ -4,7 +4,10 @@ import com.gipl.notifyme.data.model.api.BaseReq;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GetNotificationsReq extends BaseReq {
+public class GetNotificationsReq  {
+    @SerializedName("jClientType")
+    @Expose
+    private int clientType = 2;
     @SerializedName("sEmpCode")
     @Expose
     private String empCode;
