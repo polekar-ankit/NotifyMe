@@ -9,7 +9,7 @@ ext {
 
     ]
 
-    versionCode = 4//change it for final build
+    versionCode = 5//change it for final build
     String date = new Date().format("ddMMyy")
     String time = new Date().format("HHmmss")
     versionName = versionCode + ".0." + date + "." + time

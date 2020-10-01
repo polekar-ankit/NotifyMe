@@ -6,6 +6,7 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 
+import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.ActivitySplashScreenBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
@@ -36,6 +37,7 @@ public class SplashScreenActivity extends BaseActivity<ActivitySplashScreenBindi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getViewDataBinding().tvVersion.setText(BuildConfig.VERSION_NAME);
         new Handler().postDelayed(() -> {
             // If already login then go to notification list
             if (splashScreenViewModel.getDataManager().isLogin()){
