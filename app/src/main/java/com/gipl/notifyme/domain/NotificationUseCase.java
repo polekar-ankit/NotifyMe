@@ -31,7 +31,8 @@ public class NotificationUseCase extends UseCase {
         return Transformations.map(dataManager.getNotificationList(),
                 input -> {
                     Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
+//                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault());
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeUtility.DB_FORMAT, Locale.getDefault());
                     dataManager.setLastSync(simpleDateFormat.format(calendar.getTime()));
 
                     SimpleDateFormat onlyDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
@@ -54,6 +55,7 @@ public class NotificationUseCase extends UseCase {
                         try {
                             notiDate = simpleDateFormat.parse(notification.getNotificationDate());
                             float timeDiff = calendar.getTime().getTime() - notiDate.getTime();
+
                             if (timeDiff == daysInMilli) {
                                 notification.setDisplayDate(onlyTime.format(notiDate));
                             } else

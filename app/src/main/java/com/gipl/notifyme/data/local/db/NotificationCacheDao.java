@@ -18,7 +18,7 @@ public interface NotificationCacheDao {
     long insertNotification(TNotification tNotification);
 
     @Query("SELECT forGrp as forGroup,title as title,message as message,link as link,linkType as linkType,notificationDate as notificationDate" +
-            " FROM TNotificationCache")
+            " FROM TNotificationCache ORDER BY datetime(notificationDate) DESC")
     LiveData<List<Notification>>getNotificationList();
 
     @Query("SELECT COUNT(j) from TNotificationCache")

@@ -9,8 +9,9 @@ import java.util.TimeZone;
 
 public class TimeUtility {
     public static final String ONLY_DATE_FORMAT = "dd-MMM-yyyy";
-    private static final String DB_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DB_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String API_FORMAT = "yyyy-MM-dd HH:mm";
+    public static final String API_RECEIVE_FORMAT = "dd-MMM-yyyy HH:mm a";
     private static final String API_ONLY_DATE_FORMAT = "yyyy-MM-dd";
     private static final String DISPLAY_FORMAT = "MM-dd-yyyy HH:mm a";
     private static final String API_ONLY_TIME_FORMAT = "HH:mm";
@@ -20,6 +21,18 @@ public class TimeUtility {
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return simpleDateFormat.parse(time).getTime();
     }
+
+    public static String convertTimeToDb(String dateTime) throws ParseException {
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(API_RECEIVE_FORMAT, Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DB_FORMAT, Locale.US);
+        return simpleDateFormat.format(simpleDateFormat1.parse(dateTime));
+    }
+    public static String convertDBDateToDisplay(String dateTime) throws ParseException {
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(DB_FORMAT, Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_RECEIVE_FORMAT, Locale.US);
+        return simpleDateFormat.format(simpleDateFormat1.parse(dateTime));
+    }
+
     public static String getCurrentTimeInDbFormat() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DB_FORMAT, Locale.US);
         return simpleDateFormat.format(Calendar.getInstance().getTime());
@@ -33,6 +46,7 @@ public class TimeUtility {
 
     /**
      * convert milliseconds to only time(hh:mm) format
+     *
      * @param time
      * @return
      */
@@ -40,15 +54,15 @@ public class TimeUtility {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.setTimeInMillis(time);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_TIME_FORMAT,Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_TIME_FORMAT, Locale.US);
         return simpleDateFormat.format(calendar.getTime());
     }
 
-    public static String convertUtcMilisecondToDisplay(Long time ){
+    public static String convertUtcMilisecondToDisplay(Long time) {
         Calendar calCheckIn = Calendar.getInstance();
         calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
         calCheckIn.setTimeInMillis(time);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DISPLAY_FORMAT,Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DISPLAY_FORMAT, Locale.US);
         return simpleDateFormat.format(calCheckIn.getTime());
     }
 
@@ -63,7 +77,6 @@ public class TimeUtility {
 
         return calCurrent.getTime().getTime() - calCheckIn.getTime().getTime();
     }
-
 
 
     public static String getCountDownTimer(long diff) {
@@ -96,6 +109,7 @@ public class TimeUtility {
         calendar.setTime(simpleDateFormat.parse(fromDate));
         return calendar;
     }
+
     public static String convertDisplayDateToApi(String fromDate) throws ParseException {
         SimpleDateFormat onlyDisplayDate = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_DATE_FORMAT, Locale.US);

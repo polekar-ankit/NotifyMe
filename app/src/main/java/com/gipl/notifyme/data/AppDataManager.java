@@ -60,7 +60,8 @@ public class AppDataManager implements DataManager {
         mContext = context;
         mPreferencesHelper = preferencesHelper;
         mApiHelper = apiHelper;
-        mDatabase = Room.databaseBuilder(context, NotifyMeDatabase.class, BuildConfig.DB_NAME).build();
+        mDatabase = Room.databaseBuilder(context, NotifyMeDatabase.class, BuildConfig.DB_NAME)
+                .build();
     }
 
 

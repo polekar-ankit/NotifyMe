@@ -5,6 +5,9 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.gipl.notifyme.data.model.api.notification.Notification;
+import com.gipl.notifyme.uility.TimeUtility;
+
+import java.text.ParseException;
 
 @Entity(tableName = "TNotificationCache")
 public class TNotification {
@@ -31,11 +34,11 @@ public class TNotification {
     public TNotification() {
     }
 
-    public TNotification(Notification notification, String cacheDate) {
+    public TNotification(Notification notification, String cacheDate) throws ParseException {
         this.forGroup = notification.getForGroup();
         this.title = notification.getTitle();
         this.message = notification.getMessage();
-        this.notificationDate = notification.getNotificationDate();
+        this.notificationDate = TimeUtility.convertTimeToDb(notification.getNotificationDate());
         this.linkType = notification.getLinkType();
         this.link = notification.getLink();
         this.cacheDate = cacheDate;
