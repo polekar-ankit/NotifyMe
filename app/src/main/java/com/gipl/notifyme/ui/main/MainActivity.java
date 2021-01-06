@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
+import com.gipl.notifyme.uility.NotificationUtils;
 
 import javax.inject.Inject;
 
@@ -66,14 +68,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar
         int id = item.getItemId();
-        switch (id) {
-            case R.id.menu_item_share:
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package",
-                        getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-                break;
+        if (id == R.id.menu_item_share) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package",
+                    getPackageName(), null);
+            intent.setData(uri);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -87,6 +87,21 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(getViewDataBinding().bottomNavigationView, navController);
 
+//        String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
+//        NotificationUtils.sendNotification(this, channelId, "Open app", "this is notification display from app", null, true);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
+//                NotificationUtils.sendNotification(MainActivity.this, channelId, "Exit app", "this is notification display from app", null, true);
+//            }
+//        }, 3000);
+        super.onDestroy();
     }
 
     @Override

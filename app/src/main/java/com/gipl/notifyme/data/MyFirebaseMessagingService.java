@@ -36,18 +36,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "Firebase push notification received.");
 
         Map<String, String> mapData = remoteMessage.getData();
-        if (mapData != null) {
-            String title = mapData.get("title");
-            String message = mapData.get("message");
+        String title = mapData.get("title");
+        String message = mapData.get("message");
 
-            if (title != null && message != null) {
-                String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
-                //Intent intent = new Intent(this, SplashScreenActivity.class);
-                Intent intent = new Intent();
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationUtils.sendNotification(getApplicationContext(), channelId, title, message, pendingIntent, true);
-            }
+        if (title != null && message != null) {
+            String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
+            //Intent intent = new Intent(this, SplashScreenActivity.class);
+            Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationUtils.sendNotification(getApplicationContext(), channelId, title, message, pendingIntent, true);
         }
     }
 }

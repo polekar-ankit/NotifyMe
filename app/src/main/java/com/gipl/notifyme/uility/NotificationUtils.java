@@ -18,7 +18,6 @@ import com.gipl.notifyme.R;
  * Created by naresh on 08-Jun-2019.
  */
 public class NotificationUtils {
-    public static long[] vibratePattern = new long[]{500, 500, 500, 500};
     private static final String PREFERENCE_LAST_NOTIF_ID = "PREFERENCE_LAST_NOTIF_ID";
 
     private static int getNextNotificationId(@NonNull Context context) {
@@ -59,10 +58,26 @@ public class NotificationUtils {
         }
 
         int notificationId = getNextNotificationId(context);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager notificationManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(notificationId, builder.build());
+            CharSequence channelName = context.getString(R.string.notification_channel_name_default);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = null;
+            notificationChannel = new NotificationChannel(channelId, channelName, importance);
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            notificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.notify(notificationId, builder.build());
+        } else {
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(notificationId, builder.build());
+        }
     }
 
     public static void createMyNotificationChannel(Context context) {

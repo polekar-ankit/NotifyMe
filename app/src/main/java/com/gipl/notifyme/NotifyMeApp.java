@@ -24,6 +24,8 @@ import com.gipl.notifyme.di.component.AppComponent;
 import com.gipl.notifyme.di.component.DaggerAppComponent;
 
 
+import java.util.logging.Handler;
+
 import javax.inject.Inject;
 
 import dagger.android.DispatchingAndroidInjector;
@@ -45,15 +47,12 @@ public class NotifyMeApp extends Application implements HasActivityInjector {
     @Override
     public void onCreate() {
         super.onCreate();
-
         appComponent = DaggerAppComponent.builder()
                 .application(this)
                 .build();
         appComponent.inject(this);
-
-
-
     }
+
 
     public AppComponent getAppComponent() {
         return appComponent;
