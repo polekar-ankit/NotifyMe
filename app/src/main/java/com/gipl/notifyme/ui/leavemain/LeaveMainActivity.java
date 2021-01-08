@@ -2,37 +2,26 @@ package com.gipl.notifyme.ui.leavemain;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.ActivityLeaveMainBinding;
-import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
-import com.gipl.notifyme.ui.main.MainViewModel;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
-public class LeaveMainActivity extends BaseActivity<ActivityLeaveMainBinding, LeaveMainViewModel> implements HasSupportFragmentInjector {
+public class LeaveMainActivity extends BaseActivity<ActivityLeaveMainBinding, LeaveMainViewModel> implements HasAndroidInjector {
     @Inject
     LeaveMainViewModel mainViewModel;
     @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    DispatchingAndroidInjector<Object> fragmentDispatchingAndroidInjector;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LeaveMainActivity.class);
@@ -64,7 +53,7 @@ public class LeaveMainActivity extends BaseActivity<ActivityLeaveMainBinding, Le
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<Object> androidInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 }

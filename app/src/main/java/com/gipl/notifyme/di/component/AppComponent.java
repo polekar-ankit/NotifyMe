@@ -28,11 +28,12 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
+import dagger.android.AndroidInjector;
 
 
 @Singleton
 @Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
-public interface AppComponent {
+public interface AppComponent extends AndroidInjector<NotifyMeApp> {
 
     void inject(NotifyMeApp app);
 

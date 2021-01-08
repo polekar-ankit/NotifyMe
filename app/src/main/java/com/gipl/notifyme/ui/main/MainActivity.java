@@ -4,36 +4,32 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
-import com.gipl.notifyme.uility.NotificationUtils;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements HasSupportFragmentInjector {
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> implements HasAndroidInjector {
     @Inject
     MainViewModel mainViewModel;
     @Inject
-    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+    DispatchingAndroidInjector<Object> fragmentDispatchingAndroidInjector;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -104,8 +100,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onDestroy();
     }
 
+
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
+    public AndroidInjector<Object> androidInjector() {
         return fragmentDispatchingAndroidInjector;
     }
 }

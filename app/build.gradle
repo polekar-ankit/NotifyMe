@@ -57,23 +57,23 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
 
     //room db
-    implementation 'androidx.room:room-runtime:2.2.5'
-    implementation "androidx.room:room-runtime:2.2.5"
-    annotationProcessor "androidx.room:room-compiler:2.2.5"
+    implementation 'androidx.room:room-runtime:2.2.6'
+    implementation "androidx.room:room-runtime:2.2.6"
+    annotationProcessor "androidx.room:room-compiler:2.2.6"
 
     // Java language implementation
-    implementation "androidx.navigation:navigation-fragment:2.3.1"
-    implementation "androidx.navigation:navigation-ui:2.3.1"
+    implementation "androidx.navigation:navigation-fragment:2.3.2"
+    implementation "androidx.navigation:navigation-ui:2.3.2"
 
     //rx java
     implementation 'io.reactivex.rxjava2:rxjava:2.2.16'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //dagger
-    implementation 'com.google.dagger:dagger:2.24'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.22.1"
-    annotationProcessor "com.google.dagger:dagger-android-processor:2.22.1"
-    implementation 'com.google.dagger:dagger-android-support:2.22.1'
+    implementation 'com.google.dagger:dagger:2.30.1'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.30.1"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.30.1"
+    implementation 'com.google.dagger:dagger-android-support:2.30.1'
 
     //api req
     implementation 'com.google.code.gson:gson:2.8.6'
@@ -95,7 +95,7 @@ dependencies {
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    implementation 'com.airbnb.android:lottie:3.4.1'
+    implementation 'com.airbnb.android:lottie:3.5.0'
 
     //barcode
     implementation 'me.dm7.barcodescanner:zbar:1.9.13'

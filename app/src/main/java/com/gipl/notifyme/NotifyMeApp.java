@@ -16,33 +16,25 @@
 
 package com.gipl.notifyme;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
 import com.gipl.notifyme.di.component.AppComponent;
 import com.gipl.notifyme.di.component.DaggerAppComponent;
 
-
-import java.util.logging.Handler;
-
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
+import dagger.android.HasAndroidInjector;
 
-public class NotifyMeApp extends Application implements HasActivityInjector {
+public class NotifyMeApp extends Application implements HasAndroidInjector {
 
     @Inject
-    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
+    DispatchingAndroidInjector<Object> activityDispatchingAndroidInjector;
 
 
     private AppComponent appComponent;
-
-    @Override
-    public DispatchingAndroidInjector<Activity> activityInjector() {
-        return activityDispatchingAndroidInjector;
-    }
 
     @Override
     public void onCreate() {
@@ -62,5 +54,10 @@ public class NotifyMeApp extends Application implements HasActivityInjector {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
 //        MultiDex.install(this);
+    }
+
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return activityDispatchingAndroidInjector;
     }
 }
