@@ -47,4 +47,5 @@
     <string name="lbl_leave_for">Leave For</string>
     <string name="lbl_reason">Reason</string>
     <string name="msg_otp_resend">OTP has been sent successfully.</string>
+    <string name="btn_lbl_attachment">Add Medical certificate</string>
 </resources>

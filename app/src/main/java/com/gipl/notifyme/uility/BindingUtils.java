@@ -1,6 +1,7 @@
 package com.gipl.notifyme.uility;
 
 import android.content.Context;
+import android.net.Uri;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +40,16 @@ public final class BindingUtils {
 
     @BindingAdapter("loadImage")
     public static void loadImage(ImageView imageView, String url) {
+        Glide
+                .with(imageView.getContext())
+                .load(url)
+                .priority(Priority.IMMEDIATE)
+                .centerCrop()
+                .placeholder(R.drawable.image_error)
+                .into(imageView);
+    }
+    @BindingAdapter("loadImage")
+    public static void loadImageURi(ImageView imageView, Uri url) {
         Glide
                 .with(imageView.getContext())
                 .load(url)

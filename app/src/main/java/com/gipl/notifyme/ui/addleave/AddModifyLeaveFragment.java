@@ -1,14 +1,23 @@
 package com.gipl.notifyme.ui.addleave;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveApproval;
@@ -16,16 +25,22 @@ import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.databinding.FragmentAddEditLeaveBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
+import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.model.LeaveFor;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
 import com.gipl.notifyme.uility.TimeUtility;
+import com.jaiselrahman.filepicker.activity.FilePickerActivity;
+import com.jaiselrahman.filepicker.config.Configurations;
+import com.jaiselrahman.filepicker.model.MediaFile;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import javax.inject.Inject;
+
 
 public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBinding, AddModifyLeaveViewModel> {
     @Inject
@@ -82,7 +97,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                 if (response.data instanceof String) {
                     String name = (String) response.data;
                     if (name.equals(AddModifyLeaveReq.class.getSimpleName())) {
-                        DialogUtility.showToast(requireContext(),"Your Leave has been successfully applied");
+                        DialogUtility.showToast(requireContext(), "Your Leave has been successfully applied");
                         getBaseActivity().onBackPressed();
                     }
                 }
@@ -105,6 +120,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getViewDataBinding().cvAttachment.setVisibility(View.GONE);
         setLeaveFor();
         addModifyLeaveViewModel.getLeaveList();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
@@ -115,7 +131,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
             datePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
                     getViewDataBinding().tvFrom.getText().toString(),
                     0,
-                    Calendar.getInstance().getTime().getTime(),
+                    0,
                     fromOnDateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
@@ -145,7 +161,92 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                     getViewDataBinding().tvTo.getText().toString(), leaveFor, leaveApproval);
         });
 
+        getViewDataBinding().btnMedicalCertificate.setOnClickListener(v -> showFilePickerOptions());
+
+        getViewDataBinding().spinnerLeaveType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                LeaveApproval leave = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
+                if (leave.getSLeaveType().equals("SL")){
+                    getViewDataBinding().btnMedicalCertificate.setVisibility(View.VISIBLE);
+                }
+                else {
+                    getViewDataBinding().btnMedicalCertificate.setVisibility(View.GONE);
+                    getViewDataBinding().cvAttachment.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
+
+    private void showFilePickerOptions() {
+        PopupMenu popup = new PopupMenu(requireContext(), getViewDataBinding().btnMedicalCertificate);
+        popup.getMenu().add(0, 1, 0, "Image");
+        popup.getMenu().add(0, 2, 0, "Pdf");
+        //registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener(item -> {
+            Intent intent = new Intent(getContext(), FilePickerActivity.class);
+            if (item.getItemId() == 1) {
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setShowImages(true)
+                        .setShowVideos(false)
+                        .enableImageCapture(true)
+                        .setMaxSelection(1)
+                        .setSkipZeroSizeFiles(true)
+                        .build());
+            } else if (item.getItemId() == 2) {
+                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
+                        .setCheckPermission(true)
+                        .setShowImages(false)
+                        .setShowVideos(false)
+                        .setShowFiles(true)
+                        .setSuffixes("pdf")
+                        .setMaxSelection(1)
+                        .setSkipZeroSizeFiles(true)
+                        .build());
+            }
+
+            startActivityForResult(intent, 123);
+            return true;
+        });
+
+        popup.show(); //showing popup menu
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 123 && resultCode == Activity.RESULT_OK && data != null) {
+            ArrayList<MediaFile> files;
+            getViewDataBinding().cvAttachment.setVisibility(View.VISIBLE);
+            files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
+            MediaFile mediaFile = files.get(0);
+            Glide.with(requireContext())
+                    .load(mediaFile.getUri())
+                    .centerInside()
+                    .priority(Priority.IMMEDIATE)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_file)
+                    .into(getViewDataBinding().ivFilePreview);
+            getViewDataBinding().tvFileName.setText(mediaFile.getName());
+
+            getViewDataBinding().cvAttachment.setOnClickListener(v -> {
+                if (mediaFile.getMimeType().contains("image")) {
+                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString());
+                } else {
+                    AppUtility.openPdf(mediaFile.getUri(), requireContext(), getViewDataBinding().getRoot());
+                }
+            });
+        }
+    }
+
 
     private void setLeaveFor() {
         ArrayList<LeaveFor> forArrayList = new ArrayList<>();
