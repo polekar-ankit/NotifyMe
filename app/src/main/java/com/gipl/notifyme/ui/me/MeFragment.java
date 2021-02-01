@@ -14,7 +14,6 @@ import com.gipl.notifyme.databinding.FragmentMeBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.checkout.CheckOutDialog;
-import com.gipl.notifyme.ui.leavemain.LeaveMainActivity;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
 
@@ -47,7 +46,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
         // Set title
-        getBaseActivity().getSupportActionBar().setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
+
     }
 
     @Override
@@ -89,9 +88,11 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getViewDataBinding().btnCheckIn.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_checkInActivity));
-        getViewDataBinding().btnCheckOut.setOnClickListener(v -> checkOutDialog.show());
-        getViewDataBinding().btnApplyLeave.setOnClickListener(v-> LeaveMainActivity.start(requireContext()));
+        getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_missPunchListFragment));
+        getViewDataBinding().btnCheckOut.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
+        getViewDataBinding().btnApplyLeave.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2);
+        });
     }
 
 

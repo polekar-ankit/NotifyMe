@@ -3,7 +3,6 @@ package com.gipl.notifyme.uility;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -14,7 +13,8 @@ public class TimeUtility {
     public static final String API_RECEIVE_FORMAT = "dd-MMM-yyyy HH:mm a";
     private static final String API_ONLY_DATE_FORMAT = "yyyy-MM-dd";
     private static final String DISPLAY_FORMAT = "MM-dd-yyyy HH:mm a";
-    private static final String API_ONLY_TIME_FORMAT = "HH:mm";
+    private static final String TIME_24HR_FORMAT = "HH:mm";
+    private static final String TIME_12HR_FORMAT = "HH:mm a";
 
     public static long convertUtcTimeToLong(String time) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_FORMAT, Locale.US);
@@ -27,6 +27,7 @@ public class TimeUtility {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DB_FORMAT, Locale.US);
         return simpleDateFormat.format(simpleDateFormat1.parse(dateTime));
     }
+
     public static String convertDBDateToDisplay(String dateTime) throws ParseException {
         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(DB_FORMAT, Locale.US);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_RECEIVE_FORMAT, Locale.US);
@@ -54,7 +55,7 @@ public class TimeUtility {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
         calendar.setTimeInMillis(time);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_TIME_FORMAT, Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TIME_24HR_FORMAT, Locale.US);
         return simpleDateFormat.format(calendar.getTime());
     }
 
@@ -114,5 +115,19 @@ public class TimeUtility {
         SimpleDateFormat onlyDisplayDate = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_ONLY_DATE_FORMAT, Locale.US);
         return simpleDateFormat.format(onlyDisplayDate.parse(fromDate));
+    }
+
+    public static Calendar convert12HrTimeToCalender(String time) throws ParseException {
+        SimpleDateFormat onlyDisplayDate = new SimpleDateFormat(TIME_12HR_FORMAT, Locale.US);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(onlyDisplayDate.parse(time));
+        return calendar;
+    }
+
+    public static String convert24HrTimeTo12Hr(String time) throws ParseException {
+        SimpleDateFormat time12Hr = new SimpleDateFormat(TIME_12HR_FORMAT, Locale.US);
+        SimpleDateFormat time24Hr = new SimpleDateFormat(TIME_24HR_FORMAT, Locale.US);
+
+        return time12Hr.format(time24Hr.parse(time));
     }
 }

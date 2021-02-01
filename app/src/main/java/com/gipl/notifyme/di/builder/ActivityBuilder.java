@@ -17,21 +17,23 @@
 package com.gipl.notifyme.di.builder;
 
 import com.gipl.notifyme.ui.addleave.AddModifyLeaveFragmentProvider;
+import com.gipl.notifyme.ui.addovertime.AddOverTimeFragmentProvider;
 import com.gipl.notifyme.ui.checkin.CheckInActivity;
 import com.gipl.notifyme.ui.checkin.CheckInModule;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.image.ImagePreviewModule;
 import com.gipl.notifyme.ui.leavelist.LeaveListFragmentProvider;
-import com.gipl.notifyme.ui.leavemain.LeaveMainActivity;
-import com.gipl.notifyme.ui.leavemain.LeaveMainModule;
 import com.gipl.notifyme.ui.login.LoginActivity;
 import com.gipl.notifyme.ui.login.LoginModule;
 import com.gipl.notifyme.ui.main.MainActivity;
 import com.gipl.notifyme.ui.main.MainModule;
 import com.gipl.notifyme.ui.me.MeFragmentProvider;
+import com.gipl.notifyme.ui.misspunchlist.MissPunchListFragmentProvider;
 import com.gipl.notifyme.ui.notification.NotificationListFragmentProvider;
+import com.gipl.notifyme.ui.otlist.OvertimeListFragmentProvider;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyModule;
+import com.gipl.notifyme.ui.punchingslip.PunchingSlipFragmentProvider;
 import com.gipl.notifyme.ui.splashscreen.SplashScreenActivity;
 import com.gipl.notifyme.ui.splashscreen.SplashScreenModule;
 import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
@@ -52,10 +54,6 @@ public abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = SplashScreenModule.class)
     abstract SplashScreenActivity provideSplashScreenActivity();
 
-    @ContributesAndroidInjector(modules = {LeaveMainModule.class,
-            LeaveListFragmentProvider.class,
-            AddModifyLeaveFragmentProvider.class})
-    abstract LeaveMainActivity provideLeaveMainActivity();
 
     @ContributesAndroidInjector(modules = CheckInModule.class)
     abstract CheckInActivity provideCheckInActivity();
@@ -65,7 +63,13 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = {MainModule.class,
             NotificationListFragmentProvider.class,
-            MeFragmentProvider.class
+            MeFragmentProvider.class,
+            PunchingSlipFragmentProvider.class,
+            MissPunchListFragmentProvider.class,
+            LeaveListFragmentProvider.class,
+            AddModifyLeaveFragmentProvider.class,
+            OvertimeListFragmentProvider.class,
+            AddOverTimeFragmentProvider.class
     })
     abstract MainActivity provideMainActivity();
 

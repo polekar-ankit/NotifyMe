@@ -14,6 +14,8 @@ import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.utility.LeaveStatus;
 import com.gipl.notifyme.uility.TimeUtility;
 
+import org.json.JSONException;
+
 import io.reactivex.Single;
 
 public class LeaveDomain extends UseCase {
@@ -40,8 +42,9 @@ public class LeaveDomain extends UseCase {
         });
     }
 
-    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) {
+    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) throws JSONException {
         addModifyLeaveReq.setSuidSession(dataManager.getSession());
+        addModifyLeaveReq.setSuidPlant(dataManager.getUserObj().getSuidPlant());
 //        if (BuildConfig.DEBUG)
 //            addModifyLeaveReq.setSuidUser("bed4167a404add6345172c0a47f923fdb9cc15aedbcb04fca4a9c5cd3c42e7b9");
 //        else

@@ -14,18 +14,18 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import io.reactivex.functions.Consumer;
 
 public class LeaveListViewModel extends BaseViewModel {
+    private LeaveDomain leaveDomain;
+
     public LeaveListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         leaveDomain = new LeaveDomain(dataManager);
     }
 
-    private LeaveDomain leaveDomain;
-
     public void getLeaveList() {
         GetLeavesReq getLeavesReq = new GetLeavesReq();
         getLeavesReq.setPagination(false);
         getLeavesReq.setSuidSession(getDataManager().getSession());
-        getLeavesReq.setStart(0);
+        getLeavesReq.setjStart(0);
         getLeavesReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         getResponseMutableLiveData().postValue(Response.loading());
         getCompositeDisposable().add(leaveDomain.getLeaveList(getLeavesReq)

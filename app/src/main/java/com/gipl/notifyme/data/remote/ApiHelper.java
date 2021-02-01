@@ -16,6 +16,8 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
@@ -28,12 +30,20 @@ import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListReq;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListRsp;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListReq;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListRsp;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
+
+import org.json.JSONException;
 
 import io.reactivex.Single;
 
@@ -57,7 +67,17 @@ public interface ApiHelper {
     //leave
     Single<GetLeaveRsp> getLeaveRequestList(GetLeavesReq getLeavesListReq);
 
-    Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq);
+    Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) throws JSONException;
 
     Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq);
+
+    //punching slip
+    Single<AddPunchingSlipRsp> addPunchingSlip(AddPunchingSlipReq req);
+
+    Single<MissPunchListRsp> getMissPunchList(MissPunchListReq req);
+
+    //Over time
+    Single<AddOverTimeRsp> addOvertime(AddOverTimeReq addOverTimeReq);
+
+    Single<OverTimeListRsp> getOvertimeList(OverTimeListReq req);
 }

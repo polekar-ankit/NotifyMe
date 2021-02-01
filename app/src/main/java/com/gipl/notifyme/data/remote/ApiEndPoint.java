@@ -36,6 +36,10 @@ public final class ApiEndPoint {
     static final String GET_LEAVE_TYPE = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Leave/GetLeaveAprovalsList";
     static final String GET_NOTIFICATION = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Notification/GetAllNotifications";
     static final String GET_LEAVE_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/Leave/GetLeaveRequestsList";
+    static final String ADD_PUNCHING_SLIP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/MissPunch/AddOrModifyMissPunch";
+    static final String GET_MISSPUNCH_SLIP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/MissPunch/GetMissPunchList";
+    static final String ADD_OVER_TIME = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/OverTime/AddOrModifyOverTime";
+    static final String GET_OVER_TIME_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/OverTime/GetOverTimeList";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

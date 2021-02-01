@@ -55,6 +55,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
 
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         performDependencyInjection();

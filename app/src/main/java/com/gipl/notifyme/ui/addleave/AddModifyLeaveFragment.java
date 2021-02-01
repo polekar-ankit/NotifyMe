@@ -228,6 +228,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
             getViewDataBinding().cvAttachment.setVisibility(View.VISIBLE);
             files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
             MediaFile mediaFile = files.get(0);
+            addModifyLeaveViewModel.setAttachment(mediaFile);
             Glide.with(requireContext())
                     .load(mediaFile.getUri())
                     .centerInside()

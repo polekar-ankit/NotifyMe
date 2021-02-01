@@ -100,13 +100,12 @@
             app:layout_constraintGuide_percent="0.20" />
 
         <Button
-            android:id="@+id/btn_check_in"
+            android:id="@+id/btn_punching_slip"
             style="@style/meEmpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_check_in"
-            android:text="@string/btn_lbl_check_in"
-            android:visibility="@{me.checkInDateTime.empty?View.VISIBLE:View.GONE}"
+            android:drawableLeft="@drawable/ic_official_out"
+            android:text="@string/btn_lbl_punching_slip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,10 +119,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:drawableLeft="@drawable/ic_check_out"
-            android:text="@string/btn_lbl_check_out"
+            android:text="@string/btn_lbl_over_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_check_in" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_punching_slip" />
 
         <Button
             android:id="@+id/btn_apply_leave"

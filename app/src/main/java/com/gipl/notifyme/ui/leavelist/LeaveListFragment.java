@@ -76,7 +76,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding,Lea
         getViewDataBinding().recyclerView.setAdapter(leaveRequestListAdapter);
 
         getViewDataBinding().fabAdd.setOnClickListener(v->{
-            Navigation.findNavController(v).navigate(R.id.action_leaveListFragment_to_addModifyLeaveFragment);
+            Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2);
         });
     }
 }

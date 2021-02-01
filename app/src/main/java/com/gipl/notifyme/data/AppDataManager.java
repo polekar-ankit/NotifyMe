@@ -8,6 +8,8 @@ import androidx.room.Room;
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.local.db.NotifyMeDatabase;
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
@@ -22,9 +24,15 @@ import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListReq;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListRsp;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
 import com.gipl.notifyme.data.model.api.notification.Notification;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListReq;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListRsp;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.sendotp.User;
@@ -32,6 +40,8 @@ import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.data.model.db.TNotification;
 import com.gipl.notifyme.data.remote.ApiHelper;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -107,13 +117,33 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) {
+    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) throws JSONException {
         return mApiHelper.addModifyLeave(addModifyLeaveReq);
     }
 
     @Override
     public Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq) {
         return mApiHelper.getLeaveType(leaveTypeReq);
+    }
+
+    @Override
+    public Single<AddPunchingSlipRsp> addPunchingSlip(AddPunchingSlipReq req) {
+        return mApiHelper.addPunchingSlip(req);
+    }
+
+    @Override
+    public Single<MissPunchListRsp> getMissPunchList(MissPunchListReq req) {
+        return mApiHelper.getMissPunchList(req);
+    }
+
+    @Override
+    public Single<AddOverTimeRsp> addOvertime(AddOverTimeReq addOverTimeReq) {
+        return mApiHelper.addOvertime(addOverTimeReq);
+    }
+
+    @Override
+    public Single<OverTimeListRsp> getOvertimeList(OverTimeListReq req) {
+        return mApiHelper.getOvertimeList(req);
     }
 
     @Override
@@ -228,12 +258,12 @@ public class AppDataManager implements DataManager {
 
     @Override
     public long insertNotification(TNotification tNotification) {
-       return mDatabase.notificationCacheDao().insertNotification(tNotification);
+        return mDatabase.notificationCacheDao().insertNotification(tNotification);
     }
 
     @Override
     public LiveData<List<Notification>> getNotificationList() {
-     return mDatabase.notificationCacheDao().getNotificationList();
+        return mDatabase.notificationCacheDao().getNotificationList();
 
     }
 

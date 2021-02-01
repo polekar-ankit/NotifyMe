@@ -19,6 +19,8 @@ package com.gipl.notifyme.data.remote;
 
 import com.androidnetworking.BuildConfig;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
+import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
@@ -31,13 +33,23 @@ import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListReq;
+import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListRsp;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationRes;
 import com.gipl.notifyme.data.model.api.notification.GetNotificationsReq;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListReq;
+import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListRsp;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
+import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
+import com.google.gson.Gson;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -55,10 +67,10 @@ public class AppApiHelper implements ApiHelper {
     @Inject
     public AppApiHelper() {
 //        if (BuildConfig.DEBUG) {
-            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-            okHttpClient = new OkHttpClient().newBuilder()
-                    .addInterceptor(httpLoggingInterceptor)
-                    .build();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+        okHttpClient = new OkHttpClient().newBuilder()
+                .addInterceptor(httpLoggingInterceptor)
+                .build();
 //        } else okHttpClient = new OkHttpClient().newBuilder()
 //                .build();
     }
@@ -128,9 +140,10 @@ public class AppApiHelper implements ApiHelper {
     }
 
     @Override
-    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) {
+    public Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) throws JSONException {
         return Rx2AndroidNetworking.post(ApiEndPoint.ADD_MODIFY_LEAVE)
-                .addBodyParameter(addModifyLeaveReq)
+//                .addBodyParameter(addModifyLeaveReq)
+                .addJSONObjectBody(new JSONObject(new Gson().toJson(addModifyLeaveReq)))
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(AddModifyLeaveRsp.class);
@@ -143,5 +156,41 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(LeaveTypeRsp.class);
+    }
+
+    @Override
+    public Single<AddPunchingSlipRsp> addPunchingSlip(AddPunchingSlipReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.ADD_PUNCHING_SLIP)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(AddPunchingSlipRsp.class);
+    }
+
+    @Override
+    public Single<MissPunchListRsp> getMissPunchList(MissPunchListReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_MISSPUNCH_SLIP)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(MissPunchListRsp.class);
+    }
+
+    @Override
+    public Single<AddOverTimeRsp> addOvertime(AddOverTimeReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.ADD_OVER_TIME)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(AddOverTimeRsp.class);
+    }
+
+    @Override
+    public Single<OverTimeListRsp> getOvertimeList(OverTimeListReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_OVER_TIME_LIST)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(OverTimeListRsp.class);
     }
 }

@@ -12,6 +12,15 @@
         <action
             android:id="@+id/action_nav_user_to_checkInActivity"
             app:destination="@id/checkInActivity" />
+        <action
+            android:id="@+id/action_nav_user_to_missPunchListFragment"
+            app:destination="@id/missPunchListFragment" />
+        <action
+            android:id="@+id/action_nav_user_to_leaveListFragment2"
+            app:destination="@id/leaveListFragment2" />
+        <action
+            android:id="@+id/action_nav_user_to_overtimeListFragment"
+            app:destination="@id/overtimeListFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_notification"
@@ -22,4 +31,42 @@
         android:id="@+id/checkInActivity"
         android:name="com.gipl.notifyme.ui.checkin.CheckInActivity"
         android:label="CheckInActivity" />
+    <fragment
+        android:id="@+id/punchingSlipFragment"
+        android:name="com.gipl.notifyme.ui.punchingslip.PunchingSlipFragment"
+        android:label="PunchingSlipFragment" />
+    <fragment
+        android:id="@+id/missPunchListFragment"
+        android:name="com.gipl.notifyme.ui.misspunchlist.MissPunchListFragment"
+        android:label="MissPunchListFragment" >
+        <action
+            android:id="@+id/action_missPunchListFragment_to_punchingSlipFragment"
+            app:destination="@id/punchingSlipFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/leaveListFragment2"
+        android:name="com.gipl.notifyme.ui.leavelist.LeaveListFragment"
+        android:label="LeaveListFragment" >
+        <action
+            android:id="@+id/action_leaveListFragment2_to_addModifyLeaveFragment2"
+            app:destination="@id/addModifyLeaveFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/addModifyLeaveFragment2"
+        android:name="com.gipl.notifyme.ui.addleave.AddModifyLeaveFragment"
+        android:label="AddModifyLeaveFragment" />
+    <fragment
+        android:id="@+id/overtimeListFragment"
+        android:name="com.gipl.notifyme.ui.otlist.OvertimeListFragment"
+        tools:layout="@layout/fragment_ot_list"
+        android:label="OvertimeListFragment" >
+        <action
+            android:id="@+id/action_overtimeListFragment_to_addOverTimeFragment"
+            app:destination="@id/addOverTimeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addOverTimeFragment"
+        android:name="com.gipl.notifyme.ui.addovertime.AddOverTimeFragment"
+        tools:layout="@layout/fragment_add_overtime"
+        android:label="AddOverTimeFragment" />
 </navigation>

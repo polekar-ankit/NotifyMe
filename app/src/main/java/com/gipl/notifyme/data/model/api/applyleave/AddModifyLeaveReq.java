@@ -45,6 +45,14 @@ public class AddModifyLeaveReq extends BaseReq {
     @Expose
     private String sEmpCode;
 
+    public void setSuidPlant(String suidPlant) {
+        this.suidPlant = suidPlant;
+    }
+
+    @SerializedName("suidPlant")
+    @Expose
+    private String suidPlant;
+
     public void setSuidUser(String suidUser) {
         this.suidUser = suidUser;
     }

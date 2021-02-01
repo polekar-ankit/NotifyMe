@@ -41,19 +41,13 @@
 
         <TextView
             android:id="@+id/tv_from"
+            style="@style/TextViewCalender"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/bg_custom_calender"
-            android:fontFamily="@font/proxima_nova_regular"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
             android:text="TextView"
-            android:textColor="@color/colorTextPrimary"
-            app:drawableStartCompat="@drawable/ic_apply_leave"
-            app:drawableTint="@color/colorTextPrimary"
             app:layout_constraintEnd_toStartOf="@+id/textView8"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -62,14 +56,8 @@
             android:id="@+id/tv_to"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_custom_calender"
-            android:fontFamily="@font/proxima_nova_regular"
-            android:gravity="center"
-            android:padding="@dimen/_5sdp"
+            style="@style/TextViewCalender"
             android:text="TextView"
-            android:textColor="@color/colorTextPrimary"
-            app:drawableStartCompat="@drawable/ic_apply_leave"
-            app:drawableTint="@color/colorTextPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView8"
             app:layout_constraintTop_toTopOf="@+id/tv_from" />
@@ -135,25 +123,24 @@
 
         <Button
             android:id="@+id/btn_apply"
-            style="@style/buttonStyle"
-            android:layout_width="wrap_content"
+            style="@style/buttonStyleBase"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="Apply For Leave"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            android:text="@string/btn_lbl__apply_for_leave"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btn_medical_certificate"
             style="@style/buttonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_lbl_attachment"
             android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/btn_lbl_attachment"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_apply" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_attachment"

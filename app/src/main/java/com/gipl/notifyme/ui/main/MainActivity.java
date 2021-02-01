@@ -7,14 +7,19 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.databinding.library.baseAdapters.BR;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
@@ -82,21 +87,35 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 .build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(getViewDataBinding().bottomNavigationView, navController);
+        ActionBar actionBar = getSupportActionBar();
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            if (getViewDataBinding().bottomNavigationView.getVisibility() == View.GONE) {
+                getViewDataBinding().bottomNavigationView.setVisibility(View.VISIBLE);
+            }
+            if (destination.getId() == R.id.punchingSlipFragment||destination.getId() == R.id.missPunchListFragment) {
+                getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
+                actionBar.setTitle(getString(R.string.activity_punching_slip));
 
-//        String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
-//        NotificationUtils.sendNotification(this, channelId, "Open app", "this is notification display from app", null, true);
+            }
+            else if (destination.getId()==R.id.leaveListFragment2||destination.getId()==R.id.addModifyLeaveFragment2){
+                getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
+                actionBar.setTitle(R.string.activity_leave_list);
+            }else if (destination.getId()==R.id.overtimeListFragment||destination.getId()==R.id.addOverTimeFragment){
+                getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
+                actionBar.setTitle(R.string.activity_overtime);
+            }
+            else {
+                if (actionBar != null) {
+                    actionBar.setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
+                }
+            }
+        });
+
 
     }
 
     @Override
     protected void onDestroy() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                String channelId = getApplicationContext().getString(R.string.notification_channel_id_default);
-//                NotificationUtils.sendNotification(MainActivity.this, channelId, "Exit app", "this is notification display from app", null, true);
-//            }
-//        }, 3000);
         super.onDestroy();
     }
 

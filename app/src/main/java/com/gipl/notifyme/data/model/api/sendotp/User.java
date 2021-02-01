@@ -33,10 +33,12 @@ public class User implements Parcelable {
     @SerializedName("sPlant")
     @Expose
     private String plant;
+    @SerializedName("suidPlant")
+    @Expose
+    private String suidPlant;
     @SerializedName("sGender")
     @Expose
     private String gender;
-
     public User(String empId, String mobileNumber, String name) {
         this.empId = empId;
         this.mobileNumber = mobileNumber;
@@ -49,6 +51,11 @@ public class User implements Parcelable {
         name = in.readString();
         plant = in.readString();
         gender = in.readString();
+        suidPlant = in.readString();
+    }
+
+    public String getSuidPlant() {
+        return suidPlant;
     }
 
     public String getSuidUser() {
@@ -99,5 +106,6 @@ public class User implements Parcelable {
         dest.writeString(name);
         dest.writeString(plant);
         dest.writeString(gender);
+        dest.writeString(suidPlant);
     }
 }
