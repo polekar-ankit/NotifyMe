@@ -48,7 +48,6 @@ public class AddOverTimeViewModel extends BaseViewModel {
     }
 
     public void addOverTime(String dtOverTime) {
-        getResponseMutableLiveData().postValue(Response.loading());
         try {
             if (otReason.get().isEmpty()) {
                 otReasonError.set(getDataManager().getContext().getString(R.string.error_ot_reason_empty));
@@ -84,6 +83,8 @@ public class AddOverTimeViewModel extends BaseViewModel {
             addOverTimeReq.setSuidUserAplicant(user.getSuidUser());
             addOverTimeReq.setsReason(otReason.get());
             addOverTimeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+
+            getResponseMutableLiveData().postValue(Response.loading());
 
             getCompositeDisposable().add(slipDomain.addOverTime(addOverTimeReq)
                     .subscribeOn(getSchedulerProvider().io())

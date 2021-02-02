@@ -75,4 +75,19 @@
     <string name="lbl_ot_hr">Over Time Hours</string>
     <string name="activity_overtime">Over Time</string>
     <string name="lbl_ot_intentive">Intensive Hours</string>
+    <string name="hint_ot_reason">"Over time reason "</string>
+    <string name="lbl_sch_from">Date From</string>
+    <string name="lbl_sch_from_shift">From Shift</string>
+    <string name="lbl_sch_to">Date To</string>
+    <string name="lbl_sch_to_shift">To Shift</string>
+    <string name="lbl_shift_change_reason">Shift Change Reason</string>
+    <string name="hint_shift_reason">Shift change reason</string>
+    <string name="btn_lbl_shift_change">Request For Shift Change</string>
+    <string name="msg_shift_changed">Shift changed request has been submited successfully</string>
+    <string name="lbl_scr_list_item">Change Shift From :</string>
+    <string name="lbl_to">To</string>
+    <string name="btn_home_lbl_shift_change">Shift Change</string>
+    <string name="activity_shift_change">Shift Change</string>
+    <string name="from_shift_not_select_error">Select your changing shift.</string>
+    <string name="to_shift_not_select_error">Select your new shift</string>
 </resources>

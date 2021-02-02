@@ -89,10 +89,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_missPunchListFragment));
-        getViewDataBinding().btnCheckOut.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
-        getViewDataBinding().btnApplyLeave.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2);
-        });
+        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
+        getViewDataBinding().btnApplyLeave.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2));
+
+        getViewDataBinding().btnShiftChange.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_shiftChangeListFragment));
     }
 
 

@@ -40,6 +40,8 @@ public final class ApiEndPoint {
     static final String GET_MISSPUNCH_SLIP = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/MissPunch/GetMissPunchList";
     static final String ADD_OVER_TIME = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/OverTime/AddOrModifyOverTime";
     static final String GET_OVER_TIME_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/OverTime/GetOverTimeList";
+    static final String SHIFT_CHANGE_REQUEST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/ShiftChangeReq/AddOrModifyShiftChangeReq";
+    static final String GET_SHIFT_CHANGE_REQUEST_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/ShiftChangeReq/GetAllShiftChangeReqs";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

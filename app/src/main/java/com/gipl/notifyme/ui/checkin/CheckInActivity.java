@@ -110,7 +110,7 @@ public class CheckInActivity extends BaseActivity<ActivityCheckInBinding, CheckI
                 break;
             case ERROR:
                 hideLoading();
-                DialogUtility.showToast(this, ErrorMessageFactory.create(this, (Exception) response.error));
+                DialogUtility.showSnackbar(getViewDataBinding().getRoot(), ErrorMessageFactory.create(this, (Exception) response.error));
                 break;
         }
     }

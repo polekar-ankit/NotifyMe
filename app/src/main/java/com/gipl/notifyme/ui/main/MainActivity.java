@@ -103,6 +103,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }else if (destination.getId()==R.id.overtimeListFragment||destination.getId()==R.id.addOverTimeFragment){
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_overtime);
+            }else if (destination.getId()==R.id.shiftChangeFragment||destination.getId()==R.id.shiftChangeListFragment){
+                getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
+                actionBar.setTitle(R.string.activity_shift_change);
             }
             else {
                 if (actionBar != null) {

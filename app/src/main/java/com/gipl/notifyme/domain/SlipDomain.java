@@ -16,6 +16,11 @@ import com.gipl.notifyme.data.model.api.overtimelist.OverTimeListRsp;
 import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
 import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.User;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeReq;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
+import com.gipl.notifyme.data.model.api.shiftchangelist.Scr;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import io.reactivex.Single;
@@ -30,7 +35,7 @@ public class SlipDomain extends UseCase {
     public Single<AddPunchingSlipRsp> addPunchingSlip(AddPunchingSlipReq req) {
         req.setSuidSession(dataManager.getSession());
         User user = dataManager.getUserObj();
-        req.setSuidShift(user.getSuidUser());
+//        req.setSuidShift(user.getSuidUser());
         req.setSuidEmployee(user.getSuidUser());
         req.setEmpCode(dataManager.getEmpCode());
         req.setSuidUserAplicant(user.getSuidUser());
@@ -92,6 +97,35 @@ public class SlipDomain extends UseCase {
                 }
             }
             return rsp;
+        });
+    }
+
+    public Single<ShiftChangeRsp> addShiftChange(ShiftChangeReq req) {
+        return dataManager.shiftChangeRequest(req);
+    }
+    public Single<ShiftChangeListRsp>getShiftChangeList(ShiftChangeListReq req){
+        return dataManager.getShiftChangeList(req).map(new Function<ShiftChangeListRsp, ShiftChangeListRsp>() {
+            @Override
+            public ShiftChangeListRsp apply(@NonNull ShiftChangeListRsp rsp) throws Exception {
+                if (rsp.getScr() == null)
+                    return rsp;
+
+                StatusType statusType = dataManager.getUtility().getStatusType();
+                for (Scr scr :
+                        rsp.getScr()) {
+                    if (scr.getStatus() == statusType.getBITVERIFIED()) {
+                        scr.setColor(Color.parseColor("#43A047"));
+                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
+                    } else if (scr.getStatus() == statusType.getBITDELETED()) {
+                        scr.setColor(Color.parseColor("#E53935"));
+                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                    } else if (scr.getStatus() == statusType.getBITACTIVE()) {
+                        scr.setColor(Color.parseColor("#FB8C00"));
+                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
+                    }
+                }
+                return rsp;
+            }
         });
     }
 }

@@ -34,6 +34,8 @@ import com.gipl.notifyme.ui.otlist.OvertimeListFragmentProvider;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyModule;
 import com.gipl.notifyme.ui.punchingslip.PunchingSlipFragmentProvider;
+import com.gipl.notifyme.ui.shiftchange.ShiftChangeFragmentProvider;
+import com.gipl.notifyme.ui.shiftchangelist.ShiftChangeListFragmentProvider;
 import com.gipl.notifyme.ui.splashscreen.SplashScreenActivity;
 import com.gipl.notifyme.ui.splashscreen.SplashScreenModule;
 import com.gipl.notifyme.ui.videoplayer.PlayerActivity;
@@ -69,7 +71,9 @@ public abstract class ActivityBuilder {
             LeaveListFragmentProvider.class,
             AddModifyLeaveFragmentProvider.class,
             OvertimeListFragmentProvider.class,
-            AddOverTimeFragmentProvider.class
+            AddOverTimeFragmentProvider.class,
+            ShiftChangeListFragmentProvider.class,
+            ShiftChangeFragmentProvider.class
     })
     abstract MainActivity provideMainActivity();
 

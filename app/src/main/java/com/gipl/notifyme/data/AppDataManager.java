@@ -36,6 +36,10 @@ import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
 import com.gipl.notifyme.data.model.api.sendotp.User;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeReq;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.data.model.db.TNotification;
@@ -144,6 +148,16 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<OverTimeListRsp> getOvertimeList(OverTimeListReq req) {
         return mApiHelper.getOvertimeList(req);
+    }
+
+    @Override
+    public Single<ShiftChangeRsp> shiftChangeRequest(ShiftChangeReq req) {
+        return mApiHelper.shiftChangeRequest(req);
+    }
+
+    @Override
+    public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
+        return mApiHelper.getShiftChangeList(req);
     }
 
     @Override

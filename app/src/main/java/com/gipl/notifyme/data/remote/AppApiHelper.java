@@ -43,6 +43,10 @@ import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
 import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipRsp;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeReq;
+import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
+import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.google.gson.Gson;
@@ -192,5 +196,23 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(OverTimeListRsp.class);
+    }
+
+    @Override
+    public Single<ShiftChangeRsp> shiftChangeRequest(ShiftChangeReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.SHIFT_CHANGE_REQUEST)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(ShiftChangeRsp.class);
+    }
+
+    @Override
+    public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.SHIFT_CHANGE_REQUEST)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(ShiftChangeListRsp.class);
     }
 }

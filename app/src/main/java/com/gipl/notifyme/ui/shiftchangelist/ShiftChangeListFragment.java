@@ -1,4 +1,4 @@
-package com.gipl.notifyme.ui.misspunchlist;
+package com.gipl.notifyme.ui.shiftchangelist;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,36 +10,35 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
-import com.gipl.notifyme.data.model.api.mispunchlist.LiMissPunch;
-import com.gipl.notifyme.databinding.FragmentMissPunchListBinding;
+import com.gipl.notifyme.data.model.api.shiftchangelist.Scr;
+import com.gipl.notifyme.databinding.FragmentShiftChangeListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
-import com.gipl.notifyme.ui.misspunchlist.adapter.MissPunchListAdapter;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.ui.shiftchangelist.adapter.ShiftChangeListAdapter;
 import com.gipl.notifyme.uility.DialogUtility;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
-public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBinding, MissPunchListViewModel> {
+public class ShiftChangeListFragment extends BaseFragment<FragmentShiftChangeListBinding, ShiftChangeListViewModel> {
     @Inject
-    MissPunchListViewModel viewModel;
-    private MissPunchListAdapter missPunchListAdapter;
+    ShiftChangeListViewModel viewModel;
+    private ShiftChangeListAdapter shiftChangeListAdapter;
 
     @Override
     public int getBindingVariable() {
-        return BR.list;
+        return BR.shiftChange;
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_miss_punch_list;
+        return R.layout.fragment_shift_change_list;
     }
 
     @Override
-    public MissPunchListViewModel getViewModel() {
+    public ShiftChangeListViewModel getViewModel() {
         return viewModel;
     }
 
@@ -49,6 +48,18 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        shiftChangeListAdapter = new ShiftChangeListAdapter();
+        getViewDataBinding().rvScr.setLayoutManager(new LinearLayoutManager(requireContext()));
+        getViewDataBinding().rvScr.setAdapter(shiftChangeListAdapter);
+
+        getViewDataBinding().fabAdd.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_shiftChangeListFragment_to_shiftChangeFragment));
+
+    }
+
     private void processResponse(Response response) {
         switch (response.status) {
             case LOADING:
@@ -56,8 +67,7 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
                 break;
             case SUCCESS:
                 hideLoading();
-                List<LiMissPunch> liMissPunchList = (List<LiMissPunch>) response.data;
-                missPunchListAdapter.addItems((ArrayList<LiMissPunch>) liMissPunchList);
+                shiftChangeListAdapter.addItems((ArrayList<Scr>) response.data);
                 break;
             case ERROR:
                 hideLoading();
@@ -66,18 +76,5 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
                 }
                 break;
         }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        missPunchListAdapter = new MissPunchListAdapter();
-        getViewDataBinding().rvMissPunch.setLayoutManager(new LinearLayoutManager(requireContext()));
-        getViewDataBinding().rvMissPunch.setAdapter(missPunchListAdapter);
-
-        viewModel.getMissPunchList();
-
-        getViewDataBinding().fabAdd.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment));
     }
 }

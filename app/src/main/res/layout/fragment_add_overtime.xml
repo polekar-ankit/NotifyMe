@@ -122,12 +122,10 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:drawablePadding="@dimen/_10sdp"
                 android:fontFamily="@font/proxima_nova_regular"
-                android:hint="@string/hint_employee_id"
+                android:hint="@string/hint_ot_reason"
                 android:imeOptions="actionDone"
                 android:inputType="textMultiLine"
-                android:minLines="3"
                 android:paddingVertical="@dimen/_10sdp"
-                android:singleLine="true"
                 android:text="@={overtime.otReason}"
                 android:textColor="@color/colorPrimary" />
 

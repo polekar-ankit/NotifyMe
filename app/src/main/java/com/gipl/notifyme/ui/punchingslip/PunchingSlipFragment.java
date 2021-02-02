@@ -64,12 +64,12 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
                 showLoading();
                 break;
             case SUCCESS:
-                DialogUtility.showToast(requireContext(),getString(R.string.msg_punching_slip_created));
+                DialogUtility.showToast(requireContext(), getString(R.string.msg_punching_slip_created));
                 getBaseActivity().onBackPressed();
                 break;
             case ERROR:
                 if (response.error != null) {
-                    DialogUtility.showToast(requireContext(), ErrorMessageFactory.create(requireContext(), (Exception) response.error));
+                    DialogUtility.showSnackbar(getViewDataBinding().getRoot(), ErrorMessageFactory.create(requireContext(), (Exception) response.error));
                 }
                 break;
         }
@@ -152,10 +152,11 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         });
 
         getViewDataBinding().btnApply.setOnClickListener(v -> {
-
+            Shifts shifts = (Shifts) getViewDataBinding().spinner.getSelectedItem();
             punchingSlipViewModel.addPunchingSlip(getViewDataBinding().tvInTime.getText().toString(),
                     getViewDataBinding().tvOutTime.getText().toString(),
-                    getViewDataBinding().tvFrom.getText().toString());
+                    getViewDataBinding().tvFrom.getText().toString(),
+                    shifts.getSuidShift());
         });
     }
 

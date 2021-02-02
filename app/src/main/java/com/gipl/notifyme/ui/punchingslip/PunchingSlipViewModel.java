@@ -3,6 +3,7 @@ package com.gipl.notifyme.ui.punchingslip;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 
+import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
@@ -47,12 +48,19 @@ public class PunchingSlipViewModel extends BaseViewModel {
         shiftLiveData.postValue((ArrayList<Shifts>) getDataManager().getShiftList());
     }
 
-    public void addPunchingSlip(String inTime, String outTime, String slipDate) {
+    public void addPunchingSlip(String inTime, String outTime, String slipDate,String suidShift) {
         try {
+            shiftError.set("");
+            if (suidShift == null) {
+                shiftError.set(getDataManager().getContext().getString(R.string.shift_not_select_error));
+                return;
+            }
+
             AddPunchingSlipReq req = new AddPunchingSlipReq();
             req.setDtMissPunch(TimeUtility.convertDisplayDateToApi(slipDate));
             req.setInTime(inTime);
             req.setOutTime(outTime);
+            req.setSuidShift(suidShift);
             getResponseMutableLiveData().postValue(Response.loading());
             getCompositeDisposable().add(slipDomain.addPunchingSlip(req)
                     .subscribeOn(getSchedulerProvider().io())

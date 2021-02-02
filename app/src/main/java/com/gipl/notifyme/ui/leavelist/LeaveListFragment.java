@@ -60,7 +60,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding,Lea
             case ERROR:
                 hideLoading();
                 if (response.error != null) {
-                    DialogUtility.showToast(requireContext(), ErrorMessageFactory.create(requireContext(), (Exception) response.error));
+                    DialogUtility.showSnackbar(getViewDataBinding().getRoot(), ErrorMessageFactory.create(requireContext(), (Exception) response.error));
                 }
                 break;
         }
