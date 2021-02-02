@@ -19,6 +19,8 @@ package com.gipl.notifyme.data.remote;
 
 import com.androidnetworking.BuildConfig;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gipl.notifyme.data.model.api.addco.AddCoReq;
+import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
@@ -209,10 +211,19 @@ public class AppApiHelper implements ApiHelper {
 
     @Override
     public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
-        return Rx2AndroidNetworking.post(ApiEndPoint.SHIFT_CHANGE_REQUEST)
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_SHIFT_CHANGE_REQUEST_LIST)
                 .addBodyParameter(req)
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(ShiftChangeListRsp.class);
+    }
+
+    @Override
+    public Single<AddCoRsp> addCo(AddCoReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.ADD_CO)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(AddCoRsp.class);
     }
 }

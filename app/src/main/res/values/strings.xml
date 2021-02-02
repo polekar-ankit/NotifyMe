@@ -90,4 +90,8 @@
     <string name="activity_shift_change">Shift Change</string>
     <string name="from_shift_not_select_error">Select your changing shift.</string>
     <string name="to_shift_not_select_error">Select your new shift</string>
+    <string name="lbl_co_date">CO Date</string>
+    <string name="lbl_co_for">CO For</string>
+    <string name="btn_lbl_add_co">Add CO</string>
+    <string name="msg_co_added">CO has been added successfully</string>
 </resources>

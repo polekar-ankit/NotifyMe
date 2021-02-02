@@ -8,6 +8,8 @@ import androidx.room.Room;
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.local.db.NotifyMeDatabase;
 import com.gipl.notifyme.data.local.prefs.PreferencesHelper;
+import com.gipl.notifyme.data.model.api.addco.AddCoReq;
+import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
@@ -158,6 +160,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
         return mApiHelper.getShiftChangeList(req);
+    }
+
+    @Override
+    public Single<AddCoRsp> addCo(AddCoReq req) {
+        return mApiHelper.addCo(req);
     }
 
     @Override

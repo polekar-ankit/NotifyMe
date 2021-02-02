@@ -130,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:drawableLeft="@drawable/ic_check_out"
+            android:drawableLeft="@drawable/ic_shift_change"
             android:text="@string/btn_home_lbl_shift_change"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

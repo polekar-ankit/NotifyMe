@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="addCo"
+            type="com.gipl.notifyme.ui.addco.AddCoViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/footer_img_height"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/bg_initial_footer" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/proxima_nova_regular"
+            android:text="@string/lbl_co_date"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_from"
+            style="@style/TextViewCalender"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="TextView"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/tv_co_for"
+            style="@style/lblEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/lbl_co_for"
+            app:layout_constraintStart_toStartOf="@+id/tv_from"
+            app:layout_constraintTop_toBottomOf="@id/tv_from" />
+
+        <Spinner
+            android:id="@+id/spinner_co_for"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_co_for"
+            app:layout_constraintTop_toBottomOf="@id/tv_co_for" />
+
+
+        <TextView
+            android:id="@+id/tv_co_reason"
+            style="@style/lblEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="@string/lbl_reason"
+            app:layout_constraintStart_toStartOf="@+id/tv_from"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_co_for" />
+
+        <Spinner
+            android:id="@+id/spinner_reason"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_co_for"
+            app:layout_constraintTop_toBottomOf="@+id/tv_co_reason" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editTextTextPersonName"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:ems="10"
+            android:hint="@string/lbl_reason"
+            android:imeOptions="actionDone"
+            android:inputType="textPersonName"
+            android:singleLine="true"
+            android:text="@={addCo.reason}"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_reason"
+            app:layout_constraintStart_toStartOf="@+id/spinner_reason"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_reason" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/proxima_nova_alt_regular"
+            android:text="@{addCo.reasonError}"
+            android:textColor="@color/edit_text_error"
+            android:textSize="@dimen/edit_text_error"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_reason"
+            app:layout_constraintStart_toStartOf="@+id/spinner_reason"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+            tools:text="Wrong employee id" />
+
+        <Button
+            android:id="@+id/btn_add_co"
+            style="@style/buttonStyleBase"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_lbl_add_co"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

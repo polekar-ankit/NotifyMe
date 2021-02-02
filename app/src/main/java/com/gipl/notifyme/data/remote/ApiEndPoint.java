@@ -42,6 +42,7 @@ public final class ApiEndPoint {
     static final String GET_OVER_TIME_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/OverTime/GetOverTimeList";
     static final String SHIFT_CHANGE_REQUEST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/ShiftChangeReq/AddOrModifyShiftChangeReq";
     static final String GET_SHIFT_CHANGE_REQUEST_LIST = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/ShiftChangeReq/GetAllShiftChangeReqs";
+    static final String ADD_CO = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/COReq/AddOrModifyCO";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

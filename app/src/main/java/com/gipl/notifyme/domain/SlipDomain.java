@@ -4,6 +4,8 @@ import android.graphics.Color;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.model.api.addco.AddCoReq;
+import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.lib.utility.StatusType;
@@ -104,28 +106,29 @@ public class SlipDomain extends UseCase {
         return dataManager.shiftChangeRequest(req);
     }
     public Single<ShiftChangeListRsp>getShiftChangeList(ShiftChangeListReq req){
-        return dataManager.getShiftChangeList(req).map(new Function<ShiftChangeListRsp, ShiftChangeListRsp>() {
-            @Override
-            public ShiftChangeListRsp apply(@NonNull ShiftChangeListRsp rsp) throws Exception {
-                if (rsp.getScr() == null)
-                    return rsp;
-
-                StatusType statusType = dataManager.getUtility().getStatusType();
-                for (Scr scr :
-                        rsp.getScr()) {
-                    if (scr.getStatus() == statusType.getBITVERIFIED()) {
-                        scr.setColor(Color.parseColor("#43A047"));
-                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
-                    } else if (scr.getStatus() == statusType.getBITDELETED()) {
-                        scr.setColor(Color.parseColor("#E53935"));
-                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
-                    } else if (scr.getStatus() == statusType.getBITACTIVE()) {
-                        scr.setColor(Color.parseColor("#FB8C00"));
-                        scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
-                    }
-                }
+        return dataManager.getShiftChangeList(req).map(rsp -> {
+            if (rsp.getScr() == null)
                 return rsp;
+
+            StatusType statusType = dataManager.getUtility().getStatusType();
+            for (Scr scr :
+                    rsp.getScr()) {
+                if (scr.getStatus() == statusType.getBITVERIFIED()) {
+                    scr.setColor(Color.parseColor("#43A047"));
+                    scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
+                } else if (scr.getStatus() == statusType.getBITDELETED()) {
+                    scr.setColor(Color.parseColor("#E53935"));
+                    scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                } else if (scr.getStatus() == statusType.getBITACTIVE()) {
+                    scr.setColor(Color.parseColor("#FB8C00"));
+                    scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
+                }
             }
+            return rsp;
         });
+    }
+
+    public Single<AddCoRsp>addCo(AddCoReq req){
+        return dataManager.addCo(req);
     }
 }

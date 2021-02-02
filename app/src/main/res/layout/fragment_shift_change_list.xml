@@ -31,7 +31,7 @@
             android:clickable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_official_out"
+            app:srcCompat="@drawable/ic_shift_change"
             app:useCompatPadding="true"
             tools:layout_editor_absoluteX="253dp"
             tools:layout_editor_absoluteY="654dp" />

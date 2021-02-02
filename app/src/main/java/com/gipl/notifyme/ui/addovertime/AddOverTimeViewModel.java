@@ -49,6 +49,11 @@ public class AddOverTimeViewModel extends BaseViewModel {
 
     public void addOverTime(String dtOverTime) {
         try {
+
+            otReasonError.set("");
+            otHoursError.set("");
+
+
             if (otReason.get().isEmpty()) {
                 otReasonError.set(getDataManager().getContext().getString(R.string.error_ot_reason_empty));
             }
@@ -56,6 +61,7 @@ public class AddOverTimeViewModel extends BaseViewModel {
             if (otHours.get().isEmpty()) {
                 otHoursError.set(getDataManager().getContext().getString(R.string.error_ot_hr_empty));
             }
+
             double overTime = 0;
             double intesiveHrs = 0;
             try {
@@ -70,6 +76,10 @@ public class AddOverTimeViewModel extends BaseViewModel {
                 }
             } catch (Exception e) {
                 otHoursError.set(getDataManager().getContext().getString(R.string.error_ot_invalid_hr));
+            }
+
+            if (!otHoursError.get().isEmpty() || !otReasonError.get().isEmpty()) {
+                return;
             }
             AddOverTimeReq addOverTimeReq = new AddOverTimeReq();
             addOverTimeReq.setoTHrs(overTime);

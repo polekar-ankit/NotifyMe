@@ -16,6 +16,8 @@
 
 package com.gipl.notifyme.data.remote;
 
+import com.gipl.notifyme.data.model.api.addco.AddCoReq;
+import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
@@ -89,4 +91,7 @@ public interface ApiHelper {
     Single<ShiftChangeRsp> shiftChangeRequest(ShiftChangeReq req);
 
     Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req);
+
+    //CO
+    Single<AddCoRsp> addCo(AddCoReq req);
 }

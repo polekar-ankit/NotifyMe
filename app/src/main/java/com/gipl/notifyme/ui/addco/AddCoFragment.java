@@ -1,4 +1,4 @@
-package com.gipl.notifyme.ui.addovertime;
+package com.gipl.notifyme.ui.addco;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.lib.Utility;
-import com.gipl.notifyme.databinding.FragmentAddOvertimeBinding;
+import com.gipl.notifyme.databinding.FragmentAddCoBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.LeaveFor;
@@ -24,9 +24,11 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
-public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding, AddOverTimeViewModel> {
+public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewModel> {
+
     @Inject
-    AddOverTimeViewModel viewModel;
+    AddCoViewModel viewModel;
+
     DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, day) -> {
         getViewDataBinding().tvFrom.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
@@ -34,28 +36,29 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
 
     @Override
     public int getBindingVariable() {
-        return BR.overtime;
+        return BR.addCo;
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_add_overtime;
+        return R.layout.fragment_add_co;
     }
 
     @Override
-    public AddOverTimeViewModel getViewModel() {
+    public AddCoViewModel getViewModel() {
         return viewModel;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
+        viewModel.getResponseMutableLiveData().observe(this,this::processResponse);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setLeaveFor();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
@@ -72,7 +75,10 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                     dateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
-        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString()));
+        getViewDataBinding().btnAddCo.setOnClickListener(v->{
+            LeaveFor coFor = (LeaveFor) getViewDataBinding().spinnerCoFor.getSelectedItem();
+            viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(),coFor);
+        });
     }
 
     private void processResponse(Response response) {
@@ -82,7 +88,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                 break;
             case SUCCESS:
                 hideLoading();
-                DialogUtility.showToast(requireContext(), getString(R.string.msg_ot_added));
+                DialogUtility.showToast(requireContext(), getString(R.string.msg_co_added));
                 getBaseActivity().onBackPressed();
                 break;
             case ERROR:
@@ -94,4 +100,14 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         }
     }
 
+    private void setLeaveFor() {
+        ArrayList<LeaveFor> forArrayList = new ArrayList<>();
+        forArrayList.add(new LeaveFor("Select", -1));
+        Utility utility = viewModel.getDataManager().getUtility();
+        forArrayList.add(new LeaveFor("Full Day", utility.getLeaveFor().getBitFullDay()));
+        forArrayList.add(new LeaveFor("First Half Day", utility.getLeaveFor().getBitFirstHalfDay()));
+        forArrayList.add(new LeaveFor("Second Half Day", utility.getLeaveFor().getBitSecondHalfDay()));
+        ArrayAdapter<LeaveFor> leaveForArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
+        getViewDataBinding().spinnerCoFor.setAdapter(leaveForArrayAdapter);
+    }
 }
