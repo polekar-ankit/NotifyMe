@@ -63,51 +63,52 @@ public class ShiftChangeViewModel extends BaseViewModel {
     }
 
     public void addShiftChangedRequest(String dtFrom, String dtTo, String suidShiftFrom, String suidShiftTo) {
-        try {
-            User user = getDataManager().getUserObj();
+        User user = getDataManager().getUserObj();
 
-            shifToError.set("");
-            shiftFromError.set("");
+        shifToError.set("");
+        shiftFromError.set("");
+        reasonError.set("");
 
-            if (suidShiftFrom == null) {
-                shiftFromError.set(getDataManager().getContext().getString(R.string.from_shift_not_select_error));
-            }
-
-            if (suidShiftTo == null) {
-                shifToError.set(getDataManager().getContext().getString(R.string.to_shift_not_select_error));
-            }
-            if (!shiftFromError.get().isEmpty() || !shifToError.get().isEmpty()) {
-                return;
-            }
-
-            ShiftChangeReq changeReq = new ShiftChangeReq();
-            changeReq.setSuidSession(getDataManager().getSession());
-            changeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
-            changeReq.setDtShiftFrom(TimeUtility.convertDisplayDateToApi(dtFrom));
-            changeReq.setDtShiftTo(TimeUtility.convertDisplayDateToApi(dtTo));
-            changeReq.setsEmpCode(user.getEmpId());
-            changeReq.setSuidShiftFrom(suidShiftFrom);
-            changeReq.setSuidShiftTo(suidShiftTo);
-            changeReq.setSuidUserAplicant(user.getSuidUser());
-            changeReq.setSuidPlant(user.getSuidPlant());
-            changeReq.setSuidEmployee(user.getSuidUser());
-            changeReq.setsExtraInfo("");
-
-
-            getResponseMutableLiveData().postValue(Response.loading());
-
-            getCompositeDisposable().add(slipDomain.addShiftChange(changeReq)
-                    .subscribeOn(getSchedulerProvider().io())
-                    .observeOn(getSchedulerProvider().ui())
-                    .subscribe(rsp -> {
-                        if (rsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-                            getResponseMutableLiveData().postValue(Response.success(true));
-                        } else {
-                            getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(rsp.getApiError().getErrorMessage()))));
-                        }
-                    }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (suidShiftFrom == null) {
+            shiftFromError.set(getDataManager().getContext().getString(R.string.from_shift_not_select_error));
         }
+
+        if (suidShiftTo == null) {
+            shifToError.set(getDataManager().getContext().getString(R.string.to_shift_not_select_error));
+        }
+        if (reason.get().isEmpty()){
+            reasonError.set(getDataManager().getContext().getString(R.string.error_shift_reason_empty));
+        }
+        if (!shiftFromError.get().isEmpty() || !shifToError.get().isEmpty()||!reasonError.get().isEmpty()) {
+            return;
+        }
+
+        ShiftChangeReq changeReq = new ShiftChangeReq();
+        changeReq.setSuidSession(getDataManager().getSession());
+        changeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        changeReq.setDtShiftFrom(dtFrom);
+        changeReq.setDtShiftTo(dtTo);
+        changeReq.setsEmpCode(user.getEmpId());
+        changeReq.setSuidShiftFrom(suidShiftFrom);
+        changeReq.setSuidShiftTo(suidShiftTo);
+        changeReq.setSuidUserAplicant(user.getSuidEmployee());
+        changeReq.setSuidPlant(user.getSuidPlant());
+        changeReq.setSuidEmployee(user.getSuidEmployee());
+        changeReq.setReason(reason.get());
+        changeReq.setsExtraInfo("");
+
+
+        getResponseMutableLiveData().postValue(Response.loading());
+
+        getCompositeDisposable().add(slipDomain.addShiftChange(changeReq)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(rsp -> {
+                    if (rsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getResponseMutableLiveData().postValue(Response.success(true));
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(rsp.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 }

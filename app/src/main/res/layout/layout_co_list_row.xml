@@ -6,14 +6,16 @@
     <data>
 
         <variable
-            name="scr"
-            type="com.gipl.notifyme.data.model.api.shiftchangelist.Scr" />
+            name="co"
+            type="com.gipl.notifyme.data.model.api.colist.CO" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_5sdp">
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,20 +27,17 @@
                 style="@style/TextSubTitleBold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{scr.statusDis}"
-                android:textColor="@{scr.statusColor}"
-                tools:text="Pending"
+                android:text="@{co.statusDis}"
+                android:textColor="@{co.color}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView14"
                 style="@style/TextPrimaryBold"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:text="@{scr.dtShiftFrom+` `+@string/lbl_to+` `+scr.dtShiftTo}"
-                app:layout_constraintEnd_toStartOf="@+id/textView17"
+                android:text="@{co.dtCO}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="12-Jan-2020" />
@@ -49,22 +48,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:text="@{@string/lbl_scr_list_item+` `+scr.shiftFrom+` `+@string/lbl_to+` `+scr.shiftTo}"
+                android:text="@{@string/lbl_add_co_for+` : `+co.lblCOFor}"
                 app:layout_constraintStart_toStartOf="@+id/textView14"
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
-                tools:text="@string/lbl_scr_list_item" />
+                tools:text="@string/lbl_add_co_for" />
 
             <TextView
-                android:id="@+id/textView18"
+                android:id="@+id/textView19"
                 style="@style/TextSubTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="@{scr.reason}"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{co.reason}"
                 app:layout_constraintStart_toStartOf="@+id/textView15"
                 app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

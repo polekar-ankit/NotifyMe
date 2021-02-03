@@ -40,37 +40,32 @@ public class AddCoViewModel extends BaseViewModel {
     }
 
     public void addCo(String coDate, LeaveFor coFor){
-        try {
-            if (coFor.getSuid()==-1){
-                return;
-            }
-            AddCoReq req = new AddCoReq();
-            req.setSuidSession(getDataManager().getSession());
-            req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
-            req.setsDtCO(TimeUtility.convertDisplayDateToApi(coDate));
-            User user = getDataManager().getUserObj();
-            req.setSuidEmployee(user.getSuidUser());
-            req.setSuidUserAplicant(user.getSuidUser());
-            req.setjCOFor(coFor.getSuid());
-            req.setsReason(reason.get());
-            req.setEmpCode(getDataManager().getEmpCode());
-
-            getCompositeDisposable().add(slipDomain.addCo(req)
-            .subscribeOn(getSchedulerProvider().io())
-                    .observeOn(getSchedulerProvider().ui())
-                    .subscribe(rsp -> {
-                        if (rsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-                            getResponseMutableLiveData().postValue(Response.success(true));
-                        } else {
-                            getResponseMutableLiveData().postValue(Response.success(new Exception(new CustomException(rsp.getApiError().getErrorMessage()))));
-                        }
-                    }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable)))
-            );
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            getResponseMutableLiveData().postValue(Response.error(e));
+        if (coFor.getSuid()==-1){
+            return;
         }
+        AddCoReq req = new AddCoReq();
+        req.setSuidSession(getDataManager().getSession());
+        req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        req.setsDtCO(coDate);
+        User user = getDataManager().getUserObj();
+        req.setSuidEmployee(user.getSuidEmployee());
+        req.setSuidUserAplicant(user.getSuidEmployee());
+        req.setjCOFor(coFor.getSuid());
+        req.setsReason(reason.get());
+        req.setEmpCode(getDataManager().getEmpCode());
+        getResponseMutableLiveData().postValue(Response.loading());
+        getCompositeDisposable().add(slipDomain.addCo(req)
+        .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(rsp -> {
+                    if (rsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getResponseMutableLiveData().postValue(Response.success(true));
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.success(new Exception(new CustomException(rsp.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable)))
+        );
+
     }
 
 

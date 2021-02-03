@@ -147,6 +147,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_shift_change" />
+        <Button
+            android:id="@+id/btn_add_co"
+            style="@style/meEmpButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/ic_add_co"
+            android:text="@string/btn_lbl_add_co"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
 
         <Button
             android:id="@+id/button6"
@@ -159,7 +170,7 @@
             android:text="@string/btn_lbl_attendance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_co" />
 
         <TextView
             android:id="@+id/textView6"

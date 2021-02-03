@@ -8,6 +8,11 @@ import com.gipl.notifyme.data.model.api.addco.AddCoReq;
 import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
+import com.gipl.notifyme.data.model.api.colist.CO;
+import com.gipl.notifyme.data.model.api.colist.CoListReq;
+import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.lib.Utility;
+import com.gipl.notifyme.data.model.api.lib.utility.LeaveFor;
 import com.gipl.notifyme.data.model.api.lib.utility.StatusType;
 import com.gipl.notifyme.data.model.api.mispunchlist.LiMissPunch;
 import com.gipl.notifyme.data.model.api.mispunchlist.MissPunchListReq;
@@ -38,9 +43,9 @@ public class SlipDomain extends UseCase {
         req.setSuidSession(dataManager.getSession());
         User user = dataManager.getUserObj();
 //        req.setSuidShift(user.getSuidUser());
-        req.setSuidEmployee(user.getSuidUser());
+        req.setSuidEmployee(user.getSuidEmployee());
         req.setEmpCode(dataManager.getEmpCode());
-        req.setSuidUserAplicant(user.getSuidUser());
+        req.setSuidUserAplicant(user.getSuidEmployee());
         req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         req.setsExtraInfo("");
         return dataManager.addPunchingSlip(req);
@@ -130,5 +135,36 @@ public class SlipDomain extends UseCase {
 
     public Single<AddCoRsp>addCo(AddCoReq req){
         return dataManager.addCo(req);
+    }
+
+    public Single<CoListRsp>getCoList(CoListReq req){
+        return dataManager.getCoList(req).map(rsp -> {
+            if (rsp.getCO()==null)
+                return rsp;
+            StatusType statusType = dataManager.getUtility().getStatusType();
+            LeaveFor leaveFor = dataManager.getUtility().getLeaveFor();
+            for (CO co:
+                 rsp.getCO()) {
+                if (co.getStatus() == statusType.getBITVERIFIED()) {
+                    co.setColor(Color.parseColor("#43A047"));
+                    co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
+                } else if (co.getStatus() == statusType.getBITDELETED()) {
+                    co.setColor(Color.parseColor("#E53935"));
+                    co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                } else if (co.getStatus() == statusType.getBITACTIVE()) {
+                    co.setColor(Color.parseColor("#FB8C00"));
+                    co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
+                }
+                if (co.getCOFor()==leaveFor.getBitFirstHalfDay()){
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_half_day));
+                }
+                else if(co.getCOFor()==leaveFor.getBitFullDay()){
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_full_day));
+                }else if(co.getCOFor()==leaveFor.getBitSecondHalfDay()){
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_second_half));
+                }
+            }
+            return rsp;
+        });
     }
 }

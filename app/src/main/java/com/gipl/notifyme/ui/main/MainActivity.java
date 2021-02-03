@@ -106,6 +106,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }else if (destination.getId()==R.id.shiftChangeFragment||destination.getId()==R.id.shiftChangeListFragment){
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_shift_change);
+            }else if (destination.getId()==R.id.coListFragment||destination.getId()==R.id.addCoFragment){
+                getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
+                actionBar.setTitle(R.string.activity_co);
             }
             else {
                 if (actionBar != null) {

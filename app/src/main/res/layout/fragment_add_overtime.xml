@@ -114,6 +114,16 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="@string/lbl_overtime_reason" />
 
+            <Spinner
+                android:id="@+id/spinner_reason"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_co_for"
+                app:layout_constraintTop_toBottomOf="@+id/tv_co_reason" />
+
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/tiet_overtime_reason"
                 style="@style/Widget.AppCompat.EditText"

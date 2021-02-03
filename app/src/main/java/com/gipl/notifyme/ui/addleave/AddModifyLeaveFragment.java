@@ -121,7 +121,8 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getViewDataBinding().cvAttachment.setVisibility(View.GONE);
-        setLeaveFor();
+        setLeaveForFrom();
+        setLeaveForTo();
         addModifyLeaveViewModel.getLeaveList();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
@@ -156,7 +157,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         getViewDataBinding().btnApply.setOnClickListener(v -> {
             LeaveFor leaveFor = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
             LeaveApproval leaveApproval = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
-
+            hideKeyboard();
             addModifyLeaveViewModel.addModifyLeave(getViewDataBinding().tvFrom.getText().toString(),
                     getViewDataBinding().tvTo.getText().toString(), leaveFor, leaveApproval);
         });
@@ -249,14 +250,27 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
     }
 
 
-    private void setLeaveFor() {
+    private void setLeaveForFrom() {
         ArrayList<LeaveFor> forArrayList = new ArrayList<>();
         forArrayList.add(new LeaveFor("Select", -1));
         Utility utility = addModifyLeaveViewModel.getDataManager().getUtility();
-        forArrayList.add(new LeaveFor("Full Day", utility.getLeaveFor().getBitFullDay()));
-        forArrayList.add(new LeaveFor("First Half Day", utility.getLeaveFor().getBitFirstHalfDay()));
-        forArrayList.add(new LeaveFor("Second Half Day", utility.getLeaveFor().getBitSecondHalfDay()));
-        ArrayAdapter<LeaveFor> leaveForArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
-        getViewDataBinding().spinnerLeaveFor.setAdapter(leaveForArrayAdapter);
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_second_half), utility.getLeaveFor().getBitSecondHalfDay()));
+        ArrayAdapter<LeaveFor> leaveForFromArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
+        getViewDataBinding().spinnerLeaveFor.setAdapter(leaveForFromArrayAdapter);
+
+    }
+
+    //here we added seprate  adapter to to spinner bocoz to spinner dont have second half option
+    private void setLeaveForTo() {
+        ArrayList<LeaveFor> forArrayList = new ArrayList<>();
+        forArrayList.add(new LeaveFor("Select", -1));
+        Utility utility = addModifyLeaveViewModel.getDataManager().getUtility();
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_half_day), utility.getLeaveFor().getBitFirstHalfDay()));
+        ArrayAdapter<LeaveFor> leaveForToArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
+        getViewDataBinding().spinnerLeaveForTo.setAdapter(leaveForToArrayAdapter);
+
+
     }
 }

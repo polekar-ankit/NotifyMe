@@ -72,7 +72,10 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                     dateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
-        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString()));
+        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> {
+            hideKeyboard();
+            viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString());
+        });
     }
 
     private void processResponse(Response response) {

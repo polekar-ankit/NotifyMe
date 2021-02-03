@@ -76,6 +76,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewMo
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
         getViewDataBinding().btnAddCo.setOnClickListener(v->{
+            hideKeyboard();
             LeaveFor coFor = (LeaveFor) getViewDataBinding().spinnerCoFor.getSelectedItem();
             viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(),coFor);
         });
@@ -104,9 +105,9 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewMo
         ArrayList<LeaveFor> forArrayList = new ArrayList<>();
         forArrayList.add(new LeaveFor("Select", -1));
         Utility utility = viewModel.getDataManager().getUtility();
-        forArrayList.add(new LeaveFor("Full Day", utility.getLeaveFor().getBitFullDay()));
-        forArrayList.add(new LeaveFor("First Half Day", utility.getLeaveFor().getBitFirstHalfDay()));
-        forArrayList.add(new LeaveFor("Second Half Day", utility.getLeaveFor().getBitSecondHalfDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_co_half_day), utility.getLeaveFor().getBitFirstHalfDay()));
+//        forArrayList.add(new LeaveFor(getString(R.string.lbl_second_half), utility.getLeaveFor().getBitSecondHalfDay()));
         ArrayAdapter<LeaveFor> leaveForArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
         getViewDataBinding().spinnerCoFor.setAdapter(leaveForArrayAdapter);
     }

@@ -64,10 +64,12 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
                 showLoading();
                 break;
             case SUCCESS:
+                hideLoading();
                 DialogUtility.showToast(requireContext(), getString(R.string.msg_punching_slip_created));
                 getBaseActivity().onBackPressed();
                 break;
             case ERROR:
+                hideLoading();
                 if (response.error != null) {
                     DialogUtility.showSnackbar(getViewDataBinding().getRoot(), ErrorMessageFactory.create(requireContext(), (Exception) response.error));
                 }

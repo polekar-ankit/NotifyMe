@@ -183,6 +183,16 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:text="@string/lbl_shift_change_reason" />
 
+                    <Spinner
+                        android:id="@+id/spinner_reason"
+                        style="@style/Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tv_co_for"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_co_reason" />
+
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/tiet_overtime_reason"
                         style="@style/Widget.AppCompat.EditText"
@@ -190,6 +200,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/colorPrimary"
                         android:drawablePadding="@dimen/_10sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:hint="@string/hint_shift_reason"
                         android:imeOptions="actionDone"

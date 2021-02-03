@@ -80,8 +80,8 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
             calMin.set(Calendar.DAY_OF_MONTH, 1);
 
             Calendar calMax = Calendar.getInstance();
-            calMax.set(Calendar.MONTH, calMin.get(Calendar.MONTH) + 1);
-//            calMax.set(Calendar.DAY_OF_MONTH, calMax.get());
+            calMax.set(Calendar.MONTH, calMax.get(Calendar.MONTH) + 1);
+            calMax.set(Calendar.DAY_OF_MONTH, calMax.getActualMaximum(Calendar.DATE));
             if (datePickerDialog != null)
                 datePickerDialog.dismiss();
 
@@ -113,6 +113,7 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
         getViewDataBinding().btnAddShiftChange.setOnClickListener(v -> {
             Shifts shiftFrom = (Shifts) getViewDataBinding().spinner.getSelectedItem();
             Shifts shiftTo = (Shifts) getViewDataBinding().spinnerTo.getSelectedItem();
+            hideKeyboard();
             viewModel.addShiftChangedRequest(getViewDataBinding().tvFrom.getText().toString(),
                     getViewDataBinding().tvTo.getText().toString(),
                     shiftFrom.getSuidShift(),

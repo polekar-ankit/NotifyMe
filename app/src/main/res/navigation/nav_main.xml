@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_nav_user_to_shiftChangeListFragment"
             app:destination="@id/shiftChangeListFragment" />
+        <action
+            android:id="@+id/action_nav_user_to_coListFragment"
+            app:destination="@id/coListFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_notification"
@@ -86,4 +89,18 @@
         tools:layout="@layout/fragment_shift_change"
         android:name="com.gipl.notifyme.ui.shiftchange.ShiftChangeFragment"
         android:label="ShiftChangeFragment" />
+    <fragment
+        android:id="@+id/coListFragment"
+        tools:layout="@layout/fragment_co_list"
+        android:name="com.gipl.notifyme.ui.colist.CoListFragment"
+        android:label="CoListFragment" >
+        <action
+            android:id="@+id/action_coListFragment_to_addCoFragment"
+            app:destination="@id/addCoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addCoFragment"
+        tools:layout="@layout/fragment_add_co"
+        android:name="com.gipl.notifyme.ui.addco.AddCoFragment"
+        android:label="AddCoFragment" />
 </navigation>

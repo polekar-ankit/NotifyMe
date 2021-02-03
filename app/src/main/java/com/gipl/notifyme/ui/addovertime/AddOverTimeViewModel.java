@@ -89,8 +89,8 @@ public class AddOverTimeViewModel extends BaseViewModel {
             addOverTimeReq.setEmpCode(getDataManager().getEmpCode());
             User user = getDataManager().getUserObj();
             addOverTimeReq.setSuidPlant(user.getSuidPlant());
-            addOverTimeReq.setSuidEmployee(user.getSuidUser());
-            addOverTimeReq.setSuidUserAplicant(user.getSuidUser());
+            addOverTimeReq.setSuidEmployee(user.getSuidEmployee());
+            addOverTimeReq.setSuidUserAplicant(user.getSuidEmployee());
             addOverTimeReq.setsReason(otReason.get());
             addOverTimeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
 

@@ -24,12 +24,32 @@ import io.reactivex.functions.Consumer;
 public class PunchingSlipViewModel extends BaseViewModel {
     private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
     private ObservableField<String> shiftError = new ObservableField<>("");
+    private ObservableField<String> inTimeError = new ObservableField<>("");
+    private ObservableField<String> outTimeError = new ObservableField<>("");
+    private ObservableField<String> reason = new ObservableField<>();
+    private ObservableField<String> reasonError = new ObservableField<>();
     private SlipDomain slipDomain;
 
     public PunchingSlipViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         slipDomain = new SlipDomain(dataManager);
         getShiftData();
+    }
+
+    public ObservableField<String> getReason() {
+        return reason;
+    }
+
+    public ObservableField<String> getReasonError() {
+        return reasonError;
+    }
+
+    public ObservableField<String> getInTimeError() {
+        return inTimeError;
+    }
+
+    public ObservableField<String> getOutTimeError() {
+        return outTimeError;
     }
 
     public MutableLiveData<ArrayList<Shifts>> getShiftLiveData() {
@@ -48,11 +68,24 @@ public class PunchingSlipViewModel extends BaseViewModel {
         shiftLiveData.postValue((ArrayList<Shifts>) getDataManager().getShiftList());
     }
 
-    public void addPunchingSlip(String inTime, String outTime, String slipDate,String suidShift) {
+    public void addPunchingSlip(String inTime, String outTime, String slipDate, String suidShift) {
         try {
             shiftError.set("");
+            inTimeError.set("");
+            outTimeError.set("");
+            reasonError.set("");
             if (suidShift == null) {
                 shiftError.set(getDataManager().getContext().getString(R.string.shift_not_select_error));
+            }
+            if (inTime.isEmpty() && outTime.isEmpty()) {
+                inTimeError.set(getDataManager().getContext().getString(R.string.error_in_time));
+                outTimeError.set(getDataManager().getContext().getString(R.string.error_out_time));
+            }
+            if (reason.get().isEmpty()){
+                reasonError.set(getDataManager().getContext().getString(R.string.error_mispunch_reason_empty));
+            }
+            if (!shiftError.get().isEmpty() || !inTimeError.get().isEmpty()
+                    || !outTimeError.get().isEmpty()||!reasonError.get().isEmpty()) {
                 return;
             }
 
@@ -61,6 +94,7 @@ public class PunchingSlipViewModel extends BaseViewModel {
             req.setInTime(inTime);
             req.setOutTime(outTime);
             req.setSuidShift(suidShift);
+            req.setsReason(reason.get());
             getResponseMutableLiveData().postValue(Response.loading());
             getCompositeDisposable().add(slipDomain.addPunchingSlip(req)
                     .subscribeOn(getSchedulerProvider().io())

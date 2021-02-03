@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class AddCoReq extends BaseReq {
     @SerializedName("suidCO")
     @Expose
-    private String suidCO;
+    private String suidCO="";
 
     @SerializedName("sEmpCode")
     @Expose
@@ -23,7 +23,7 @@ public class AddCoReq extends BaseReq {
 
     @SerializedName("rHours")
     @Expose
-    private double rHours=0;
+    private int rHours=0;
 
     @SerializedName("jCOFor")
     @Expose
@@ -39,7 +39,7 @@ public class AddCoReq extends BaseReq {
 
     @SerializedName("sExtraInfo")
     @Expose
-    private String sExtraInfo;
+    private String sExtraInfo="";
 
     public void setSuidCO(String suidCO) {
         this.suidCO = suidCO;
@@ -57,7 +57,7 @@ public class AddCoReq extends BaseReq {
         this.sDtCO = sDtCO;
     }
 
-    public void setrHours(double rHours) {
+    public void setrHours(int rHours) {
         this.rHours = rHours;
     }
 

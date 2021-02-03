@@ -38,8 +38,15 @@ public class AddPunchingSlipReq extends BaseReq {
     @SerializedName("sExtraInfo")
     @Expose
     private String sExtraInfo;
+    @SerializedName("sReason")
+    @Expose
+    private String sReason;
 
     public AddPunchingSlipReq() {
+    }
+
+    public void setsReason(String sReason) {
+        this.sReason = sReason;
     }
 
     public void setsExtraInfo(String sExtraInfo) {

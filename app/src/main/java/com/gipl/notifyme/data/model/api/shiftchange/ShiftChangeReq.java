@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class ShiftChangeReq extends BaseReq {
     @SerializedName("suidSCR")
     @Expose
-    String suidSCR;
+    String suidSCR="";
 
     @SerializedName("sEmpCode")
     @Expose

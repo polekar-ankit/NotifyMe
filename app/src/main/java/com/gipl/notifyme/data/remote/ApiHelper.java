@@ -26,6 +26,8 @@ import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.colist.CoListReq;
+import com.gipl.notifyme.data.model.api.colist.CoListRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
@@ -94,4 +96,6 @@ public interface ApiHelper {
 
     //CO
     Single<AddCoRsp> addCo(AddCoReq req);
+
+    Single<CoListRsp> getCoList(CoListReq req);
 }

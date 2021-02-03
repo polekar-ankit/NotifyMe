@@ -29,6 +29,8 @@ import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.colist.CoListReq;
+import com.gipl.notifyme.data.model.api.colist.CoListRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
@@ -225,5 +227,14 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(AddCoRsp.class);
+    }
+
+    @Override
+    public Single<CoListRsp> getCoList(CoListReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_CO_LIST)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(CoListRsp.class);
     }
 }

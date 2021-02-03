@@ -93,6 +93,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         getViewDataBinding().btnApplyLeave.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2));
 
         getViewDataBinding().btnShiftChange.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_shiftChangeListFragment));
+        getViewDataBinding().btnAddCo.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_coListFragment));
     }
 
 
