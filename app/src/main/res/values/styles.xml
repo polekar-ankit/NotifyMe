@@ -135,7 +135,6 @@
         <item name="android:textColor">@xml/color_time</item>
         <item name="android:gravity">center</item>
         <item name="drawableStartCompat">@drawable/ic_time_clock_with_state</item>
-        <item name="drawableTint">@color/colorTextPrimary</item>
     </style>
 
 

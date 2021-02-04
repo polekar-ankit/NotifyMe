@@ -33,6 +33,7 @@ public final class BindingUtils {
         }
     }
 
+
     @BindingAdapter("setError")
     public static void setError(TextInputLayout inputEditText, String error) {
         inputEditText.setError(error);

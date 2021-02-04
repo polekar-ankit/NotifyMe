@@ -57,27 +57,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return mainViewModel;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar
-        int id = item.getItemId();
-        if (id == R.id.menu_item_share) {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts("package",
-                    getPackageName(), null);
-            intent.setData(uri);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
