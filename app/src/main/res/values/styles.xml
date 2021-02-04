@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <!-- Theme with toolbar -->
@@ -60,9 +61,13 @@
 
     <style name="meEmpButton" parent="buttonStyle">
         <item name="android:textSize">16dp</item>
-        <item name="android:minWidth">@dimen/_200sdp</item>
-        <item name="android:paddingStart">@dimen/_20sdp</item>
-        <item name="android:paddingEnd">@dimen/_20sdp</item>
+        <item name="android:background">@drawable/bg_me_frag_button</item>
+        <item name="drawableTint">@color/colorTextPrimary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:minHeight">@dimen/_100sdp</item>
+        <item name="android:drawablePadding">@dimen/_15sdp</item>
+        <item name="android:paddingTop">@dimen/_20sdp</item>
+        <item name="android:paddingBottom">@dimen/_20sdp</item>
     </style>
 
     <style name="lblEditText" parent="Widget.AppCompat.TextView">

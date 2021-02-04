@@ -1,5 +1,6 @@
 package com.gipl.notifyme.ui.me;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,10 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.BuildConfig;
@@ -28,7 +32,6 @@ import javax.inject.Inject;
 public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Inject
     MeViewModel meViewModel;
-    private CheckOutDialog checkOutDialog;
 
     @Override
     public int getBindingVariable() {
@@ -48,7 +51,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
+        CheckOutDialog checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
         // Set title
@@ -116,7 +119,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_missPunchListFragment));
+        getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> {
+
+            Navigation.findNavController(view).navigate(R.id.action_nav_user_to_missPunchListFragment);
+        });
         getViewDataBinding().btnAddOvertime.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
         getViewDataBinding().btnApplyLeave.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2));
 

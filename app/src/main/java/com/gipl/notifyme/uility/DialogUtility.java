@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +64,10 @@ public class DialogUtility {
 
         progressDialog.show();
 
-//        if (progressDialog.getWindow() != null) {
-//            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        }
+        if (progressDialog.getWindow() != null) {
+            progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+//
         progressDialog.setContentView(R.layout.dialog_progress);
         TextView textView = progressDialog.findViewById(R.id.progress_text);
         if (messageId.length > 0)

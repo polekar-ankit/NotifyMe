@@ -61,7 +61,9 @@
             style="@style/lblMeEmpOtherInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_5sdp"
             android:text="@{me.empName}"
+            app:drawableStartCompat="@drawable/ic_me_frag_user"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_emp_code"
@@ -73,7 +75,9 @@
             style="@style/lblMeEmpOtherInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_5sdp"
             android:text="@{me.empPlant}"
+            app:drawableStartCompat="@drawable/ic_plant"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_emp_name"
@@ -85,7 +89,9 @@
             style="@style/lblMeEmpOtherInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/_5sdp"
             android:text="@{me.empMoNumber}"
+            app:drawableStartCompat="@drawable/ic_phone"
             app:layout_constraintEnd_toStartOf="@+id/cardView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_emp_plant"
@@ -99,103 +105,88 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.20" />
 
-        <Button
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="#ccc"
+            app:layout_constraintBottom_toTopOf="@id/btn_punching_slip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/btn_punching_slip"
             style="@style/meEmpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_official_out"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/bg_me_frag_button"
             android:text="@string/btn_lbl_punching_slip"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:drawableTopCompat="@drawable/ic_official_out"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:layout_constraintVertical_bias="0.19999999" />
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_add_overtime"
             style="@style/meEmpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableLeft="@drawable/ic_check_out"
             android:text="@string/btn_lbl_over_time"
+            app:drawableTopCompat="@drawable/ic_check_out"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toTopOf="@+id/btn_punching_slip" />
+
+        <TextView
+            android:id="@+id/btn_shift_change"
+            style="@style/meEmpButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_home_lbl_shift_change"
+            app:drawableTopCompat="@drawable/ic_shift_change"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_punching_slip" />
 
-        <Button
-            android:id="@+id/btn_shift_change"
-            style="@style/meEmpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableLeft="@drawable/ic_shift_change"
-            android:text="@string/btn_home_lbl_shift_change"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_overtime" />
-
-        <Button
+        <TextView
             android:id="@+id/btn_apply_leave"
             style="@style/meEmpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableLeft="@drawable/ic_apply_leave"
             android:text="@string/btn_lbl_apply_for_leave"
+            app:drawableTopCompat="@drawable/ic_apply_leave"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_shift_change" />
-        <Button
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_overtime" />
+
+        <TextView
             android:id="@+id/btn_add_co"
             style="@style/meEmpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:drawableLeft="@drawable/ic_add_co"
             android:text="@string/btn_lbl_add_co"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:drawableTopCompat="@drawable/ic_add_co"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_shift_change" />
 
-        <Button
+        <TextView
             android:id="@+id/button6"
             style="@style/meEmpButton"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
             android:enabled="false"
-            android:drawableLeft="@drawable/ic_attendance"
             android:text="@string/btn_lbl_attendance"
+            app:drawableTopCompat="@drawable/ic_attendance"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_co" />
+            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintTop_toBottomOf="@+id/btn_apply_leave" />
 
-        <TextView
-            android:id="@+id/textView6"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{me.checkInDateTime}"
-            android:visibility="@{me.checkInDateTime.empty?View.GONE:View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="@+id/btn_check_in"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:layout_constraintVertical_bias="0.63"
-            tools:text="sdasdasad" />
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova_alt_regular"
-            android:text="@{`Total Hours :`+me.checkInTime}"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15dp"
-            android:visibility="@{me.checkInDateTime.empty?View.GONE:View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
