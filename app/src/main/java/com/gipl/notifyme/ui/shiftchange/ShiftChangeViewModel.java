@@ -13,6 +13,7 @@ import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.notifyme.domain.SlipDomain;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
@@ -62,7 +63,7 @@ public class ShiftChangeViewModel extends BaseViewModel {
         return shiftLiveData;
     }
 
-    public void addShiftChangedRequest(String dtFrom, String dtTo, String suidShiftFrom, String suidShiftTo) {
+    public void addShiftChangedRequest(String dtFrom, String dtTo, String suidShiftFrom, String suidShiftTo, Reason selectedReason) {
         User user = getDataManager().getUserObj();
 
         shifToError.set("");
@@ -76,10 +77,13 @@ public class ShiftChangeViewModel extends BaseViewModel {
         if (suidShiftTo == null) {
             shifToError.set(getDataManager().getContext().getString(R.string.to_shift_not_select_error));
         }
-        if (reason.get().isEmpty()){
+        if (selectedReason.getSuid() == -1) {
+            reasonError.set(getDataManager().getContext().getString(R.string.error_shift_change_reason_not_selected));
+        }
+        if (selectedReason.getSuid() == 32 && this.reason.get().isEmpty()) {
             reasonError.set(getDataManager().getContext().getString(R.string.error_shift_reason_empty));
         }
-        if (!shiftFromError.get().isEmpty() || !shifToError.get().isEmpty()||!reasonError.get().isEmpty()) {
+        if (!shiftFromError.get().isEmpty() || !shifToError.get().isEmpty() || !reasonError.get().isEmpty()) {
             return;
         }
 
@@ -94,7 +98,7 @@ public class ShiftChangeViewModel extends BaseViewModel {
         changeReq.setSuidUserAplicant(user.getSuidEmployee());
         changeReq.setSuidPlant(user.getSuidPlant());
         changeReq.setSuidEmployee(user.getSuidEmployee());
-        changeReq.setReason(reason.get());
+        changeReq.setReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());
         changeReq.setsExtraInfo("");
 
 

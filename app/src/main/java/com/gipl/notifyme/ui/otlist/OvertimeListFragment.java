@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
@@ -54,8 +56,24 @@ public class OvertimeListFragment extends BaseFragment<FragmentOtListBinding, Ov
         overtimeListAdapter = new OvertimeListAdapter();
         getViewDataBinding().rvOt.setAdapter(overtimeListAdapter);
         getViewDataBinding().rvOt.setLayoutManager(new LinearLayoutManager(requireContext()));
+        getViewDataBinding().pullDown.setRefreshing(false);
         viewModel.getOtList();
         getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_overtimeListFragment_to_addOverTimeFragment));
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            viewModel.getOtList();
+        });
+        getViewDataBinding().rvOt.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvOt.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    getViewDataBinding().pullDown.setEnabled(firstVisibleItem == 0);
+                }
+            }
+        });
     }
 
     private void processResponse(Response response) {

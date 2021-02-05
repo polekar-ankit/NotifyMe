@@ -3,6 +3,7 @@ package com.gipl.notifyme.ui.shiftchange;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.databinding.FragmentShiftChangeBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
 import com.gipl.notifyme.uility.TimeUtility;
@@ -71,6 +73,7 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setReasonSpinner();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
 
@@ -113,13 +116,27 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
         getViewDataBinding().btnAddShiftChange.setOnClickListener(v -> {
             Shifts shiftFrom = (Shifts) getViewDataBinding().spinner.getSelectedItem();
             Shifts shiftTo = (Shifts) getViewDataBinding().spinnerTo.getSelectedItem();
+            Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
             hideKeyboard();
             viewModel.addShiftChangedRequest(getViewDataBinding().tvFrom.getText().toString(),
                     getViewDataBinding().tvTo.getText().toString(),
                     shiftFrom.getSuidShift(),
-                    shiftTo.getSuidShift());
+                    shiftTo.getSuidShift(),
+                    reason
+                    );
         });
+        getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+                getViewDataBinding().etShiftchangeReason.setVisibility(reason.getSuid() == 32 ? View.VISIBLE : View.GONE);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void processShift(ArrayList<Shifts> shifts) {
@@ -128,6 +145,19 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
         getViewDataBinding().spinner.setAdapter(shiftsArrayAdapter);
 
         getViewDataBinding().spinnerTo.setAdapter(shiftsArrayAdapter);
+    }
+
+    private void setReasonSpinner() {
+        ArrayList<Reason> reasonArrayList = new ArrayList<>();
+        reasonArrayList.add(new Reason("Select Reason", -1));
+        reasonArrayList.add(new Reason("reason 1", 1));
+        reasonArrayList.add(new Reason("reason 2", 2));
+        reasonArrayList.add(new Reason("reason 3", 4));
+        reasonArrayList.add(new Reason("reason 4", 8));
+        reasonArrayList.add(new Reason("reason 5", 16));
+        reasonArrayList.add(new Reason("Other", 32));
+        ArrayAdapter<Reason> reasonArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, reasonArrayList);
+        getViewDataBinding().spinnerReason.setAdapter(reasonArrayAdapter);
     }
 
     private void processResponse(Response response) {

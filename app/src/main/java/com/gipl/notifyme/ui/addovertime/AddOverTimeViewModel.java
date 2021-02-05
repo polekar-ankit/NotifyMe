@@ -11,6 +11,7 @@ import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.domain.SlipDomain;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
@@ -47,14 +48,16 @@ public class AddOverTimeViewModel extends BaseViewModel {
         return otReason;
     }
 
-    public void addOverTime(String dtOverTime) {
+    public void addOverTime(String dtOverTime, Reason reason) {
         try {
 
             otReasonError.set("");
             otHoursError.set("");
 
-
-            if (otReason.get().isEmpty()) {
+            if (reason.getSuid() == -1) {
+                otReasonError.set(getDataManager().getContext().getString(R.string.error_ot_reason_not_selected));
+            }
+            if (reason.getSuid() == 32 && otReason.get().isEmpty()) {
                 otReasonError.set(getDataManager().getContext().getString(R.string.error_ot_reason_empty));
             }
 
@@ -91,7 +94,7 @@ public class AddOverTimeViewModel extends BaseViewModel {
             addOverTimeReq.setSuidPlant(user.getSuidPlant());
             addOverTimeReq.setSuidEmployee(user.getSuidEmployee());
             addOverTimeReq.setSuidUserAplicant(user.getSuidEmployee());
-            addOverTimeReq.setsReason(otReason.get());
+            addOverTimeReq.setsReason(reason.getSuid() == 32 ? otReason.get() : reason.getReason());
             addOverTimeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
 
             getResponseMutableLiveData().postValue(Response.loading());
@@ -103,7 +106,7 @@ public class AddOverTimeViewModel extends BaseViewModel {
                         if (addOverTimeRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                             getResponseMutableLiveData().postValue(Response.success(true));
                         } else {
-                            getResponseMutableLiveData().postValue(Response.success(new Exception(new CustomException(addOverTimeRsp.getApiError().getErrorMessage()))));
+                            getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(addOverTimeRsp.getApiError().getErrorMessage()))));
                         }
                     }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
 

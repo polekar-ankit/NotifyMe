@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
@@ -57,6 +59,27 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
         coListAdapter = new CoListAdapter();
         getViewDataBinding().rvCo.setAdapter(coListAdapter);
         getViewDataBinding().rvCo.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        getViewDataBinding().pullDown.setRefreshing(false);
+        getViewDataBinding().pullDown.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getViewDataBinding().pullDown.setRefreshing(false);
+                viewModel.getCOList();
+            }
+        });
+
+        getViewDataBinding().rvCo.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvCo.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    getViewDataBinding().pullDown.setEnabled(firstVisibleItem == 0);
+                }
+            }
+        });
 
         getViewDataBinding().fabAdd.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_coListFragment_to_addCoFragment);

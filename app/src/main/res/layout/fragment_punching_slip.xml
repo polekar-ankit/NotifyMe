@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_from" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/spinner_shift"
             style="@style/Widget.AppCompat.Spinner.Underlined"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -78,8 +78,8 @@
             android:text="@{slip.shiftError}"
             android:textColor="@color/edit_text_error"
             android:textSize="12dp"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
-            app:layout_constraintTop_toBottomOf="@+id/spinner"
+            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_shift"
             tools:text="sdadasd" />
 
         <TextView
@@ -118,8 +118,8 @@
             android:textColor="@color/colorTextPrimary"
             android:textSize="16dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/spinner"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
+            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
             app:layout_constraintTop_toBottomOf="@+id/tv_shift_error" />
 
         <LinearLayout
@@ -129,9 +129,9 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/spinner"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
+            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
             app:layout_constraintTop_toBottomOf="@+id/textView10">
 
             <CheckBox
@@ -146,7 +146,6 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:enabled="@{cbIn.checked}"
                 android:hint="@string/cb_in_time"
                 android:text=""/>
         </LinearLayout>
@@ -158,9 +157,9 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/spinner"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/spinner"
+            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
             app:layout_constraintTop_toBottomOf="@+id/tv_in_time_error">
 
             <CheckBox
@@ -175,7 +174,6 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:enabled="@{cbOut.checked}"
                 tools:enabled="true"
                 android:hint="@string/cb_out_time"
                 android:text="" />
@@ -209,7 +207,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_co_reason" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/tiet_overtime_reason"
+                android:id="@+id/tiet_misspunch_reason"
                 style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

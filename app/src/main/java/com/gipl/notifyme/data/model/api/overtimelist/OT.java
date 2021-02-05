@@ -239,7 +239,7 @@ public class OT {
         this.sDtOverTime = sDtOverTime;
     }
 
-    public String getSReason() {
+    public String getReason() {
         return sReason;
     }
 

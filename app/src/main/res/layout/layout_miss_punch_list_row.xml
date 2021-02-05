@@ -18,9 +18,9 @@
         android:layout_marginEnd="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/_5sdp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="@dimen/_5sdp">
 
             <TextView
                 android:id="@+id/textView17"
@@ -64,6 +64,16 @@
                 app:layout_constraintStart_toEndOf="@+id/textView15"
                 app:layout_constraintTop_toTopOf="@+id/textView15"
                 tools:text="@string/lbl_out_time" />
+
+            <TextView
+                android:id="@+id/textView19"
+                style="@style/TextSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{mispunch.reason}"
+                app:layout_constraintStart_toStartOf="@+id/textView15"
+                app:layout_constraintTop_toBottomOf="@+id/textView15" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

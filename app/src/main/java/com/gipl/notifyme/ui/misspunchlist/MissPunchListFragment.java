@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.transition.Transition;
 import androidx.transition.TransitionInflater;
 
@@ -79,7 +81,23 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
         getViewDataBinding().rvMissPunch.setAdapter(missPunchListAdapter);
 
         viewModel.getMissPunchList();
+        getViewDataBinding().pullDown.setRefreshing(false);
 
-        getViewDataBinding().fabAdd.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment));
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment));
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            viewModel.getMissPunchList();
+        });
+        getViewDataBinding().rvMissPunch.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvMissPunch.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    getViewDataBinding().pullDown.setEnabled(firstVisibleItem == 0);
+                }
+            }
+        });
     }
 }

@@ -108,4 +108,9 @@
     <string name="error_mispunch_reason_empty">Please enter miss punch reason</string>
     <string name="lbl_leave_from">From</string>
     <string name="lbl_leave_to">To</string>
+    <string name="error_mispunch_reason_not_selected">Please select miss punch reason</string>
+    <string name="error_co_reason_not_selected">Please select reason for adding co</string>
+    <string name="error_co_reason_empty">Please add reason for co.</string>
+    <string name="error_ot_reason_not_selected">Please select over time reason</string>
+    <string name="error_shift_change_reason_not_selected">Please select reason for shift change.</string>
 </resources>

@@ -63,15 +63,14 @@ public class LiMissPunch {
     @SerializedName("jStatus")
     @Expose
     private Integer jStatus;
-
-    public void setStatusDis(String statusDis) {
-        this.statusDis = statusDis;
-    }
-
     @Expose(deserialize = false, serialize = false)
     private String statusDis;
     @Expose(serialize = false, deserialize = false)
     private int color;
+
+    public String getReason() {
+        return sReason;
+    }
 
     public int getStatus() {
         return jStatus;
@@ -87,6 +86,10 @@ public class LiMissPunch {
 
     public String getStatusDis() {
         return statusDis;
+    }
+
+    public void setStatusDis(String statusDis) {
+        this.statusDis = statusDis;
     }
 
     public String getInTime() {

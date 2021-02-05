@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
@@ -51,13 +53,28 @@ public class ShiftChangeListFragment extends BaseFragment<FragmentShiftChangeLis
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getViewDataBinding().pullDown.setRefreshing(false);
         viewModel.getShiftChangeList();
         shiftChangeListAdapter = new ShiftChangeListAdapter();
         getViewDataBinding().rvScr.setLayoutManager(new LinearLayoutManager(requireContext()));
         getViewDataBinding().rvScr.setAdapter(shiftChangeListAdapter);
 
-        getViewDataBinding().fabAdd.setOnClickListener(v-> Navigation.findNavController(v).navigate(R.id.action_shiftChangeListFragment_to_shiftChangeFragment));
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_shiftChangeListFragment_to_shiftChangeFragment));
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            viewModel.getShiftChangeList();
+        });
+        getViewDataBinding().rvScr.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvScr.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    getViewDataBinding().pullDown.setEnabled(firstVisibleItem == 0);
+                }
+            }
+        });
 
     }
 

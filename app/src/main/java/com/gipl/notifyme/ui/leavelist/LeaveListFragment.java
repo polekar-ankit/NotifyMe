@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding,LeaveListViewModel> {
+public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, LeaveListViewModel> {
     @Inject
     LeaveListViewModel leaveListViewModel;
     LeaveRequestListAdapter leaveRequestListAdapter;
@@ -45,11 +47,11 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding,Lea
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        leaveListViewModel.getResponseMutableLiveData().observe(this,this::processLiveData);
+        leaveListViewModel.getResponseMutableLiveData().observe(this, this::processLiveData);
     }
 
     private void processLiveData(Response response) {
-        switch (response.status){
+        switch (response.status) {
             case LOADING:
                 showLoading();
                 break;
@@ -70,13 +72,27 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding,Lea
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         leaveListViewModel.getLeaveList();
+        getViewDataBinding().pullDown.setRefreshing(false);
 
-        leaveRequestListAdapter= new LeaveRequestListAdapter();
+        leaveRequestListAdapter = new LeaveRequestListAdapter();
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         getViewDataBinding().recyclerView.setAdapter(leaveRequestListAdapter);
 
-        getViewDataBinding().fabAdd.setOnClickListener(v->{
-            Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2);
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            leaveListViewModel.getLeaveList();
+        });
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2));
+        getViewDataBinding().recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().recyclerView.getLayoutManager();
+                if (linearLayoutManager != null) {
+                    int firstVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                    getViewDataBinding().pullDown.setEnabled(firstVisibleItem == 0);
+                }
+            }
         });
     }
 }

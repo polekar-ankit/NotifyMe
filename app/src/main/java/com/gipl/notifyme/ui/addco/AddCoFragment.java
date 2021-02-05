@@ -3,6 +3,7 @@ package com.gipl.notifyme.ui.addco;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.gipl.notifyme.databinding.FragmentAddCoBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.LeaveFor;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
 import com.gipl.notifyme.uility.TimeUtility;
@@ -24,7 +26,7 @@ import java.util.Calendar;
 
 import javax.inject.Inject;
 
-public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewModel> {
+public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewModel> {
 
     @Inject
     AddCoViewModel viewModel;
@@ -52,13 +54,14 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewMo
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel.getResponseMutableLiveData().observe(this,this::processResponse);
+        viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setLeaveFor();
+        setReasonSpinner();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
@@ -75,11 +78,42 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding,AddCoViewMo
                     dateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
-        getViewDataBinding().btnAddCo.setOnClickListener(v->{
+        getViewDataBinding().btnAddCo.setOnClickListener(v -> {
             hideKeyboard();
             LeaveFor coFor = (LeaveFor) getViewDataBinding().spinnerCoFor.getSelectedItem();
-            viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(),coFor);
+            Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+            viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(), coFor,reason);
         });
+
+        getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+                if (reason.getSuid() == 32) {
+                    getViewDataBinding().etReason.setVisibility(View.VISIBLE);
+                } else {
+                    getViewDataBinding().etReason.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void setReasonSpinner() {
+        ArrayList<Reason> reasonArrayList = new ArrayList<>();
+        reasonArrayList.add(new Reason("Select Reason", -1));
+        reasonArrayList.add(new Reason("reason 1", 1));
+        reasonArrayList.add(new Reason("reason 2", 2));
+        reasonArrayList.add(new Reason("reason 3", 4));
+        reasonArrayList.add(new Reason("reason 4", 8));
+        reasonArrayList.add(new Reason("reason 5", 16));
+        reasonArrayList.add(new Reason("Other", 32));
+        ArrayAdapter<Reason> reasonArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, reasonArrayList);
+        getViewDataBinding().spinnerReason.setAdapter(reasonArrayAdapter);
     }
 
     private void processResponse(Response response) {
