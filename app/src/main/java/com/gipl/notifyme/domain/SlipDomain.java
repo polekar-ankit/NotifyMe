@@ -30,6 +30,11 @@ import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
 import com.gipl.notifyme.uility.TimeUtility;
 
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
+
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
@@ -70,6 +75,14 @@ public class SlipDomain extends UseCase {
                     liMissPunch.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
             }
+            Collections.sort(rsp.getLiMissPunch(), (o1, o2) -> {
+                SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+                try{
+                    return sim.parse(o2.getDtMissPunch()).compareTo(sim.parse(o1.getDtMissPunch()));
+                } catch (Exception e){
+                    return 0;
+                }
+            });
             return rsp;
         });
     }
@@ -103,6 +116,14 @@ public class SlipDomain extends UseCase {
                     ot.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
             }
+            Collections.sort(rsp.getOT(), (o1, o2) -> {
+                SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+                try{
+                    return sim.parse(o2.getSDtOverTime()).compareTo(sim.parse(o1.getSDtOverTime()));
+                } catch (Exception e){
+                    return 0;
+                }
+            });
             return rsp;
         });
     }
@@ -129,6 +150,14 @@ public class SlipDomain extends UseCase {
                     scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
             }
+            Collections.sort(rsp.getScr(), (o1, o2) -> {
+                SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+                try{
+                    return sim.parse(o2.getDtShiftFrom()).compareTo(sim.parse(o1.getDtShiftFrom()));
+                } catch (Exception e){
+                    return 0;
+                }
+            });
             return rsp;
         });
     }
@@ -164,6 +193,14 @@ public class SlipDomain extends UseCase {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_second_half));
                 }
             }
+            Collections.sort(rsp.getCO(), (o1, o2) -> {
+                SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+                try{
+                    return sim.parse(o2.getDtCO()).compareTo(sim.parse(o1.getDtCO()));
+                } catch (Exception e){
+                    return 0;
+                }
+            });
             return rsp;
         });
     }
