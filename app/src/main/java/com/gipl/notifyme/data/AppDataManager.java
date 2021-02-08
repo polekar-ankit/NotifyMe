@@ -280,6 +280,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public LeaveTypeRsp getCacheLeaveType() {
+        return mPreferencesHelper.getCacheLeaveType();
+    }
+
+    @Override
+    public void setCacheLeaveType(LeaveTypeRsp leaveType) {
+        mPreferencesHelper.setCacheLeaveType(leaveType);
+    }
+
+    @Override
     public List<Shifts> getShiftList() {
         return mPreferencesHelper.getShiftList();
     }

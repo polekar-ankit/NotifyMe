@@ -18,7 +18,9 @@ package com.gipl.notifyme.data.local.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Base64;
 
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.sendotp.User;
@@ -48,6 +50,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_ACTIVE_SHIFT_SUID = "KEY_SHIFT_SUID";
     private static final String KEY_CHECK_IN_TIME = "KEY_CHECK_IN_TIME";
     private static final String KEY_CHECK_TYPE = "KEY_CHECK_TYPE";
+    private static final String KEY_CACHE_lEAVAE_TYPE = "KEY_CACHE_LEAVE_TYPE";
 
 
     private final SharedPreferences mPrefs;
@@ -69,18 +72,13 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setEmpCode(String empCode) {
-        mPrefs.edit().putString(KEY_EMP_CODE, empCode).apply();
-    }
-
-    @Override
     public String getEmpCode() {
         return mPrefs.getString(KEY_EMP_CODE, "");
     }
 
     @Override
-    public void setSession(String session) {
-        mPrefs.edit().putString(KEY_SESSION, session).apply();
+    public void setEmpCode(String empCode) {
+        mPrefs.edit().putString(KEY_EMP_CODE, empCode).apply();
     }
 
     @Override
@@ -89,8 +87,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setActiveShift(String suidShift) {
-        mPrefs.edit().putString(KEY_ACTIVE_SHIFT_SUID, suidShift).apply();
+    public void setSession(String session) {
+        mPrefs.edit().putString(KEY_SESSION, session).apply();
     }
 
     @Override
@@ -99,18 +97,18 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setCheckInTime(long checkInTime) {
-        mPrefs.edit().putLong(KEY_CHECK_IN_TIME, checkInTime).apply();
+    public void setActiveShift(String suidShift) {
+        mPrefs.edit().putString(KEY_ACTIVE_SHIFT_SUID, suidShift).apply();
     }
 
     @Override
     public int getCheckType() {
-        return mPrefs.getInt(KEY_CHECK_TYPE,2);
+        return mPrefs.getInt(KEY_CHECK_TYPE, 2);
     }
 
     @Override
     public void setCheckType(int checkType) {
-        mPrefs.edit().putInt(KEY_CHECK_TYPE,checkType).apply();
+        mPrefs.edit().putInt(KEY_CHECK_TYPE, checkType).apply();
     }
 
     @Override
@@ -119,8 +117,8 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setUserObj(User user) {
-        mPrefs.edit().putString(KEY_USER_OBJ, new Gson().toJson(user)).apply();
+    public void setCheckInTime(long checkInTime) {
+        mPrefs.edit().putLong(KEY_CHECK_IN_TIME, checkInTime).apply();
     }
 
     @Override
@@ -130,13 +128,18 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setLastSync(String date) {
-        mPrefs.edit().putString(KEY_LAST_SYNC, date).apply();
+    public void setUserObj(User user) {
+        mPrefs.edit().putString(KEY_USER_OBJ, new Gson().toJson(user)).apply();
     }
 
     @Override
     public String getLastSync() {
         return mPrefs.getString(KEY_LAST_SYNC, "Not Available");
+    }
+
+    @Override
+    public void setLastSync(String date) {
+        mPrefs.edit().putString(KEY_LAST_SYNC, date).apply();
     }
 
     @Override
@@ -150,19 +153,28 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
-    public void setUtility(Utility utility) {
-        mPrefs.edit().putString(KEY_UTILITY_LIB, new Gson().toJson(utility)).apply();
-    }
-
-    @Override
     public Utility getUtility() {
         String json = mPrefs.getString(KEY_UTILITY_LIB, "");
         return json.isEmpty() ? null : new Gson().fromJson(json, Utility.class);
     }
 
     @Override
-    public void setShiftList(List<Shifts> shiftsList) {
-        mPrefs.edit().putString(KEY_SHIFT_DATA, new Gson().toJson(shiftsList)).apply();
+    public void setUtility(Utility utility) {
+        mPrefs.edit().putString(KEY_UTILITY_LIB, new Gson().toJson(utility)).apply();
+    }
+
+    @Override
+    public LeaveTypeRsp getCacheLeaveType() {
+        String json = mPrefs.getString(Base64.encodeToString(KEY_CACHE_lEAVAE_TYPE.getBytes(), Base64.DEFAULT), "");
+        if (json.isEmpty()) {
+            return null;
+        }
+        return new Gson().fromJson(json, LeaveTypeRsp.class);
+    }
+
+    @Override
+    public void setCacheLeaveType(LeaveTypeRsp leaveType) {
+        mPrefs.edit().putString(Base64.encodeToString(KEY_CACHE_lEAVAE_TYPE.getBytes(), Base64.DEFAULT), new Gson().toJson(leaveType)).apply();
     }
 
     @Override
@@ -172,5 +184,10 @@ public class AppPreferencesHelper implements PreferencesHelper {
             return new ArrayList<>();
         return new Gson().fromJson(json, new TypeToken<List<Shifts>>() {
         }.getType());
+    }
+
+    @Override
+    public void setShiftList(List<Shifts> shiftsList) {
+        mPrefs.edit().putString(KEY_SHIFT_DATA, new Gson().toJson(shiftsList)).apply();
     }
 }

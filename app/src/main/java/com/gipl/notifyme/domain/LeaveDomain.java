@@ -16,7 +16,14 @@ import com.gipl.notifyme.uility.TimeUtility;
 
 import org.json.JSONException;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.util.Calendar;
+
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 public class LeaveDomain extends UseCase {
     public LeaveDomain(DataManager dataManager) {
@@ -48,16 +55,47 @@ public class LeaveDomain extends UseCase {
 //        if (BuildConfig.DEBUG)
 //            addModifyLeaveReq.setSuidUser("bed4167a404add6345172c0a47f923fdb9cc15aedbcb04fca4a9c5cd3c42e7b9");
 //        else
-            addModifyLeaveReq.setSuidUser(dataManager.getUserObj().getSuidUser());
+        addModifyLeaveReq.setSuidUser(dataManager.getUserObj().getSuidUser());
         addModifyLeaveReq.setsEmpCode(dataManager.getEmpCode());
         return dataManager.addModifyLeave(addModifyLeaveReq);
     }
 
+    /*here we are store leave type in cache
+     *after every one day we are requesting for refresh list
+     * @return
+     */
     public Single<LeaveTypeRsp> getLeaveType() {
-        LeaveTypeReq leaveTypeReq = new LeaveTypeReq();
-        leaveTypeReq.setSuidSession(dataManager.getSession());
-        leaveTypeReq.setPagination(false);
-        leaveTypeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
-        return dataManager.getLeaveType(leaveTypeReq);
+        LeaveTypeRsp leaveTypeRsp = dataManager.getCacheLeaveType();
+        boolean refreshCache = true;
+        if (leaveTypeRsp != null) {
+            try {
+                //we are passing current utc time for in tag so we are using tag for days calculation
+                long diff = TimeUtility.getDiff(TimeUtility.convertUtcTimeToLong(leaveTypeRsp.getTag()));
+                long days = diff / (1000 * 60 * 60 * 24);
+                refreshCache = days > 1;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (refreshCache) {
+            LeaveTypeReq leaveTypeReq = new LeaveTypeReq();
+            leaveTypeReq.setSuidSession(dataManager.getSession());
+            leaveTypeReq.setPagination(false);
+            leaveTypeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+            return dataManager.getLeaveType(leaveTypeReq).map(leaveTypeRsp1 -> {
+                if (leaveTypeRsp1.getLiLeaveApprovals() != null) {
+                    dataManager.setCacheLeaveType(leaveTypeRsp1);
+                }
+                return leaveTypeRsp1;
+            });
+        } else {
+            return new Single<LeaveTypeRsp>() {
+                @Override
+                protected void subscribeActual(@NonNull SingleObserver<? super LeaveTypeRsp> observer) {
+                    observer.onSuccess(dataManager.getCacheLeaveType());//post cache list
+                }
+            };
+        }
     }
 }

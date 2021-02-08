@@ -17,6 +17,7 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
+import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.sendotp.User;
@@ -76,4 +77,8 @@ public interface PreferencesHelper {
     List<Shifts> getShiftList();
 
     void setShiftList(List<Shifts> shiftsList);
+
+    LeaveTypeRsp getCacheLeaveType();
+
+    void setCacheLeaveType(LeaveTypeRsp leaveType);
 }
