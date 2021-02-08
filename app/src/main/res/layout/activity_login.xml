@@ -59,6 +59,7 @@
                 android:imeOptions="actionDone"
                 android:drawableStart="@drawable/ic_employee_id"
                 android:drawablePadding="@dimen/_10sdp"
+                android:maxLength="15"
                 android:paddingVertical="@dimen/_10sdp"
                 android:inputType="textCapCharacters"
                 android:backgroundTint="@color/colorPrimary"

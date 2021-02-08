@@ -19,7 +19,9 @@ import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import java.text.ParseException;
@@ -69,6 +71,8 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
                 hideLoading();
                 DialogUtility.showToast(requireContext(), getString(R.string.msg_punching_slip_created));
                 getBaseActivity().onBackPressed();
+                if (iFragmentListener != null)
+                    iFragmentListener.onActivityResult(null);
                 break;
             case ERROR:
                 hideLoading();
@@ -85,9 +89,15 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         getViewDataBinding().spinnerShift.setAdapter(shiftsArrayAdapter);
     }
 
+    private IFragmentListener iFragmentListener;
+
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
+        }
 
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         setReasonSpinner();

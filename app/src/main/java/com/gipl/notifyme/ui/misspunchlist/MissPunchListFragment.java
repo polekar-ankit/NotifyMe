@@ -1,6 +1,7 @@
 package com.gipl.notifyme.ui.misspunchlist;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,9 @@ import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.misspunchlist.adapter.MissPunchListAdapter;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,22 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
     @Inject
     MissPunchListViewModel viewModel;
     private MissPunchListAdapter missPunchListAdapter;
+    private IFragmentListener iFragmentListener = new IFragmentListener() {
+        @Override
+        public void onActivityResult(Bundle bundle) {
+            viewModel.getMissPunchList();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+        }
+    };
 
     @Override
     public int getBindingVariable() {
@@ -50,6 +69,8 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        missPunchListAdapter = new MissPunchListAdapter();
+        viewModel.getMissPunchList();
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
     }
 
@@ -76,14 +97,16 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        missPunchListAdapter = new MissPunchListAdapter();
         getViewDataBinding().rvMissPunch.setLayoutManager(new LinearLayoutManager(requireContext()));
         getViewDataBinding().rvMissPunch.setAdapter(missPunchListAdapter);
 
-        viewModel.getMissPunchList();
         getViewDataBinding().pullDown.setRefreshing(false);
 
-        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment));
+        getViewDataBinding().fabAdd.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
+            Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment, bundle);
+        });
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);
             viewModel.getMissPunchList();

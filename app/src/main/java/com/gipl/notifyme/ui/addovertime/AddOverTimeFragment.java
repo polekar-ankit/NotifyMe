@@ -18,7 +18,9 @@ import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.LeaveFor;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         getViewDataBinding().tvFrom.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog;
+    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -58,6 +61,9 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_USER);
+        }
         setReasonSpinner();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
@@ -78,7 +84,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         getViewDataBinding().btnAddOvertime.setOnClickListener(v -> {
             hideKeyboard();
             Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
-            viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString(),reason);
+            viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString(), reason);
         });
 
         getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -117,6 +123,8 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                 hideLoading();
                 DialogUtility.showToast(requireContext(), getString(R.string.msg_ot_added));
                 getBaseActivity().onBackPressed();
+                if (iFragmentListener != null)
+                    iFragmentListener.onActivityResult(null);
                 break;
             case ERROR:
                 hideLoading();

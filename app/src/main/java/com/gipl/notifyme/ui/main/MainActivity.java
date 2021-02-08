@@ -57,39 +57,44 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         return mainViewModel;
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NavController navController = Navigation.findNavController(this, R.id.fcv);
+
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_user, R.id.nav_notification)
                 .build();
+
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(getViewDataBinding().bottomNavigationView, navController);
         ActionBar actionBar = getSupportActionBar();
+
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (getViewDataBinding().bottomNavigationView.getVisibility() == View.GONE) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.VISIBLE);
             }
-            if (destination.getId() == R.id.punchingSlipFragment||destination.getId() == R.id.missPunchListFragment) {
+            if (destination.getId() == R.id.punchingSlipFragment || destination.getId() == R.id.missPunchListFragment) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(getString(R.string.activity_punching_slip));
-
-            }
-            else if (destination.getId()==R.id.leaveListFragment2||destination.getId()==R.id.addModifyLeaveFragment2){
+            } else if (destination.getId() == R.id.leaveListFragment2 || destination.getId() == R.id.addModifyLeaveFragment2) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_leave_list);
-            }else if (destination.getId()==R.id.overtimeListFragment||destination.getId()==R.id.addOverTimeFragment){
+            } else if (destination.getId() == R.id.overtimeListFragment || destination.getId() == R.id.addOverTimeFragment) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_overtime);
-            }else if (destination.getId()==R.id.shiftChangeFragment||destination.getId()==R.id.shiftChangeListFragment){
+            } else if (destination.getId() == R.id.shiftChangeFragment || destination.getId() == R.id.shiftChangeListFragment) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_shift_change);
-            }else if (destination.getId()==R.id.coListFragment||destination.getId()==R.id.addCoFragment){
+            } else if (destination.getId() == R.id.coListFragment || destination.getId() == R.id.addCoFragment) {
                 getViewDataBinding().bottomNavigationView.setVisibility(View.GONE);
                 actionBar.setTitle(R.string.activity_co);
-            }
-            else {
+            } else {
                 if (actionBar != null) {
                     actionBar.setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
                 }

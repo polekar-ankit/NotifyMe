@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 public class AppUtility {
     public static class INTENT_EXTRA {
         public static final String KEY_USER = "keyUserObj";
+        public static final String KEY_FRAG_LIST_RESULT = "KeyFragListResult";
     }
 
     public static class LINK_TYPE {

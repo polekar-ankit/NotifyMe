@@ -1,6 +1,7 @@
 package com.gipl.notifyme.ui.colist;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -8,18 +9,18 @@ import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.colist.CO;
-import com.gipl.notifyme.data.model.api.mispunchlist.LiMissPunch;
 import com.gipl.notifyme.databinding.FragmentCoListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.colist.adapters.CoListAdapter;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,23 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
     @Inject
     CoListViewModel viewModel;
     private CoListAdapter coListAdapter;
+
+    private IFragmentListener iFragmentListener = new IFragmentListener() {
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+        }
+
+        @Override
+        public void onActivityResult(Bundle bundle) {
+            viewModel.getCOList();
+        }
+    };
 
     @Override
     public int getBindingVariable() {
@@ -49,24 +67,21 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        coListAdapter = new CoListAdapter();
+        viewModel.getCOList();
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getCOList();
-        coListAdapter = new CoListAdapter();
         getViewDataBinding().rvCo.setAdapter(coListAdapter);
         getViewDataBinding().rvCo.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         getViewDataBinding().pullDown.setRefreshing(false);
-        getViewDataBinding().pullDown.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getViewDataBinding().pullDown.setRefreshing(false);
-                viewModel.getCOList();
-            }
+        getViewDataBinding().pullDown.setOnRefreshListener(() -> {
+            getViewDataBinding().pullDown.setRefreshing(false);
+            viewModel.getCOList();
         });
 
         getViewDataBinding().rvCo.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -82,7 +97,9 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
         });
 
         getViewDataBinding().fabAdd.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_coListFragment_to_addCoFragment);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
+            Navigation.findNavController(v).navigate(R.id.action_coListFragment_to_addCoFragment, bundle);
         });
     }
 

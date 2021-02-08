@@ -30,6 +30,7 @@ import com.gipl.notifyme.ui.model.LeaveFor;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
@@ -64,6 +65,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         }
 
     };
+    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -99,6 +101,9 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                     if (name.equals(AddModifyLeaveReq.class.getSimpleName())) {
                         DialogUtility.showToast(requireContext(), "Your Leave has been successfully applied");
                         getBaseActivity().onBackPressed();
+                        if (iFragmentListener != null) {
+                            iFragmentListener.onActivityResult(null);
+                        }
                     }
                 }
                 break;
@@ -120,7 +125,12 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
+        }
         getViewDataBinding().cvAttachment.setVisibility(View.GONE);
+        getViewDataBinding().btnMedicalCertificate.setVisibility(View.GONE);
+
         setLeaveForFrom();
         setLeaveForTo();
         addModifyLeaveViewModel.getLeaveList();
@@ -168,10 +178,9 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 LeaveApproval leave = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
-                if (leave.getSLeaveType().equals("SL")){
+                if (leave.getSLeaveType().equals("SL")) {
                     getViewDataBinding().btnMedicalCertificate.setVisibility(View.VISIBLE);
-                }
-                else {
+                } else {
                     getViewDataBinding().btnMedicalCertificate.setVisibility(View.GONE);
                     getViewDataBinding().cvAttachment.setVisibility(View.GONE);
                 }

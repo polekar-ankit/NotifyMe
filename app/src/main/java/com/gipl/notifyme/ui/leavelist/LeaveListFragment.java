@@ -1,6 +1,7 @@
 package com.gipl.notifyme.ui.leavelist;
 
 import android.os.Bundle;
+import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,9 @@ import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.leavelist.adapter.LeaveRequestListAdapter;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 
 import java.util.ArrayList;
 
@@ -28,6 +31,22 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Inject
     LeaveListViewModel leaveListViewModel;
     LeaveRequestListAdapter leaveRequestListAdapter;
+    private IFragmentListener iFragmentListener = new IFragmentListener() {
+        @Override
+        public void onActivityResult(Bundle bundle) {
+            leaveListViewModel.getLeaveList();
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+
+        }
+    };
 
     @Override
     public int getBindingVariable() {
@@ -47,6 +66,8 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        leaveListViewModel.getLeaveList();
+        leaveRequestListAdapter = new LeaveRequestListAdapter();
         leaveListViewModel.getResponseMutableLiveData().observe(this, this::processLiveData);
     }
 
@@ -71,10 +92,8 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        leaveListViewModel.getLeaveList();
-        getViewDataBinding().pullDown.setRefreshing(false);
 
-        leaveRequestListAdapter = new LeaveRequestListAdapter();
+        getViewDataBinding().pullDown.setRefreshing(false);
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         getViewDataBinding().recyclerView.setAdapter(leaveRequestListAdapter);
 
@@ -82,7 +101,12 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
             getViewDataBinding().pullDown.setRefreshing(false);
             leaveListViewModel.getLeaveList();
         });
-        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2));
+        getViewDataBinding().fabAdd.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
+
+            Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2, bundle);
+        });
         getViewDataBinding().recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

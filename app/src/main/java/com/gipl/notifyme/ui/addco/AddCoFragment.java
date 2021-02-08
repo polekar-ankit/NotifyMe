@@ -18,7 +18,9 @@ import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.LeaveFor;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
         getViewDataBinding().tvFrom.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog;
+    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -60,6 +63,10 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
+        }
         setLeaveFor();
         setReasonSpinner();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
@@ -82,7 +89,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
             hideKeyboard();
             LeaveFor coFor = (LeaveFor) getViewDataBinding().spinnerCoFor.getSelectedItem();
             Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
-            viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(), coFor,reason);
+            viewModel.addCo(getViewDataBinding().tvFrom.getText().toString(), coFor, reason);
         });
 
         getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -125,6 +132,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
                 hideLoading();
                 DialogUtility.showToast(requireContext(), getString(R.string.msg_co_added));
                 getBaseActivity().onBackPressed();
+                iFragmentListener.onActivityResult(null);
                 break;
             case ERROR:
                 hideLoading();

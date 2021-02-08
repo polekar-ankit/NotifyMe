@@ -17,7 +17,9 @@ import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
+import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.IFragmentListener;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import java.text.ParseException;
@@ -47,6 +49,7 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
         }
 
     };
+    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -73,6 +76,11 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (getArguments() != null) {
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
+        }
+
         setReasonSpinner();
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
@@ -123,7 +131,7 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
                     shiftFrom.getSuidShift(),
                     shiftTo.getSuidShift(),
                     reason
-                    );
+            );
         });
         getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -169,6 +177,8 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
                 hideLoading();
                 DialogUtility.showToast(requireContext(), getString(R.string.msg_shift_changed));
                 getBaseActivity().onBackPressed();
+                if (iFragmentListener != null)
+                    iFragmentListener.onActivityResult(null);
                 break;
             case ERROR:
                 hideLoading();
