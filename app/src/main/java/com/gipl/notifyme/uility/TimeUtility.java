@@ -68,7 +68,6 @@ public class TimeUtility {
     }
 
     public static long getDiff(long checkInTime) {
-
         Calendar calCheckIn = Calendar.getInstance();
         calCheckIn.setTimeZone(TimeZone.getTimeZone("UTC"));
         calCheckIn.setTimeInMillis(checkInTime);

@@ -1,10 +1,12 @@
 package com.gipl.notifyme.ui.shiftchange;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.sendotp.User;
@@ -21,6 +23,7 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import java.sql.Time;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
@@ -37,6 +40,12 @@ public class ShiftChangeViewModel extends BaseViewModel {
         super(dataManager, schedulerProvider);
         getShiftData();
         slipDomain = new SlipDomain(dataManager);
+        slipDomain.checkAndRefreshReason(Reason.Type.SHIFT_CHANGE_REASON);
+    }
+
+
+    public LiveData<List<Reason>> getPreDefineReasonList() {
+        return slipDomain.getReasonLocal(Reason.Type.SHIFT_CHANGE_REASON);
     }
 
     public ObservableField<String> getShiftFromError() {

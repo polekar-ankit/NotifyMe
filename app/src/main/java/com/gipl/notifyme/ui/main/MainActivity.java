@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
 
@@ -72,6 +73,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 .build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+
         NavigationUI.setupWithNavController(getViewDataBinding().bottomNavigationView, navController);
         ActionBar actionBar = getSupportActionBar();
 

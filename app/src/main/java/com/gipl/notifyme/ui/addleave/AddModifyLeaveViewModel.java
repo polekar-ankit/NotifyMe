@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
@@ -15,9 +16,11 @@ import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveApproval;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.domain.LeaveDomain;
+import com.gipl.notifyme.domain.SlipDomain;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
 import com.gipl.notifyme.ui.model.LeaveFor;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
@@ -31,12 +34,14 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
 
 public class AddModifyLeaveViewModel extends BaseViewModel {
-    private ObservableField<String> reason = new ObservableField<>();
+    private ObservableField<String> reason = new ObservableField<>("");
+    private ObservableField<String> reasonError = new ObservableField<>("");
     private LeaveDomain leaveDomain;
     private MutableLiveData<ArrayList<LeaveApproval>> leaveTypeLiveData = new MutableLiveData<>();
     private MediaFile attachment;
@@ -44,6 +49,14 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
     public AddModifyLeaveViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         leaveDomain = new LeaveDomain(dataManager);
+    }
+
+    public ObservableField<String> getReasonError() {
+        return reasonError;
+    }
+
+    public LiveData<List<Reason>> getPreDefineReasonList() {
+        return new SlipDomain(getDataManager()).getReasonLocal(Reason.Type.LEAVE_REASON);
     }
 
     public void setAttachment(MediaFile attachment) {
@@ -69,7 +82,10 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 
-    public void addModifyLeave(String from, String to, LeaveFor leaveFor, LeaveApproval suidLeaveType) {
+    public void addModifyLeave(String from, String to,
+                               LeaveFor leaveFor,
+                               LeaveApproval suidLeaveType,
+                               Reason selectedReason) {
         if (leaveFor.getSuid() == -1 || suidLeaveType.getSApprovalsRequired() == null) {
             return;
         }
@@ -85,11 +101,12 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
             addModifyLeaveReq.setsTo(to);
         }
 
+
         if (suidLeaveType.getSLeaveType().equals("SL")) {
             try {
                 Calendar calFrom = TimeUtility.convertDisplayDateTimeToCalender(from);
                 Calendar calTo = TimeUtility.convertDisplayDateTimeToCalender(to);
-                double diff = calTo.getTimeInMillis() - calFrom.getTimeInMillis() ;
+                double diff = calTo.getTimeInMillis() - calFrom.getTimeInMillis();
                 double threeDaysInMili = TimeUnit.DAYS.toMillis(3);
                 if (diff >= threeDaysInMili && attachment == null) {//if SL is above 3 days then medical certificate is required
                     getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(getDataManager().getContext().getString(R.string.sl_certificate_not_available)))));
@@ -99,10 +116,22 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
                 e.printStackTrace();
             }
         }
+        if (selectedReason.getSuid() == -1) {
+            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_not_selected));
+        }
+
+        if (selectedReason.getSuid() == 32 && reason.get().isEmpty()) {
+            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_empty));
+        }
+        if (!reasonError.get().isEmpty()) {
+            return;
+        }
+
         addModifyLeaveReq.setjLeaveStatus(getDataManager().getUtility().getLeaveStatus().getBitPending());
         addModifyLeaveReq.setjLeaveFor(leaveFor.getSuid());
         addModifyLeaveReq.setSuidLeaveType(suidLeaveType.getSuidLeaveApproval());
-        addModifyLeaveReq.setsReason(reason.get());
+        addModifyLeaveReq.setsReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());
+
         if (attachment != null)
             addModifyLeaveReq.setArrFilesBase64(new String[]{getBase64OfAttachFile()});
         getResponseMutableLiveData().postValue(Response.loading());

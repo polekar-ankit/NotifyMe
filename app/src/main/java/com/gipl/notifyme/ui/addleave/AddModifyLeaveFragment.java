@@ -27,6 +27,7 @@ import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
 import com.gipl.notifyme.ui.model.LeaveFor;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.AppUtility;
 import com.gipl.notifyme.uility.DialogUtility;
@@ -39,6 +40,7 @@ import com.jaiselrahman.filepicker.model.MediaFile;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -134,6 +136,8 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         setLeaveForFrom();
         setLeaveForTo();
         addModifyLeaveViewModel.getLeaveList();
+        addModifyLeaveViewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
+
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
 
@@ -167,9 +171,10 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         getViewDataBinding().btnApply.setOnClickListener(v -> {
             LeaveFor leaveFor = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
             LeaveApproval leaveApproval = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
+            Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
             hideKeyboard();
             addModifyLeaveViewModel.addModifyLeave(getViewDataBinding().tvFrom.getText().toString(),
-                    getViewDataBinding().tvTo.getText().toString(), leaveFor, leaveApproval);
+                    getViewDataBinding().tvTo.getText().toString(), leaveFor, leaveApproval, reason);
         });
 
         getViewDataBinding().btnMedicalCertificate.setOnClickListener(v -> showFilePickerOptions());
@@ -188,6 +193,22 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+                if (reason.getSuid() == 32) {
+                    getViewDataBinding().etReason.setVisibility(View.VISIBLE);
+                } else {
+                    getViewDataBinding().etReason.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -228,6 +249,11 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
         popup.show(); //showing popup menu
 
+    }
+
+    private void setReasonSpinner(List<Reason> reasonArrayList) {
+        ArrayAdapter<Reason> reasonArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, reasonArrayList);
+        getViewDataBinding().spinnerReason.setAdapter(reasonArrayAdapter);
     }
 
     @Override

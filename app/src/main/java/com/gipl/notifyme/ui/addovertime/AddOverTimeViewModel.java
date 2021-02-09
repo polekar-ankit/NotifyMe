@@ -1,9 +1,12 @@
 package com.gipl.notifyme.ui.addovertime;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
@@ -17,6 +20,7 @@ import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
 import java.text.ParseException;
+import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
@@ -27,9 +31,16 @@ public class AddOverTimeViewModel extends BaseViewModel {
     private ObservableField<String> otReason = new ObservableField<>("");
     private ObservableField<String> otReasonError = new ObservableField<>("");
 
+
     public AddOverTimeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         slipDomain = new SlipDomain(dataManager);
+        slipDomain.checkAndRefreshReason(Reason.Type.OT_REASON);
+    }
+
+
+    public LiveData<List<Reason>> getPreDefineReasonList() {
+        return slipDomain.getReasonLocal(Reason.Type.OT_REASON);
     }
 
     public ObservableField<String> getOtHoursError() {

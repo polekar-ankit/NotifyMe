@@ -113,4 +113,6 @@
     <string name="error_co_reason_empty">Please add reason for co.</string>
     <string name="error_ot_reason_not_selected">Please select over time reason</string>
     <string name="error_shift_change_reason_not_selected">Please select reason for shift change.</string>
+    <string name="error_leave_reason_not_selected" >Please select reason for leave</string>
+    <string name="error_leave_reason_empty" >Please add reason for leave.</string>
 </resources>

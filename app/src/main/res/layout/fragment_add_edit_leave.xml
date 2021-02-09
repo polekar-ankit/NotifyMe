@@ -152,8 +152,16 @@
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:text="@string/lbl_reason" />
 
+                <Spinner
+                    android:id="@+id/spinner_reason"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp" />
+
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/editTextTextPersonName"
+                    android:id="@+id/et_reason"
                     style="@style/Widget.AppCompat.EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -164,6 +172,17 @@
                     android:inputType="textPersonName"
                     android:singleLine="true"
                     android:text="@={viewModel.reason}" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@{viewModel.reasonError}"
+                    android:textColor="@color/edit_text_error"
+                    android:textSize="@dimen/edit_text_error"
+                    tools:text="Wrong employee id" />
 
                 <TextView
                     android:id="@+id/textView11"

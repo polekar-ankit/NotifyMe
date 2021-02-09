@@ -1,10 +1,12 @@
 package com.gipl.notifyme.ui.punchingslip;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.punchingslip.AddPunchingSlipReq;
@@ -19,6 +21,7 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.functions.Consumer;
 
@@ -34,7 +37,13 @@ public class PunchingSlipViewModel extends BaseViewModel {
     public PunchingSlipViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         slipDomain = new SlipDomain(dataManager);
+        slipDomain.checkAndRefreshReason(Reason.Type.MISS_PUNCH_REASON);
         getShiftData();
+    }
+
+
+    public LiveData<List<Reason>> getPreDefineReasonList() {
+        return slipDomain.getReasonLocal(Reason.Type.MISS_PUNCH_REASON);
     }
 
     public ObservableField<String> getReason() {

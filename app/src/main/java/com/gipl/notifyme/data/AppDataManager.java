@@ -47,7 +47,9 @@ import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.data.model.db.TNotification;
+import com.gipl.notifyme.data.model.db.TReason;
 import com.gipl.notifyme.data.remote.ApiHelper;
+import com.gipl.notifyme.ui.model.Reason;
 
 import org.json.JSONException;
 
@@ -290,6 +292,16 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void setReasonCacheDate(String type, long lastSyncDate) {
+        mPreferencesHelper.setReasonCacheDate(type, lastSyncDate);
+    }
+
+    @Override
+    public long getReasonCacheDate(String type) {
+        return mPreferencesHelper.getReasonCacheDate(type);
+    }
+
+    @Override
     public List<Shifts> getShiftList() {
         return mPreferencesHelper.getShiftList();
     }
@@ -308,5 +320,20 @@ public class AppDataManager implements DataManager {
     @Override
     public int getTotalNotificationCacheRm() {
         return mDatabase.notificationCacheDao().getTotalNotificationCache();
+    }
+
+    @Override
+    public long insertReason(TReason tReason) {
+        return mDatabase.reasonCacheDao().insertReason(tReason);
+    }
+
+    @Override
+    public LiveData<List<Reason>> getReasonList(String type) {
+        return mDatabase.reasonCacheDao().getReasonList(type);
+    }
+
+    @Override
+    public int clear(String type) {
+        return mDatabase.reasonCacheDao().clear(type);
     }
 }

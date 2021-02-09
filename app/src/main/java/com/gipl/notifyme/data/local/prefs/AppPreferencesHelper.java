@@ -178,6 +178,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     }
 
     @Override
+    public void setReasonCacheDate(String type, long lastSyncDate) {
+        mPrefs.edit().putLong(type, lastSyncDate).apply();
+    }
+
+    @Override
+    public long getReasonCacheDate(String type) {
+        return mPrefs.getLong(type, 0);
+    }
+
+    @Override
     public List<Shifts> getShiftList() {
         String json = mPrefs.getString(KEY_SHIFT_DATA, "");
         if (json.isEmpty())
@@ -190,4 +200,6 @@ public class AppPreferencesHelper implements PreferencesHelper {
     public void setShiftList(List<Shifts> shiftsList) {
         mPrefs.edit().putString(KEY_SHIFT_DATA, new Gson().toJson(shiftsList)).apply();
     }
+
+
 }

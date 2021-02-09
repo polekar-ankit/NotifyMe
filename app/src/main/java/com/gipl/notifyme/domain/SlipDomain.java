@@ -2,8 +2,11 @@ package com.gipl.notifyme.domain;
 
 import android.graphics.Color;
 
+import androidx.lifecycle.LiveData;
+
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.addco.AddCoReq;
 import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeReq;
@@ -28,11 +31,13 @@ import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.notifyme.data.model.api.shiftchangelist.Scr;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
+import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.uility.TimeUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Single;
@@ -77,9 +82,9 @@ public class SlipDomain extends UseCase {
             }
             Collections.sort(rsp.getLiMissPunch(), (o1, o2) -> {
                 SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-                try{
+                try {
                     return sim.parse(o2.getDtMissPunch()).compareTo(sim.parse(o1.getDtMissPunch()));
-                } catch (Exception e){
+                } catch (Exception e) {
                     return 0;
                 }
             });
@@ -118,9 +123,9 @@ public class SlipDomain extends UseCase {
             }
             Collections.sort(rsp.getOT(), (o1, o2) -> {
                 SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-                try{
+                try {
                     return sim.parse(o2.getSDtOverTime()).compareTo(sim.parse(o1.getSDtOverTime()));
-                } catch (Exception e){
+                } catch (Exception e) {
                     return 0;
                 }
             });
@@ -131,7 +136,8 @@ public class SlipDomain extends UseCase {
     public Single<ShiftChangeRsp> addShiftChange(ShiftChangeReq req) {
         return dataManager.shiftChangeRequest(req);
     }
-    public Single<ShiftChangeListRsp>getShiftChangeList(ShiftChangeListReq req){
+
+    public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
         return dataManager.getShiftChangeList(req).map(rsp -> {
             if (rsp.getScr() == null)
                 return rsp;
@@ -152,9 +158,9 @@ public class SlipDomain extends UseCase {
             }
             Collections.sort(rsp.getScr(), (o1, o2) -> {
                 SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-                try{
+                try {
                     return sim.parse(o2.getDtShiftFrom()).compareTo(sim.parse(o1.getDtShiftFrom()));
-                } catch (Exception e){
+                } catch (Exception e) {
                     return 0;
                 }
             });
@@ -162,18 +168,18 @@ public class SlipDomain extends UseCase {
         });
     }
 
-    public Single<AddCoRsp>addCo(AddCoReq req){
+    public Single<AddCoRsp> addCo(AddCoReq req) {
         return dataManager.addCo(req);
     }
 
-    public Single<CoListRsp>getCoList(CoListReq req){
+    public Single<CoListRsp> getCoList(CoListReq req) {
         return dataManager.getCoList(req).map(rsp -> {
-            if (rsp.getCO()==null)
+            if (rsp.getCO() == null)
                 return rsp;
             StatusType statusType = dataManager.getUtility().getStatusType();
             LeaveFor leaveFor = dataManager.getUtility().getLeaveFor();
-            for (CO co:
-                 rsp.getCO()) {
+            for (CO co :
+                    rsp.getCO()) {
                 if (co.getStatus() == statusType.getBITVERIFIED()) {
                     co.setColor(Color.parseColor("#43A047"));
                     co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
@@ -184,24 +190,40 @@ public class SlipDomain extends UseCase {
                     co.setColor(Color.parseColor("#FB8C00"));
                     co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
-                if (co.getCOFor()==leaveFor.getBitFirstHalfDay()){
+                if (co.getCOFor() == leaveFor.getBitFirstHalfDay()) {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_half_day));
-                }
-                else if(co.getCOFor()==leaveFor.getBitFullDay()){
+                } else if (co.getCOFor() == leaveFor.getBitFullDay()) {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_full_day));
-                }else if(co.getCOFor()==leaveFor.getBitSecondHalfDay()){
+                } else if (co.getCOFor() == leaveFor.getBitSecondHalfDay()) {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_second_half));
                 }
             }
             Collections.sort(rsp.getCO(), (o1, o2) -> {
                 SimpleDateFormat sim = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-                try{
+                try {
                     return sim.parse(o2.getDtCO()).compareTo(sim.parse(o1.getDtCO()));
-                } catch (Exception e){
+                } catch (Exception e) {
                     return 0;
                 }
             });
             return rsp;
         });
+    }
+
+    public LiveData<List<Reason>> getReasonLocal(String type) {
+        return dataManager.getReasonList(type);
+    }
+
+    public void checkAndRefreshReason(String type) {
+        long lastSync = dataManager.getReasonCacheDate(type);
+        if (lastSync == 0) {
+            new FirebaseDb().getReason(type, dataManager);
+            return;
+        }
+        long days = TimeUtility.getDiff(lastSync) / (1000 * 60 * 60 * 24);
+        if (days >= 1) {
+            int count = dataManager.clear(type);
+            new FirebaseDb().getReason(type, dataManager);
+        }
     }
 }

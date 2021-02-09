@@ -25,6 +25,7 @@ import com.gipl.notifyme.uility.TimeUtility;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -68,7 +69,9 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
             iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
         }
         setLeaveFor();
-        setReasonSpinner();
+
+        viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(),this::setReasonSpinner);
+
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
@@ -110,15 +113,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
         });
     }
 
-    private void setReasonSpinner() {
-        ArrayList<Reason> reasonArrayList = new ArrayList<>();
-        reasonArrayList.add(new Reason("Select Reason", -1));
-        reasonArrayList.add(new Reason("reason 1", 1));
-        reasonArrayList.add(new Reason("reason 2", 2));
-        reasonArrayList.add(new Reason("reason 3", 4));
-        reasonArrayList.add(new Reason("reason 4", 8));
-        reasonArrayList.add(new Reason("reason 5", 16));
-        reasonArrayList.add(new Reason("Other", 32));
+    private void setReasonSpinner(List<Reason> reasonArrayList) {
         ArrayAdapter<Reason> reasonArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, reasonArrayList);
         getViewDataBinding().spinnerReason.setAdapter(reasonArrayAdapter);
     }
@@ -130,9 +125,11 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
                 break;
             case SUCCESS:
                 hideLoading();
-                DialogUtility.showToast(requireContext(), getString(R.string.msg_co_added));
-                getBaseActivity().onBackPressed();
-                iFragmentListener.onActivityResult(null);
+                if (response.data instanceof Boolean) {
+                    DialogUtility.showToast(requireContext(), getString(R.string.msg_co_added));
+                    getBaseActivity().onBackPressed();
+                    iFragmentListener.onActivityResult(null);
+                }
                 break;
             case ERROR:
                 hideLoading();

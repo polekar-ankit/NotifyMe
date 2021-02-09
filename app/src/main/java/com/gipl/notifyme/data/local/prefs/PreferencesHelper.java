@@ -81,4 +81,9 @@ public interface PreferencesHelper {
     LeaveTypeRsp getCacheLeaveType();
 
     void setCacheLeaveType(LeaveTypeRsp leaveType);
+
+    //reason cache
+    void setReasonCacheDate(String type, long lastSyncDate);
+
+    long getReasonCacheDate(String type);
 }

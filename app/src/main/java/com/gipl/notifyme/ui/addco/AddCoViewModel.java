@@ -1,12 +1,15 @@
 package com.gipl.notifyme.ui.addco;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
+import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.addco.AddCoReq;
-import com.gipl.notifyme.data.model.api.addco.AddCoRsp;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.domain.SlipDomain;
 import com.gipl.notifyme.exceptions.CustomException;
@@ -16,21 +19,24 @@ import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
+import com.google.firebase.database.DataSnapshot;
 
-import java.sql.Time;
-import java.text.ParseException;
-
-import io.reactivex.functions.Consumer;
+import java.util.List;
 
 public class AddCoViewModel extends BaseViewModel {
     private ObservableField<String> reason = new ObservableField<>("");
     private ObservableField<String> reasonError = new ObservableField<>("");
-
     private SlipDomain slipDomain;
 
     public AddCoViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         slipDomain = new SlipDomain(dataManager);
+        slipDomain.checkAndRefreshReason(Reason.Type.CO_REASON);
+    }
+
+
+    public LiveData<List<Reason>> getPreDefineReasonList() {
+        return slipDomain.getReasonLocal(Reason.Type.CO_REASON);
     }
 
     public ObservableField<String> getReason() {
