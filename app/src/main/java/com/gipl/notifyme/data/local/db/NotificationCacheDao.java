@@ -19,9 +19,12 @@ public interface NotificationCacheDao {
 
     @Query("SELECT forGrp as forGroup,title as title,message as message,link as link,linkType as linkType,notificationDate as notificationDate" +
             " FROM TNotificationCache ORDER BY datetime(notificationDate) DESC")
-    LiveData<List<Notification>>getNotificationList();
+    LiveData<List<Notification>> getNotificationList();
 
     @Query("SELECT COUNT(j) from TNotificationCache")
     int getTotalNotificationCache();
+
+    @Query("DELETE FROM TNotificationCache")
+    int clearNotificationCache();
 
 }

@@ -33,6 +33,8 @@ public interface PreferencesHelper {
 
     void setIsLogin();
 
+    void logout();
+
     String getEmpCode();
 
     void setEmpCode(String empCode);

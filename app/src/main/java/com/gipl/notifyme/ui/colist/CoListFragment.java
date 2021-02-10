@@ -32,7 +32,7 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
     CoListViewModel viewModel;
     private CoListAdapter coListAdapter;
 
-    private IFragmentListener iFragmentListener = new IFragmentListener() {
+    private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public int describeContents() {
             return 0;

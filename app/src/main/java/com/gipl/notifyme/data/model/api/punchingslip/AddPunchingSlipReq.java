@@ -13,9 +13,9 @@ public class AddPunchingSlipReq extends BaseReq {
     @Expose
     private String empCode;
 
-    @SerializedName("suidEmployee")
+    @SerializedName("suidUser")
     @Expose
-    private String suidEmployee;
+    private String suidUser;
 
     @SerializedName("sDtMissPunch")
     @Expose
@@ -61,8 +61,8 @@ public class AddPunchingSlipReq extends BaseReq {
         this.empCode = empCode;
     }
 
-    public void setSuidEmployee(String suidEmployee) {
-        this.suidEmployee = suidEmployee;
+    public void setSuidUser(String suidUser) {
+        this.suidUser = suidUser;
     }
 
     public void setDtMissPunch(String dtMissPunch) {

@@ -13,9 +13,9 @@ public class AddOverTimeReq extends BaseReq {
     @Expose
     private String empCode;
 
-    @SerializedName("suidEmployee")
+    @SerializedName("suidUser")
     @Expose
-    private String suidEmployee;
+    private String suidUser;
 
     @SerializedName("sDtOverTime")
     @Expose
@@ -53,8 +53,8 @@ public class AddOverTimeReq extends BaseReq {
         this.empCode = empCode;
     }
 
-    public void setSuidEmployee(String suidEmployee) {
-        this.suidEmployee = suidEmployee;
+    public void setSuidUser(String suidUser) {
+        this.suidUser = suidUser;
     }
 
     public void setDtOverTime(String dtOverTime) {

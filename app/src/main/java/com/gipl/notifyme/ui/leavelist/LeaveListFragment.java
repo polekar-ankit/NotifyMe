@@ -31,7 +31,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Inject
     LeaveListViewModel leaveListViewModel;
     LeaveRequestListAdapter leaveRequestListAdapter;
-    private IFragmentListener iFragmentListener = new IFragmentListener() {
+    private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public void onActivityResult(Bundle bundle) {
             leaveListViewModel.getLeaveList();

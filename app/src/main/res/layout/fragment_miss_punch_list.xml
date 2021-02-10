@@ -23,21 +23,24 @@
                 android:id="@+id/rv_miss_punch"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginBottom="@dimen/_5sdp"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/fab_add"
+                tools:itemCount="10"
+                tools:listitem="@layout/layout_miss_punch_list_row" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/fab_add"
-                style="@style/fabStyle"
+                style="@style/extFabStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="@string/btn_lbl_add_miss_punch"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:srcCompat="@drawable/ic_official_out"
+                app:icon="@drawable/ic_official_out"
                 app:useCompatPadding="true"
                 tools:layout_editor_absoluteX="253dp"
                 tools:layout_editor_absoluteY="654dp" />

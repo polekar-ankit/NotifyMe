@@ -150,5 +150,16 @@
         <item name="backgroundTint">@color/colorPrimary</item>
         <item name="tint">#fff</item>
     </style>
+    <style name="extFabStyle" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="shapeAppearance">?attr/shapeAppearance</item>
+        <item name="useCompatPadding">true</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="tint">#fff</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_margin">@dimen/_5sdp</item>
+        <item name="android:fontFamily">@font/proxima_nova_alt_regular</item>
+        <item name="android:textColor">#fff</item>
+        <item name="iconTint">#ffffff</item>
+    </style>
 
 </resources>

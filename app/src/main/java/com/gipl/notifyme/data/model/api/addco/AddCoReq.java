@@ -13,9 +13,9 @@ public class AddCoReq extends BaseReq {
     @Expose
     private String empCode;
 
-    @SerializedName("suidEmployee")
+    @SerializedName("suidUser")
     @Expose
-    private String suidEmployee;
+    private String suidUser;
 
     @SerializedName("sDtCO")
     @Expose
@@ -49,8 +49,8 @@ public class AddCoReq extends BaseReq {
         this.empCode = empCode;
     }
 
-    public void setSuidEmployee(String suidEmployee) {
-        this.suidEmployee = suidEmployee;
+    public void setSuidUser(String suidUser) {
+        this.suidUser = suidUser;
     }
 
     public void setsDtCO(String sDtCO) {

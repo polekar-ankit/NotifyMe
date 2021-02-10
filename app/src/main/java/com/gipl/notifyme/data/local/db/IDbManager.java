@@ -17,6 +17,8 @@ public interface IDbManager {
     LiveData<List<Notification>> getNotificationList();
 
     int getTotalNotificationCacheRm();
+
+    int clearNotificationCache();
     //**********************
 
     //REASON CACHE
@@ -24,6 +26,8 @@ public interface IDbManager {
 
     LiveData<List<Reason>> getReasonList(String type);
 
-    int clear(String type);
+    int clearReason(String type);
+
+    int clearAllReason();
     //*************************
 }

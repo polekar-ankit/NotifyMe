@@ -13,9 +13,9 @@ public class ShiftChangeReq extends BaseReq {
     @Expose
     String sEmpCode;
 
-    @SerializedName("suidEmployee")
+    @SerializedName("suidUser")
     @Expose
-    String suidEmployee;
+    String suidUser;
 
     @SerializedName("sDtShiftFrom")
     @Expose
@@ -57,8 +57,8 @@ public class ShiftChangeReq extends BaseReq {
         this.sEmpCode = sEmpCode;
     }
 
-    public void setSuidEmployee(String suidEmployee) {
-        this.suidEmployee = suidEmployee;
+    public void setSuidUser(String suidUser) {
+        this.suidUser = suidUser;
     }
 
     public void setDtShiftFrom(String dtShiftFrom) {

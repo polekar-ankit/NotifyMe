@@ -1,6 +1,8 @@
 package com.gipl.notifyme.ui.me;
 
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,12 +64,17 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar
         int id = item.getItemId();
-        if (id == R.id.menu_item_share) {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts("package",
-                    requireContext().getPackageName(), null);
-            intent.setData(uri);
-            startActivity(intent);
+        if (id == R.id.menu_item_logout) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle(R.string.title_logout);
+            builder.setMessage(R.string.msg_logout);
+            builder.setPositiveButton(R.string.btn_logout, (dialog, which) -> {
+                dialog.dismiss();
+                meViewModel.logout();
+            });
+            builder.setNegativeButton(R.string.btn_cancel, (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+
         }
         return super.onOptionsItemSelected(item);
 
@@ -102,6 +109,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
                 hideLoading();
                 if (response.data instanceof Integer)
                     DialogUtility.showSnackbar(getViewDataBinding().getRoot(), getString((Integer) response.data));
+                if (response.data instanceof String) {
+                    Navigation.findNavController(getViewDataBinding().cardView).navigate(R.id.action_nav_user_to_loginActivity);
+                    getBaseActivity().finish();
+                }
 
                 break;
             case ERROR:

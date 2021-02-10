@@ -51,16 +51,19 @@ public class FirebaseDb {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Executors.newSingleThreadExecutor().submit(() -> {
-                    for (DataSnapshot dataSnapshot :
-                            snapshot.getChildren()) {
-                        TReason reason = new TReason();
-                        reason.setReason(dataSnapshot.getKey());
-                        reason.setSuid(Integer.parseInt(dataSnapshot.getValue().toString()));
-                        reason.setType(type);
-                        Log.d("Notification", type + " : " + reason.getReason() + "");
-                        dataManager.insertReason(reason);
+                    if (snapshot.getChildrenCount() > 0) {
+                        int count = dataManager.clearReason(type);
+                        for (DataSnapshot dataSnapshot :
+                                snapshot.getChildren()) {
+                            TReason reason = new TReason();
+                            reason.setReason(dataSnapshot.getKey());
+                            reason.setSuid(Integer.parseInt(dataSnapshot.getValue().toString()));
+                            reason.setType(type);
+                            Log.d("Notification", type + " : " + reason.getReason() + "");
+                            dataManager.insertReason(reason);
+                        }
+                        dataManager.setReasonCacheDate(type, Calendar.getInstance().getTimeInMillis());
                     }
-                    dataManager.setReasonCacheDate(type, Calendar.getInstance().getTimeInMillis());
                 });
             }
 

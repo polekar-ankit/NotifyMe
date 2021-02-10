@@ -14,7 +14,6 @@ import com.gipl.notifyme.data.model.api.addovertime.AddOverTimeRsp;
 import com.gipl.notifyme.data.model.api.colist.CO;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
-import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.lib.utility.LeaveFor;
 import com.gipl.notifyme.data.model.api.lib.utility.StatusType;
 import com.gipl.notifyme.data.model.api.mispunchlist.LiMissPunch;
@@ -36,13 +35,10 @@ import com.gipl.notifyme.uility.TimeUtility;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Function;
 
 public class SlipDomain extends UseCase {
     public SlipDomain(DataManager dataManager) {
@@ -53,7 +49,7 @@ public class SlipDomain extends UseCase {
         req.setSuidSession(dataManager.getSession());
         User user = dataManager.getUserObj();
 //        req.setSuidShift(user.getSuidUser());
-        req.setSuidEmployee(user.getSuidEmployee());
+        req.setSuidUser(user.getSuidUser());
         req.setEmpCode(dataManager.getEmpCode());
         req.setSuidUserAplicant(user.getSuidEmployee());
         req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
@@ -222,7 +218,6 @@ public class SlipDomain extends UseCase {
         }
         long days = TimeUtility.getDiff(lastSync) / (1000 * 60 * 60 * 24);
         if (days >= 1) {
-            int count = dataManager.clear(type);
             new FirebaseDb().getReason(type, dataManager);
         }
     }

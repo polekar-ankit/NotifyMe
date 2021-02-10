@@ -22,6 +22,8 @@ import com.google.gson.Gson;
 import java.util.Calendar;
 
 import io.reactivex.Single;
+import io.reactivex.SingleObserver;
+import io.reactivex.annotations.NonNull;
 
 public class UserUseCase extends UseCase {
 
@@ -95,6 +97,18 @@ public class UserUseCase extends UseCase {
         checkOutReq.setSuidShift(dataManager.getActiveShift());
         checkOutReq.setCheckOutType(checkOutType);
         return dataManager.checkOut(checkOutReq);
+    }
+
+    public Single<Boolean> Logout() {
+        return new Single<Boolean>() {
+            @Override
+            protected void subscribeActual(@NonNull SingleObserver<? super Boolean> observer) {
+                dataManager.logout();
+                dataManager.clearNotificationCache();
+//                dataManager.clearAllReason();
+                observer.onSuccess(true);
+            }
+        };
     }
 
 }

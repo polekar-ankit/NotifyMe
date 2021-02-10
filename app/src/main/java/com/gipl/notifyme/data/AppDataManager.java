@@ -187,6 +187,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public void logout() {
+        mPreferencesHelper.logout();
+    }
+
+    @Override
     public void setEmpCode(String empCode) {
         mPreferencesHelper.setEmpCode(empCode);
     }
@@ -323,6 +328,11 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
+    public int clearNotificationCache() {
+        return mDatabase.notificationCacheDao().clearNotificationCache();
+    }
+
+    @Override
     public long insertReason(TReason tReason) {
         return mDatabase.reasonCacheDao().insertReason(tReason);
     }
@@ -333,7 +343,12 @@ public class AppDataManager implements DataManager {
     }
 
     @Override
-    public int clear(String type) {
+    public int clearReason(String type) {
         return mDatabase.reasonCacheDao().clear(type);
+    }
+
+    @Override
+    public int clearAllReason() {
+        return mDatabase.reasonCacheDao().clearAllReason();
     }
 }

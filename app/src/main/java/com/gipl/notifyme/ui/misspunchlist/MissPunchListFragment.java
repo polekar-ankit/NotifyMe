@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -106,6 +107,7 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
             Bundle bundle = new Bundle();
             bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
             Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment, bundle);
+
         });
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);

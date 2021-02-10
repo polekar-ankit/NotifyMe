@@ -41,9 +41,9 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     private static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
     private static final String KEY_EMP_CODE = "KEY_EMP_CODE";
-    private static final String KEY_LAST_SYNC = "KEY_LAST_SYNC";
+    private static final String KEY_LAST_NOTIFICATION_SYNC = "KEY_LAST_SYNC";
     private static final String KEY_USER_OBJ = "KEY_USER_OBJ";
-    private static final String KEY_CACHE_NOTIFICATION = "KEY_CACHE_NOTIFICATION";
+    private static final String KEY_NUM_CACHE_NOTIFICATION = "KEY_CACHE_NOTIFICATION";
     private static final String KEY_SHIFT_DATA = "KEY_SHIFT_DATA";
     private static final String KEY_UTILITY_LIB = "KEY_UTILITY_LIB";
     private static final String KEY_SESSION = "KEY_SESSION";
@@ -69,6 +69,18 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public void setIsLogin() {
         mPrefs.edit().putBoolean(KEY_IS_LOGIN, true).apply();
+    }
+
+    @Override
+    public void logout() {
+        mPrefs.edit().remove(KEY_IS_LOGIN).apply();
+        mPrefs.edit().remove(KEY_SESSION).apply();
+        mPrefs.edit().remove(KEY_EMP_CODE).apply();
+        mPrefs.edit().remove(KEY_USER_OBJ).apply();
+        mPrefs.edit().remove(KEY_LAST_NOTIFICATION_SYNC).apply();
+        mPrefs.edit().remove(KEY_NUM_CACHE_NOTIFICATION).apply();
+        mPrefs.edit().remove(KEY_SHIFT_DATA).apply();
+        mPrefs.edit().remove(KEY_ACTIVE_SHIFT_SUID).apply();
     }
 
     @Override
@@ -134,22 +146,22 @@ public class AppPreferencesHelper implements PreferencesHelper {
 
     @Override
     public String getLastSync() {
-        return mPrefs.getString(KEY_LAST_SYNC, "Not Available");
+        return mPrefs.getString(KEY_LAST_NOTIFICATION_SYNC, "Not Available");
     }
 
     @Override
     public void setLastSync(String date) {
-        mPrefs.edit().putString(KEY_LAST_SYNC, date).apply();
+        mPrefs.edit().putString(KEY_LAST_NOTIFICATION_SYNC, date).apply();
     }
 
     @Override
     public void setTotalNotificationCache(int count) {
-        mPrefs.edit().putInt(KEY_CACHE_NOTIFICATION, count).apply();
+        mPrefs.edit().putInt(KEY_NUM_CACHE_NOTIFICATION, count).apply();
     }
 
     @Override
     public int getCacheNotificationCount() {
-        return mPrefs.getInt(KEY_CACHE_NOTIFICATION, 0);
+        return mPrefs.getInt(KEY_NUM_CACHE_NOTIFICATION, 0);
     }
 
     @Override

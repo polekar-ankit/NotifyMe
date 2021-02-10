@@ -115,4 +115,10 @@
     <string name="error_shift_change_reason_not_selected">Please select reason for shift change.</string>
     <string name="error_leave_reason_not_selected" >Please select reason for leave</string>
     <string name="error_leave_reason_empty" >Please add reason for leave.</string>
+    <string name="title_logout">Logout</string>
+    <string name="msg_logout">Are you sure, do you want to logout from application?</string>
+    <string name="btn_logout">Logout</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_lbl_add_miss_punch">Add Punching Slip</string>
+    <string name="lbl_min">Minute</string>
 </resources>

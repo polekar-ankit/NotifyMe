@@ -106,7 +106,7 @@ public class ShiftChangeViewModel extends BaseViewModel {
         changeReq.setSuidShiftTo(suidShiftTo);
         changeReq.setSuidUserAplicant(user.getSuidEmployee());
         changeReq.setSuidPlant(user.getSuidPlant());
-        changeReq.setSuidEmployee(user.getSuidEmployee());
+        changeReq.setSuidUser(user.getSuidUser());
         changeReq.setReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());
         changeReq.setsExtraInfo("");
 

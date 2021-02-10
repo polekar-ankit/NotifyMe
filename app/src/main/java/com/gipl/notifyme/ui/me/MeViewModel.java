@@ -28,6 +28,8 @@ import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import io.reactivex.functions.Consumer;
+
 public class MeViewModel extends BaseViewModel {
     private ObservableField<String> empName = new ObservableField<>("");
     private ObservableField<String> empCode = new ObservableField<>("");
@@ -157,33 +159,6 @@ public class MeViewModel extends BaseViewModel {
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 
-    private void updateFirebaseNode(String suidShift, int type, String checkTime) throws ParseException {
-        CheckOutType checkOutType = getDataManager().getUtility().getCheckOutType();
-        Employee employee = new Employee(getDataManager().getUtility().getCheckType().getBitCheckOut(),
-                suidShift,
-                type == checkOutType.getBitDayEnd() ? 0 : getDataManager().getCheckInTime(),
-                getDataManager().getUtility().getCheckInType().getBitBySelf(), type,
-                TimeUtility.convertUtcTimeToLong(checkTime));
-
-        getDataManager().setCheckType(getDataManager().getUtility().getCheckType().getBitCheckOut());
-
-        firebaseDb.setEmployeeCheckInStatus(employee, task -> {
-            if (task.isSuccessful()) {
-                if (type == checkOutType.getBitDayEnd()) {
-                    getResponseMutableLiveData().postValue(Response.success(R.string.day_end));
-                    getDataManager().setCheckInTime(0);
-                } else if (type == checkOutType.getBitLunch())
-                    getResponseMutableLiveData().postValue(Response.success(R.string.lunch_out));
-                else if (type == checkOutType.getBitOfficialOut())
-                    getResponseMutableLiveData().postValue(Response.success(R.string.official_out));
-
-                showCheckInButton.set(checkInDateTime.get().isEmpty());
-            } else {
-                getResponseMutableLiveData().postValue(Response.error(task.getException()));
-            }
-
-        });
-    }
 
     public ObservableField<String> getEmpImage() {
         return empImage;
@@ -203,5 +178,13 @@ public class MeViewModel extends BaseViewModel {
 
     public ObservableField<String> getEmpMoNumber() {
         return empMoNumber;
+    }
+
+    public void logout() {
+        getResponseMutableLiveData().postValue(Response.loading());
+        getCompositeDisposable().add(userUseCase.Logout().subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(aBoolean -> getResponseMutableLiveData().postValue(Response.success("Logout")),
+                        throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 }

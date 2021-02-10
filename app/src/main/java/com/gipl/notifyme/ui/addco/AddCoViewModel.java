@@ -66,7 +66,7 @@ public class AddCoViewModel extends BaseViewModel {
         req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         req.setsDtCO(coDate);
         User user = getDataManager().getUserObj();
-        req.setSuidEmployee(user.getSuidEmployee());
+        req.setSuidUser(user.getSuidUser());
         req.setSuidUserAplicant(user.getSuidEmployee());
         req.setjCOFor(coFor.getSuid());
         req.setsReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());

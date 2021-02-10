@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.NumberPicker;
+import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,7 @@ import com.gipl.notifyme.uility.TimeUtility;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -65,7 +68,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         if (getArguments() != null) {
             iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_USER);
         }
-        viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(),this::setReasonSpinner);
+        viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
@@ -85,7 +88,22 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         getViewDataBinding().btnAddOvertime.setOnClickListener(v -> {
             hideKeyboard();
             Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+            viewModel.getOtHours().set(getViewDataBinding().npHr.getValue() + "." + getViewDataBinding().npMin.getValue());
             viewModel.addOverTime(getViewDataBinding().tvFrom.getText().toString(), reason);
+        });
+
+
+        getViewDataBinding().npHr.setMinValue(2);
+        getViewDataBinding().npHr.setMaxValue(16);
+        getViewDataBinding().npMin.setMinValue(0);
+        getViewDataBinding().npMin.setMaxValue(12);
+        getViewDataBinding().npMin.setFormatter(value -> String.valueOf(value * 5));
+
+        getViewDataBinding().npHr.setOnValueChangedListener((picker, oldVal, newVal) -> {
+            if (newVal == 16) {
+                getViewDataBinding().npMin.setMaxValue(0);
+                getViewDataBinding().npMin.setValue(0);
+            } else getViewDataBinding().npMin.setMaxValue(12);
         });
 
         getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

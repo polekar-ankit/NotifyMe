@@ -22,5 +22,8 @@ public interface ReasonCacheDao {
     @Query("DELETE FROM TReasonCache where type=:type")
     int clear(String type);
 
+    @Query("DELETE FROM TReasonCache")
+    int clearAllReason();
+
 
 }
