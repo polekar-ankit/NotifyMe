@@ -131,6 +131,10 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
         getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> {
+            getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnPunchingSlip.getText().toString());
+            Bundle param = new Bundle();
+            param.putString("name", getViewDataBinding().btnPunchingSlip.getText().toString());
+            getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
 
             Navigation.findNavController(view).navigate(R.id.action_nav_user_to_missPunchListFragment);
         });

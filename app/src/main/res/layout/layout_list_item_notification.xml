@@ -45,7 +45,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/tv_announcement_date"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="abc elp ha ads" />
+                tools:text="for :abc elp ha ads" />
 
             <LinearLayout
                 android:id="@+id/layout_parent"

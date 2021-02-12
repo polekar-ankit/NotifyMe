@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 public class GetNotificationsReq  {
     @SerializedName("jClientType")
     @Expose
-    private int clientType = 2;
+    private final int clientType = 2;
     @SerializedName("sEmpCode")
     @Expose
     private String empCode;
@@ -18,7 +18,7 @@ public class GetNotificationsReq  {
 
     @SerializedName("sFilter")
     @Expose
-    private String filter = "";;
+    private String filter = "";
 
     @SerializedName("jStart")
     @Expose

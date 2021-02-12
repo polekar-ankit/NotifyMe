@@ -88,4 +88,8 @@ public interface PreferencesHelper {
     void setReasonCacheDate(String type, long lastSyncDate);
 
     long getReasonCacheDate(String type);
+
+    void setLanguageCode(String code);
+
+    String getLanguageCode();
 }

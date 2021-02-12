@@ -112,4 +112,9 @@
         android:id="@+id/loginActivity"
         android:name="com.gipl.notifyme.ui.login.LoginActivity"
         android:label="LoginActivity" />
+    <fragment
+        android:id="@+id/nav_change_lang"
+        tools:layout="@layout/fragment_change_language"
+        android:name="com.gipl.notifyme.ui.changelng.ChangeLanguageFragment"
+        android:label="ChangeLanguageFragment" />
 </navigation>

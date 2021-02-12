@@ -31,7 +31,7 @@ public class ShiftChangeListFragment extends BaseFragment<FragmentShiftChangeLis
     @Inject
     ShiftChangeListViewModel viewModel;
     private ShiftChangeListAdapter shiftChangeListAdapter;
-    private IFragmentListener iFragmentListener = new IFragmentListener() {
+    private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public void onActivityResult(Bundle bundle) {
             viewModel.getShiftChangeList();

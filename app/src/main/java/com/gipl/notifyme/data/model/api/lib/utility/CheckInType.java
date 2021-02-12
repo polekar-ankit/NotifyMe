@@ -7,11 +7,11 @@ import com.google.gson.annotations.SerializedName;
 public class CheckInType {
     @SerializedName("BIT_BYSELF")
     @Expose
-    private int bitBySelf = 1;
+    private final int bitBySelf = 1;
 
     @SerializedName("BIT_MANUAL")
     @Expose
-    private int bitManual = 2;
+    private final int bitManual = 2;
 
     public int getBitBySelf() {
         return bitBySelf;

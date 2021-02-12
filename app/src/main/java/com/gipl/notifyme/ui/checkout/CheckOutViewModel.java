@@ -14,5 +14,5 @@ public class CheckOutViewModel extends ViewModel {
         this.checkOutType = checkOutType;
     }
 
-    private CheckOutType checkOutType;
+    private final CheckOutType checkOutType;
 }

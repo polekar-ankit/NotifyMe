@@ -24,6 +24,10 @@ import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.databinding.ActivityMainBinding;
 import com.gipl.notifyme.ui.base.BaseActivity;
+import com.gipl.notifyme.uility.TimeUtility;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.sql.Time;
 
 import javax.inject.Inject;
 
@@ -54,6 +58,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     }
 
     @Override
+    public String getScreenName() {
+        return MainActivity.class.getSimpleName();
+    }
+
+    @Override
     public MainViewModel getViewModel() {
         return mainViewModel;
     }
@@ -69,7 +78,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         super.onCreate(savedInstanceState);
         NavController navController = Navigation.findNavController(this, R.id.fcv);
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_user, R.id.nav_notification)
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_user, R.id.nav_notification, R.id.nav_change_lang)
                 .build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -77,6 +86,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
         NavigationUI.setupWithNavController(getViewDataBinding().bottomNavigationView, navController);
         ActionBar actionBar = getSupportActionBar();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.START_DATE, TimeUtility.getCurrentUtcDateTimeForApi());
+        getmFirebaseAnalytics().logEvent(FirebaseAnalytics.Event.LOGIN, null);
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             if (getViewDataBinding().bottomNavigationView.getVisibility() == View.GONE) {
@@ -99,7 +112,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                 actionBar.setTitle(R.string.activity_co);
             } else {
                 if (actionBar != null) {
-                    actionBar.setTitle(getString(R.string.activity_notification) + " - " + BuildConfig.VERSION_CODE + ".0 - Beta");
+                    actionBar.setTitle(getString(R.string.activity_notification));
                 }
             }
         });

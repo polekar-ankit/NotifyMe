@@ -46,6 +46,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
 
     @Override
+    public String getScreenName() {
+        return LoginActivity.class.getSimpleName();
+    }
+
+    @Override
     public LoginViewModel getViewModel() {
         return loginViewModel;
     }

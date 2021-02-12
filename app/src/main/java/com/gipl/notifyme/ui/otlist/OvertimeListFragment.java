@@ -31,7 +31,7 @@ public class OvertimeListFragment extends BaseFragment<FragmentOtListBinding, Ov
     @Inject
     OvertimeListViewModel viewModel;
     private OvertimeListAdapter overtimeListAdapter;
-    private IFragmentListener iFragmentListener = new IFragmentListener() {
+    private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public void onActivityResult(Bundle bundle) {
             viewModel.getOtList();

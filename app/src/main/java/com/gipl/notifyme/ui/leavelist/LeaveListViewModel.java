@@ -14,7 +14,7 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import io.reactivex.functions.Consumer;
 
 public class LeaveListViewModel extends BaseViewModel {
-    private LeaveDomain leaveDomain;
+    private final LeaveDomain leaveDomain;
 
     public LeaveListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

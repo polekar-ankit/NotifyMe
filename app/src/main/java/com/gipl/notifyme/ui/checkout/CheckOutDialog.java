@@ -11,9 +11,9 @@ import com.gipl.notifyme.databinding.DialogCheckOutBinding;
 import com.gipl.notifyme.ui.base.BaseDialog;
 
 public class CheckOutDialog extends BaseDialog<DialogCheckOutBinding, CheckOutViewModel> {
-    private CheckOutViewModel checkOutViewModel;
-    private MutableLiveData<Integer> checkOutTypeLiveData = new MutableLiveData<>();
-    private Context context;
+    private final CheckOutViewModel checkOutViewModel;
+    private final MutableLiveData<Integer> checkOutTypeLiveData = new MutableLiveData<>();
+    private final Context context;
 
     public CheckOutDialog(Context context, CheckOutType checkOutType) {
         checkOutViewModel = new CheckOutViewModel(checkOutType);

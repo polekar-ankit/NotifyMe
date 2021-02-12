@@ -30,6 +30,11 @@ public class SplashScreenActivity extends BaseActivity<ActivitySplashScreenBindi
     }
 
     @Override
+    public String getScreenName() {
+        return SplashScreenActivity.class.getSimpleName();
+    }
+
+    @Override
     public SplashScreenViewModel getViewModel() {
         return splashScreenViewModel;
     }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class LeaveTypeRsp extends BaseRsp {
     @SerializedName("liLeaveApprovals")
     @Expose
-    private ArrayList<LeaveApproval> liLeaveApprovals = null;
+    private final ArrayList<LeaveApproval> liLeaveApprovals = null;
 
     public ArrayList<LeaveApproval> getLiLeaveApprovals() {
         return liLeaveApprovals;

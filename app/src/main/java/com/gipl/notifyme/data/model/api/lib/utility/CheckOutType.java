@@ -6,15 +6,15 @@ import com.google.gson.annotations.SerializedName;
 public class CheckOutType {
     @SerializedName("BIT_LUNCH")
     @Expose
-    private int bitLunch = 1;
+    private final int bitLunch = 1;
 
     @SerializedName("BIT_DAYEND")
     @Expose
-    private int bitDayEnd = 2;
+    private final int bitDayEnd = 2;
 
     @SerializedName("BIT_OFFICIALOUT")
     @Expose
-    private int bitOfficialOut = 4;
+    private final int bitOfficialOut = 4;
 
     public int getBitLunch() {
         return bitLunch;

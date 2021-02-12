@@ -30,7 +30,7 @@ public class Utility {
     private StatusType statusType;
     @SerializedName("CHECKTYPE")
     @Expose
-    private CheckType checkType = new CheckType();
+    private final CheckType checkType = new CheckType();
 
     public StatusType getStatusType() {
         return statusType;

@@ -24,9 +24,9 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.List;
 
 public class AddCoViewModel extends BaseViewModel {
-    private ObservableField<String> reason = new ObservableField<>("");
-    private ObservableField<String> reasonError = new ObservableField<>("");
-    private SlipDomain slipDomain;
+    private final ObservableField<String> reason = new ObservableField<>("");
+    private final ObservableField<String> reasonError = new ObservableField<>("");
+    private final SlipDomain slipDomain;
 
     public AddCoViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

@@ -28,13 +28,13 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class ShiftChangeViewModel extends BaseViewModel {
-    private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
-    private ObservableField<String> reason = new ObservableField<>("");
-    private ObservableField<String> reasonError = new ObservableField<>("");
+    private final MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
+    private final ObservableField<String> reason = new ObservableField<>("");
+    private final ObservableField<String> reasonError = new ObservableField<>("");
 
-    private SlipDomain slipDomain;
-    private ObservableField<String> shiftFromError = new ObservableField<>();
-    private ObservableField<String> shifToError = new ObservableField<>();
+    private final SlipDomain slipDomain;
+    private final ObservableField<String> shiftFromError = new ObservableField<>();
+    private final ObservableField<String> shifToError = new ObservableField<>();
 
     public ShiftChangeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

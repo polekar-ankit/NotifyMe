@@ -38,7 +38,7 @@ public class ShiftChangeFragment extends BaseFragment<FragmentShiftChangeBinding
         getViewDataBinding().tvTo.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog, toDatePickerDialog;
-    private DatePickerDialog.OnDateSetListener fromOnDateSetListener = (view, year, month, day) -> {
+    private final DatePickerDialog.OnDateSetListener fromOnDateSetListener = (view, year, month, day) -> {
         String fromDate = TimeUtility.getDisplayFormattedDate(year, month, day);
         getViewDataBinding().tvFrom.setText(fromDate);
         try {

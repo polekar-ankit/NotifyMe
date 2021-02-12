@@ -12,4 +12,9 @@
         android:icon="@drawable/ic_nav_notification"
         android:title="@string/nav_title_notification"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_change_lang"
+        android:icon="@drawable/ic_menu_change_lng"
+        android:title="@string/nav_change_lng"
+        app:showAsAction="always" />
 </menu>

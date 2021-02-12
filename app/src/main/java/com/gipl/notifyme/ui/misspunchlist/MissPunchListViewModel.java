@@ -14,7 +14,7 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import io.reactivex.functions.Consumer;
 
 public class MissPunchListViewModel extends BaseViewModel {
-    private SlipDomain slipDomain;
+    private final SlipDomain slipDomain;
 
     public MissPunchListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

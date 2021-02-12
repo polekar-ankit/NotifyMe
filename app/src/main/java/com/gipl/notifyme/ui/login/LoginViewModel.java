@@ -15,9 +15,9 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import io.reactivex.functions.Consumer;
 
 public class LoginViewModel extends BaseViewModel {
-    private UserUseCase userUseCase;
-    private ObservableField<String> empId = new ObservableField<>("");
-    private ObservableField<String> empIdError = new ObservableField<>();
+    private final UserUseCase userUseCase;
+    private final ObservableField<String> empId = new ObservableField<>("");
+    private final ObservableField<String> empIdError = new ObservableField<>();
 
     public LoginViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

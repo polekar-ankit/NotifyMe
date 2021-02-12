@@ -10,7 +10,7 @@ public class Shifts {
 
     @SerializedName("sShiftName")
     @Expose
-    private String shiftName;
+    private final String shiftName;
 
     @SerializedName("sShiftCode")
     @Expose

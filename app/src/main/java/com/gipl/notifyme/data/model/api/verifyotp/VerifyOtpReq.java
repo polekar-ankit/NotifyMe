@@ -6,27 +6,27 @@ import com.google.gson.annotations.SerializedName;
 public class VerifyOtpReq {
     @SerializedName("jClientType")
     @Expose
-    private int clientType = 2;
+    private final int clientType = 2;
 
     @SerializedName("sUserName")
     @Expose
-    private String empCode;
+    private final String empCode;
 
     @SerializedName("sPassword")
     @Expose
-    private String password;
+    private final String password;
 
     @SerializedName("sOTP")
     @Expose
-    private String otp;
+    private final String otp;
 
     @SerializedName("sFirebaseDeviceToken")
     @Expose
-    private String firebaseDeviceToken;
+    private final String firebaseDeviceToken;
 
     @SerializedName("sTag")
     @Expose
-    private String tag;
+    private final String tag;
 
     public VerifyOtpReq(String empCode, String otp, String firebaseDeviceToken, String tag) {
         this.empCode = empCode;

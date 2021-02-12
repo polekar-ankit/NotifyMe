@@ -25,6 +25,10 @@ import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 
+/*
+user can add leave and get live list from this domain class
+also get leave type list
+ */
 public class LeaveDomain extends UseCase {
     public LeaveDomain(DataManager dataManager) {
         super(dataManager);

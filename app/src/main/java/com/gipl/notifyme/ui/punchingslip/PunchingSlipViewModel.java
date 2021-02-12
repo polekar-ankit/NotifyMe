@@ -26,13 +26,13 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class PunchingSlipViewModel extends BaseViewModel {
-    private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
-    private ObservableField<String> shiftError = new ObservableField<>("");
-    private ObservableField<String> inTimeError = new ObservableField<>("");
-    private ObservableField<String> outTimeError = new ObservableField<>("");
-    private ObservableField<String> reason = new ObservableField<>("");
-    private ObservableField<String> reasonError = new ObservableField<>();
-    private SlipDomain slipDomain;
+    private final MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
+    private final ObservableField<String> shiftError = new ObservableField<>("");
+    private final ObservableField<String> inTimeError = new ObservableField<>("");
+    private final ObservableField<String> outTimeError = new ObservableField<>("");
+    private final ObservableField<String> reason = new ObservableField<>("");
+    private final ObservableField<String> reasonError = new ObservableField<>();
+    private final SlipDomain slipDomain;
 
     public PunchingSlipViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

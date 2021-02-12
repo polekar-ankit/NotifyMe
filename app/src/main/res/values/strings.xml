@@ -121,4 +121,9 @@
     <string name="btn_cancel">Cancel</string>
     <string name="btn_lbl_add_miss_punch">Add Punching Slip</string>
     <string name="lbl_min">Minute</string>
+    <string name="lbl_rb_english">English</string>
+    <string name="lbl_rb_marathi">मराठी</string>
+    <string name="lbl_change_your_language">Change Your Language</string>
+    <string name="btn_txt_change_language">Change Language</string>
+    <string name="nav_change_lng">Change language</string>
 </resources>

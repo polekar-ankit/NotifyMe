@@ -10,7 +10,7 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 
 public class ImagePreviewViewModel extends BaseViewModel {
 
-    private ObservableField<String> imageUrl = new ObservableField<>();
+    private final ObservableField<String> imageUrl = new ObservableField<>();
 
     public ImagePreviewViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

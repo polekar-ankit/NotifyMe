@@ -25,11 +25,11 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class AddOverTimeViewModel extends BaseViewModel {
-    private SlipDomain slipDomain;
-    private ObservableField<String> otHours = new ObservableField<>("");
-    private ObservableField<String> otHoursError = new ObservableField<>("");
-    private ObservableField<String> otReason = new ObservableField<>("");
-    private ObservableField<String> otReasonError = new ObservableField<>("");
+    private final SlipDomain slipDomain;
+    private final ObservableField<String> otHours = new ObservableField<>("");
+    private final ObservableField<String> otHoursError = new ObservableField<>("");
+    private final ObservableField<String> otReason = new ObservableField<>("");
+    private final ObservableField<String> otReasonError = new ObservableField<>("");
 
 
     public AddOverTimeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -104,7 +104,7 @@ public class AddOverTimeViewModel extends BaseViewModel {
             User user = getDataManager().getUserObj();
             addOverTimeReq.setSuidPlant(user.getSuidPlant());
             addOverTimeReq.setSuidUser(user.getSuidUser());
-            addOverTimeReq.setSuidUserAplicant(user.getSuidEmployee());
+            addOverTimeReq.setSuidUserAplicant(user.getSuidUser());
             addOverTimeReq.setsReason(reason.getSuid() == 32 ? otReason.get() : reason.getReason());
             addOverTimeReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
 
@@ -126,4 +126,5 @@ public class AddOverTimeViewModel extends BaseViewModel {
             getResponseMutableLiveData().postValue(Response.error(e));
         }
     }
+
 }

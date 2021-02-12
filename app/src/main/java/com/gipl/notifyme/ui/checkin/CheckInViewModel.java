@@ -32,10 +32,10 @@ import java.util.ArrayList;
 
 public class CheckInViewModel extends BaseViewModel {
     FirebaseDb firebaseDb;
-    private MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
-    private UserUseCase userUseCase;
+    private final MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
+    private final UserUseCase userUseCase;
     private String scanBarcode = "";
-    private ObservableField<String> shiftError = new ObservableField<>("");
+    private final ObservableField<String> shiftError = new ObservableField<>("");
 
     public CheckInViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

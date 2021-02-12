@@ -69,7 +69,7 @@ import okhttp3.OkHttpClient;
 public class AppApiHelper implements ApiHelper {
 
 
-    private OkHttpClient okHttpClient;
+    private final OkHttpClient okHttpClient;
 
 
     @Inject

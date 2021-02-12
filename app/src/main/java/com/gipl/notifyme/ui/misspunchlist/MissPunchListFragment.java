@@ -35,7 +35,7 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
     @Inject
     MissPunchListViewModel viewModel;
     private MissPunchListAdapter missPunchListAdapter;
-    private IFragmentListener iFragmentListener = new IFragmentListener() {
+    private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public void onActivityResult(Bundle bundle) {
             viewModel.getMissPunchList();

@@ -31,17 +31,17 @@ import java.util.concurrent.Executors;
 import io.reactivex.functions.Consumer;
 
 public class MeViewModel extends BaseViewModel {
-    private ObservableField<String> empName = new ObservableField<>("");
-    private ObservableField<String> empCode = new ObservableField<>("");
-    private ObservableField<String> empPlant = new ObservableField<>("");
-    private ObservableField<String> empMoNumber = new ObservableField<>("");
-    private ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
-    private UserUseCase userUseCase;
+    private final ObservableField<String> empName = new ObservableField<>("");
+    private final ObservableField<String> empCode = new ObservableField<>("");
+    private final ObservableField<String> empPlant = new ObservableField<>("");
+    private final ObservableField<String> empMoNumber = new ObservableField<>("");
+    private final ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
+    private final UserUseCase userUseCase;
     private ExecutorService countDownTimer;
-    private ObservableField<String> checkInDateTime = new ObservableField<>("");
-    private ObservableField<String> checkInTime = new ObservableField<>("");
-    private ObservableBoolean showCheckInButton = new ObservableBoolean(true);
-    private FirebaseDb firebaseDb;
+    private final ObservableField<String> checkInDateTime = new ObservableField<>("");
+    private final ObservableField<String> checkInTime = new ObservableField<>("");
+    private final ObservableBoolean showCheckInButton = new ObservableBoolean(true);
+    private final FirebaseDb firebaseDb;
 
     public MeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

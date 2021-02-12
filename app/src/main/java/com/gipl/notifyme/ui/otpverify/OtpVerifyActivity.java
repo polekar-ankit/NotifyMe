@@ -45,6 +45,11 @@ public class OtpVerifyActivity extends BaseActivity<ActivityVerifyOtpBinding, Ot
     }
 
     @Override
+    public String getScreenName() {
+        return OtpVerifyActivity.class.getSimpleName();
+    }
+
+    @Override
     public OtpVerifyViewModel getViewModel() {
         return otpVerifyViewModel;
     }

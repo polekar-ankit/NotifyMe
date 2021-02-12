@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName;
 public class CheckType {
     @SerializedName("BIT_CHECKIN")
     @Expose
-    private int BitCheckIn = 1;
+    private final int BitCheckIn = 1;
 
     @SerializedName("BIT_CHECKOUT")
     @Expose
-    private int BitCheckOut = 2;
+    private final int BitCheckOut = 2;
 
     public int getBitCheckIn() {
         return BitCheckIn;

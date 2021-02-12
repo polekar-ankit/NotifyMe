@@ -45,6 +45,11 @@ public class CheckInActivity extends BaseActivity<ActivityCheckInBinding, CheckI
     }
 
     @Override
+    public String getScreenName() {
+        return CheckInActivity.class.getSimpleName();
+    }
+
+    @Override
     public CheckInViewModel getViewModel() {
         return checkInViewModel;
     }

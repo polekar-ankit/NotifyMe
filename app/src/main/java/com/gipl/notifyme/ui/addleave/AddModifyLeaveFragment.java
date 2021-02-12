@@ -53,7 +53,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         getViewDataBinding().tvTo.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog, toDatePickerDialog;
-    private DatePickerDialog.OnDateSetListener fromOnDateSetListener = (view, year, month, day) -> {
+    private final DatePickerDialog.OnDateSetListener fromOnDateSetListener = (view, year, month, day) -> {
         String fromDate = TimeUtility.getDisplayFormattedDate(year, month, day);
         getViewDataBinding().tvFrom.setText(fromDate);
         try {
@@ -102,10 +102,10 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                     String name = (String) response.data;
                     if (name.equals(AddModifyLeaveReq.class.getSimpleName())) {
                         DialogUtility.showToast(requireContext(), "Your Leave has been successfully applied");
-                        getBaseActivity().onBackPressed();
                         if (iFragmentListener != null) {
                             iFragmentListener.onActivityResult(null);
                         }
+                        getBaseActivity().onBackPressed();
                     }
                 }
                 break;

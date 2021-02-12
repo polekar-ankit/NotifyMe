@@ -25,6 +25,7 @@ import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.di.PreferenceInfo;
+import com.gipl.notifyme.ui.changelng.ChangeLanguageFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,6 +40,7 @@ import javax.inject.Inject;
 
 public class AppPreferencesHelper implements PreferencesHelper {
 
+    public static final String KEY_LANG_CODE = "KEY_LANG_CODE";
     private static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
     private static final String KEY_EMP_CODE = "KEY_EMP_CODE";
     private static final String KEY_LAST_NOTIFICATION_SYNC = "KEY_LAST_SYNC";
@@ -197,6 +199,16 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public long getReasonCacheDate(String type) {
         return mPrefs.getLong(type, 0);
+    }
+
+    @Override
+    public void setLanguageCode(String code) {
+        mPrefs.edit().putString(KEY_LANG_CODE, code).apply();
+    }
+
+    @Override
+    public String getLanguageCode() {
+        return mPrefs.getString(KEY_LANG_CODE, ChangeLanguageFragment.englishCode);
     }
 
     @Override

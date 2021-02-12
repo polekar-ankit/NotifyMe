@@ -66,7 +66,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getArguments() != null) {
-            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_USER);
+            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
         }
         viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
@@ -134,9 +134,10 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                 hideLoading();
                 if (response.data instanceof Boolean) {
                     DialogUtility.showToast(requireContext(), getString(R.string.msg_ot_added));
-                    getBaseActivity().onBackPressed();
-                    if (iFragmentListener != null)
+                    if (iFragmentListener != null) {
                         iFragmentListener.onActivityResult(null);
+                    }
+                    getBaseActivity().onBackPressed();
                 }
                 break;
             case ERROR:

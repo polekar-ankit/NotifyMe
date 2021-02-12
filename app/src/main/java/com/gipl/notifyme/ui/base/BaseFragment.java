@@ -61,6 +61,7 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         mViewModel = getViewModel();
+
         setHasOptionsMenu(false);
     }
 

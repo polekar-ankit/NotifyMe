@@ -151,11 +151,7 @@ public class NotificationListFragment extends BaseFragment<LayoutNotificationLis
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getViewDataBinding().rvNotifications.getLayoutManager();
                 if (linearLayoutManager != null) {
                     int firstItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                    if (firstItem != 0) {
-                        getViewDataBinding().pullDown.setEnabled(false);
-                    } else {
-                        getViewDataBinding().pullDown.setEnabled(true);
-                    }
+                    getViewDataBinding().pullDown.setEnabled(firstItem == 0);
                 }
             }
         });

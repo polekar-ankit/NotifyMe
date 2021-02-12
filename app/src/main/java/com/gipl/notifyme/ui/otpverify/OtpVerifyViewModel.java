@@ -20,10 +20,10 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.Calendar;
 
 public class OtpVerifyViewModel extends BaseViewModel {
-    private UserUseCase userUseCase;
+    private final UserUseCase userUseCase;
     private User user;
-    private ObservableField<String> otp = new ObservableField<>("");
-    private ObservableField<String> mobileNumber = new ObservableField<>();
+    private final ObservableField<String> otp = new ObservableField<>("");
+    private final ObservableField<String> mobileNumber = new ObservableField<>();
 
     public OtpVerifyViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

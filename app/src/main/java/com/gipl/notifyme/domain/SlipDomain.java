@@ -40,6 +40,9 @@ import java.util.Locale;
 
 import io.reactivex.Single;
 
+/**
+ * employee's slip such as over time,shift change ,add co,punching slip etc related api are handle form here
+ */
 public class SlipDomain extends UseCase {
     public SlipDomain(DataManager dataManager) {
         super(dataManager);

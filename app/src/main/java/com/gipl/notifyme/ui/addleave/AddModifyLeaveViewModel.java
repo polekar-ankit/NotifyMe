@@ -40,10 +40,10 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.functions.Consumer;
 
 public class AddModifyLeaveViewModel extends BaseViewModel {
-    private ObservableField<String> reason = new ObservableField<>("");
-    private ObservableField<String> reasonError = new ObservableField<>("");
-    private LeaveDomain leaveDomain;
-    private MutableLiveData<ArrayList<LeaveApproval>> leaveTypeLiveData = new MutableLiveData<>();
+    private final ObservableField<String> reason = new ObservableField<>("");
+    private final ObservableField<String> reasonError = new ObservableField<>("");
+    private final LeaveDomain leaveDomain;
+    private final MutableLiveData<ArrayList<LeaveApproval>> leaveTypeLiveData = new MutableLiveData<>();
     private MediaFile attachment;
 
     public AddModifyLeaveViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {

@@ -22,11 +22,13 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -55,7 +57,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
-
 
 
 /**
@@ -103,6 +104,11 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
     @Override
     public int getLayoutId() {
         return R.layout.activity_player;
+    }
+
+    @Override
+    public String getScreenName() {
+        return PlayerActivity.class.getSimpleName();
     }
 
 
@@ -239,8 +245,8 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
 //        player = ExoPlayerFactory.newSimpleInstance(new DefaultRenderersFactory(this),
 //                new DefaultTrackSelector(), new DefaultLoadControl());
 
-        player = ExoPlayerFactory.newSimpleInstance(this,new DefaultRenderersFactory(this)
-                ,new DefaultTrackSelector(), new DefaultLoadControl());
+        player = ExoPlayerFactory.newSimpleInstance(this, new DefaultRenderersFactory(this)
+                , new DefaultTrackSelector(), new DefaultLoadControl());
         player.addListener(new ExoPlayerEventsListener(new WeakReference<Context>(this)));
         playerView.setPlayer(player);
         player.setPlayWhenReady(playWhenReady);
@@ -296,7 +302,7 @@ public class PlayerActivity extends BaseActivity<ActivityPlayerBinding, PlayerVi
 class ExoPlayerEventsListener extends Player.DefaultEventListener {
     private static final String TAG = ExoPlayerEventsListener.class.getSimpleName();
 
-    private WeakReference<Context> contextWeakReference;
+    private final WeakReference<Context> contextWeakReference;
 
     public ExoPlayerEventsListener(@NonNull WeakReference<Context> contextWeakReference) {
         this.contextWeakReference = contextWeakReference;

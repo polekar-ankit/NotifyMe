@@ -73,7 +73,7 @@ public class AppDataManager implements DataManager {
 
 
     private final PreferencesHelper mPreferencesHelper;
-    private NotifyMeDatabase mDatabase;
+    private final NotifyMeDatabase mDatabase;
 
     @Inject
     public AppDataManager(Context context, PreferencesHelper preferencesHelper, ApiHelper apiHelper) {
@@ -304,6 +304,16 @@ public class AppDataManager implements DataManager {
     @Override
     public long getReasonCacheDate(String type) {
         return mPreferencesHelper.getReasonCacheDate(type);
+    }
+
+    @Override
+    public void setLanguageCode(String code) {
+        mPreferencesHelper.setLanguageCode(code);
+    }
+
+    @Override
+    public String getLanguageCode() {
+        return mPreferencesHelper.getLanguageCode();
     }
 
     @Override

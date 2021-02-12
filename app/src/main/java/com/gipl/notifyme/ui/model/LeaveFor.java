@@ -1,8 +1,8 @@
 package com.gipl.notifyme.ui.model;
 
 public class LeaveFor {
-    private String name;
-    private int suid;
+    private final String name;
+    private final int suid;
 
     public LeaveFor(String name, int suid) {
         this.name = name;

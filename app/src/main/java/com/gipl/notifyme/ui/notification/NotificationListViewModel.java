@@ -17,8 +17,8 @@ import com.gipl.notifyme.uility.rx.SchedulerProvider;
 import java.util.ArrayList;
 
 public class NotificationListViewModel extends BaseViewModel {
-    private NotificationUseCase useCase;
-    private ObservableField<String> lastSync = new ObservableField<>("");
+    private final NotificationUseCase useCase;
+    private final ObservableField<String> lastSync = new ObservableField<>("");
 
     public NotificationListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

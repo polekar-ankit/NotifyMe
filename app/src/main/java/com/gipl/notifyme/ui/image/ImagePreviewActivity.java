@@ -17,8 +17,8 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
 
     private int position;
     private String url;
-    private static String KEY_POSITION = "position";
-    private static String KEY_IMAGE_URL = "imageUrl";
+    private static final String KEY_POSITION = "position";
+    private static final String KEY_IMAGE_URL = "imageUrl";
 
     @Inject
     ImagePreviewViewModel imagePreviewViewModel;
@@ -31,6 +31,11 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
     @Override
     public int getLayoutId() {
         return  R.layout.layout_image_preview;
+    }
+
+    @Override
+    public String getScreenName() {
+        return ImagePreviewActivity.class.getSimpleName();
     }
 
     @Override

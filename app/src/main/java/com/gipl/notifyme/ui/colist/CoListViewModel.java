@@ -16,7 +16,7 @@ import org.json.JSONException;
 import io.reactivex.functions.Consumer;
 
 public class CoListViewModel extends BaseViewModel {
-    private SlipDomain slipDomain;
+    private final SlipDomain slipDomain;
 
     public CoListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

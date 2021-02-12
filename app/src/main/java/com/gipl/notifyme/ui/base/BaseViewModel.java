@@ -22,7 +22,7 @@ public abstract class BaseViewModel extends ViewModel {
 
     private final SchedulerProvider mSchedulerProvider;
     private final MutableLiveData<Response> mResponseMutableLiveData = new MutableLiveData<>();
-    private CompositeDisposable mCompositeDisposable;
+    private final CompositeDisposable mCompositeDisposable;
 
 
     public BaseViewModel(DataManager dataManager,

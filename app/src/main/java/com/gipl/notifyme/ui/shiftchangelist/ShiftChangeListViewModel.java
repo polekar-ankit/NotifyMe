@@ -16,7 +16,7 @@ import org.json.JSONException;
 import io.reactivex.functions.Consumer;
 
 public class ShiftChangeListViewModel extends BaseViewModel {
-    private SlipDomain slipDomain;
+    private final SlipDomain slipDomain;
 
     public ShiftChangeListViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);

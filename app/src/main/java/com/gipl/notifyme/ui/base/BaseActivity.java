@@ -1,11 +1,15 @@
 package com.gipl.notifyme.ui.base;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +29,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import com.gipl.notifyme.BuildConfig;
+import com.gipl.notifyme.data.local.prefs.AppPreferencesHelper;
+import com.gipl.notifyme.ui.changelng.ChangeLanguageFragment;
 import com.gipl.notifyme.uility.DialogUtility;
 import com.gipl.notifyme.uility.NetworkUtils;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.Locale;
 
 import dagger.android.AndroidInjection;
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 
 public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseViewModel>
@@ -40,6 +51,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     private ProgressDialog mProgressDialog;
     private T mViewDataBinding;
     private V mViewModel;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     /**
      * Override for set binding variable
@@ -55,7 +67,7 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
     @LayoutRes
     int getLayoutId();
 
-//    public abstract String getScreenName();
+    public abstract String getScreenName();
 
     /**
      * Override for set view model
@@ -64,17 +76,25 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
      */
     public abstract V getViewModel();
 
+    public FirebaseAnalytics getmFirebaseAnalytics() {
+        return mFirebaseAnalytics;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        FirebaseAnalytics.getInstance(this).setCurrentScreen(this, this.getScreenName(), this.getScreenName());
-
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         performDependencyInjection();
         super.onCreate(savedInstanceState);
-
         performDataBinding();
 
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, getScreenName());
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, getScreenName());
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
+
+        mFirebaseAnalytics.setUserId(getViewModel().getDataManager().getEmpCode());
 
     }
 
@@ -218,6 +238,42 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
             transaction.addToBackStack(null);
         }
         transaction.commit();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(updateBaseContextLocale(newBase)));
+    }
+
+    public Context updateBaseContextLocale(Context newBase) {
+        SharedPreferences mPrefs = newBase.getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE);
+        Locale locale = new Locale(mPrefs.getString(AppPreferencesHelper.KEY_LANG_CODE, ChangeLanguageFragment.englishCode));
+        Locale.setDefault(locale);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return updateResourcesLocale(newBase, locale);
+        }
+
+        return updateResourcesLocaleLegacy(newBase, locale);
+    }
+
+    private Context updateResourcesLocaleLegacy(Context context, Locale locale) {
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+
+        configuration.setLocale(locale);
+        configuration.setLayoutDirection(locale);
+
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        return context;
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private Context updateResourcesLocale(Context context, Locale locale) {
+        Configuration configuration = context.getResources().getConfiguration();
+        configuration.setLocale(locale);
+        configuration.setLayoutDirection(locale);
+        return context.createConfigurationContext(configuration);
     }
 
 

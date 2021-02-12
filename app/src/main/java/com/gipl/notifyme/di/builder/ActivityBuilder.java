@@ -19,6 +19,7 @@ package com.gipl.notifyme.di.builder;
 import com.gipl.notifyme.ui.addco.AddCoFragmentProvider;
 import com.gipl.notifyme.ui.addleave.AddModifyLeaveFragmentProvider;
 import com.gipl.notifyme.ui.addovertime.AddOverTimeFragmentProvider;
+import com.gipl.notifyme.ui.changelng.ChangeLanguageFragmentProvider;
 import com.gipl.notifyme.ui.checkin.CheckInActivity;
 import com.gipl.notifyme.ui.checkin.CheckInModule;
 import com.gipl.notifyme.ui.colist.CoListFragment;
@@ -78,7 +79,8 @@ public abstract class ActivityBuilder {
             ShiftChangeListFragmentProvider.class,
             ShiftChangeFragmentProvider.class,
             AddCoFragmentProvider.class,
-            CoListFragmentProvider.class
+            CoListFragmentProvider.class,
+            ChangeLanguageFragmentProvider.class
     })
     abstract MainActivity provideMainActivity();
 
