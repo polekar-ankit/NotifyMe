@@ -82,27 +82,25 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 
-    public void addModifyLeave(String from, String to,
-                               LeaveFor leaveFor,
-                               LeaveFor leaveForTo,
-                               LeaveApproval suidLeaveType,
-                               Reason selectedReason) {
+    public MutableLiveData<Double> getIsLeaveDataValid() {
+        return isLeaveDataValid;
+    }
+
+    private MutableLiveData<Double>isLeaveDataValid = new MutableLiveData<>();
+
+    AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();
+
+    //TODO: check and correction in for error check method
+    public void checkLeaveDataForError(String from, String to,
+                                       LeaveFor leaveFor,
+                                       LeaveFor leaveForTo,
+                                       LeaveApproval suidLeaveType,
+                                       Reason selectedReason,
+                                       long numberOfLeaveDays
+                                       ){
         if (leaveFor.getSuid() == -1 || suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
             return;
         }
-        AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();
-        try {
-            addModifyLeaveReq.setsFrom(TimeUtility.convertDisplayDateToApi(from));
-        } catch (ParseException e) {
-            addModifyLeaveReq.setsFrom(from);
-        }
-        try {
-            addModifyLeaveReq.setsTo(TimeUtility.convertDisplayDateToApi(to));
-        } catch (ParseException e) {
-            addModifyLeaveReq.setsTo(to);
-        }
-
-
         if (suidLeaveType.getSLeaveType().equals("SL")) {
             try {
                 Calendar calFrom = TimeUtility.convertDisplayDateTimeToCalender(from);
@@ -127,7 +125,16 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         if (!reasonError.get().isEmpty()) {
             return;
         }
-
+        try {
+            addModifyLeaveReq.setsFrom(TimeUtility.convertDisplayDateToApi(from));
+        } catch (ParseException e) {
+            addModifyLeaveReq.setsFrom(from);
+        }
+        try {
+            addModifyLeaveReq.setsTo(TimeUtility.convertDisplayDateToApi(to));
+        } catch (ParseException e) {
+            addModifyLeaveReq.setsTo(to);
+        }
         addModifyLeaveReq.setjLeaveStatus(getDataManager().getUtility().getLeaveStatus().getBitPending());
         addModifyLeaveReq.setjLeaveFor(leaveFor.getSuid());
         addModifyLeaveReq.setSuidLeaveType(suidLeaveType.getSuidLeaveApproval());
@@ -135,8 +142,33 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
 
         if (attachment != null)
             addModifyLeaveReq.setArrFilesBase64(new String[]{getBase64OfAttachFile()});
-        getResponseMutableLiveData().postValue(Response.loading());
 
+        if (numberOfLeaveDays>1) {
+            /*
+              if leave start in first session of from date then from date is consider as full day
+              and if it start in second session of from date then form date is consider as half day
+
+              if leave start in first session of To date then To date is consider as full day
+              and if it start in second session of To date then To date is consider as half day
+
+              so we are making -0.5 from number of leave days for second session of from date and first session of to date
+             */
+            com.gipl.notifyme.data.model.api.lib.utility.LeaveFor utility = getDataManager().getUtility().getLeaveFor();
+            double finalNoOfLeaveDays = numberOfLeaveDays;
+            if (leaveFor.getSuid() == utility.getBitSecondHalfDay())
+                finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
+
+            if (leaveForTo.getSuid() == utility.getBitFirstHalfDay())
+                finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
+
+            getIsLeaveDataValid().postValue(finalNoOfLeaveDays);
+        }
+        else
+            getIsLeaveDataValid().postValue(0.0);
+    }
+
+    public void addModifyLeave() {
+        getResponseMutableLiveData().postValue(Response.loading());
         try {
             getCompositeDisposable().add(leaveDomain.addModifyLeave(addModifyLeaveReq)
                     .subscribeOn(getSchedulerProvider().io())
