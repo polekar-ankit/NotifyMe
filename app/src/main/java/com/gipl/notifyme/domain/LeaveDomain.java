@@ -75,8 +75,7 @@ public class LeaveDomain extends UseCase {
         if (leaveTypeRsp != null) {
             try {
                 //we are passing current utc time for in tag so we are using tag for days calculation
-                long diff = TimeUtility.getDiff(TimeUtility.convertUtcTimeToLong(leaveTypeRsp.getTag()));
-                long days = diff / (1000 * 60 * 60 * 24);
+                long days = TimeUtility.getDifferenceInDaysUpdateToCurrentTime(TimeUtility.convertUtcTimeToLong(leaveTypeRsp.getTag()));
                 refreshCache = days > 1;
             } catch (ParseException e) {
                 e.printStackTrace();

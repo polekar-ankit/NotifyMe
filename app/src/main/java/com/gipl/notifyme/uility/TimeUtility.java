@@ -22,6 +22,11 @@ public class TimeUtility {
         return simpleDateFormat.parse(time).getTime();
     }
 
+    public static long convertDisplayTimeToLong(String time) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ONLY_DATE_FORMAT, Locale.US);
+        return simpleDateFormat.parse(time).getTime();
+    }
+
     public static String convertTimeToDb(String dateTime) throws ParseException {
         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat(API_RECEIVE_FORMAT, Locale.US);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DB_FORMAT, Locale.US);
@@ -78,6 +83,13 @@ public class TimeUtility {
         return calCurrent.getTime().getTime() - calCheckIn.getTime().getTime();
     }
 
+    public static long getDifferenceInDays(long diff){
+        return diff / (1000 * 60 * 60 * 24);
+    }
+    public static long getDifferenceInDaysUpdateToCurrentTime(long timeInMilisecond){
+        long diff = TimeUtility.getDiff(timeInMilisecond);
+        return getDifferenceInDays(diff);
+    }
 
     public static String getCountDownTimer(long diff) {
         long hrRemain = diff / (1000 * 60 * 60);

@@ -84,9 +84,10 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
 
     public void addModifyLeave(String from, String to,
                                LeaveFor leaveFor,
+                               LeaveFor leaveForTo,
                                LeaveApproval suidLeaveType,
                                Reason selectedReason) {
-        if (leaveFor.getSuid() == -1 || suidLeaveType.getSApprovalsRequired() == null) {
+        if (leaveFor.getSuid() == -1 || suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
             return;
         }
         AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();

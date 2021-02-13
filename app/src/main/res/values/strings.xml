@@ -96,7 +96,7 @@
     <string name="msg_co_added">CO has been added successfully</string>
     <string name="lbl_add_co_for">Add Co for</string>
     <string name="lbl_full_day">Full Day</string>
-    <string name="lbl_half_day">First Half</string>
+    <string name="lbl_first_half">First Half</string>
     <string name="lbl_co_half_day">Half Day</string>
     <string name="lbl_second_half">Second Half</string>
     <string name="activity_co">CO</string>
@@ -126,4 +126,11 @@
     <string name="lbl_change_your_language">Change Your Language</string>
     <string name="btn_txt_change_language">Change Language</string>
     <string name="nav_change_lng">Change language</string>
+    <string name="title_leave_for">Leave for %1$s days</string>
+    <string name="msg_multiple_days_leave" >You have apply %1$s day leave from %2$s to %3$s</string>
+<!--    "You have apply leave on " + getViewDataBinding().tvFrom.getText().toString() + "  for " + leaveForFrom.getName()-->
+    <string name="msg_single_day_leave">You have apply leave on %1$s for %2$s leave</string>
+    <string name="btn_lbl_leave_confirm">Correct</string>
+    <string name="btn_lbl_leave_confirm_wrong">Wrong</string>
+    <string name="title_leave_half_day">Leave</string>
 </resources>

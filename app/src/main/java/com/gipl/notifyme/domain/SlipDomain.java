@@ -54,7 +54,7 @@ public class SlipDomain extends UseCase {
 //        req.setSuidShift(user.getSuidUser());
         req.setSuidUser(user.getSuidUser());
         req.setEmpCode(dataManager.getEmpCode());
-        req.setSuidUserAplicant(user.getSuidEmployee());
+        req.setSuidUserAplicant(user.getSuidUser());
         req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         req.setsExtraInfo("");
         return dataManager.addPunchingSlip(req);
@@ -219,7 +219,8 @@ public class SlipDomain extends UseCase {
             new FirebaseDb().getReason(type, dataManager);
             return;
         }
-        long days = TimeUtility.getDiff(lastSync) / (1000 * 60 * 60 * 24);
+//        long days = TimeUtility.getDiff(lastSync) / (1000 * 60 * 60 * 24);
+         long days = TimeUtility.getDifferenceInDaysUpdateToCurrentTime(lastSync);;
         if (days >= 1) {
             new FirebaseDb().getReason(type, dataManager);
         }

@@ -2,18 +2,17 @@ package com.gipl.notifyme.ui.addleave;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.library.baseAdapters.BR;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +36,7 @@ import com.jaiselrahman.filepicker.activity.FilePickerActivity;
 import com.jaiselrahman.filepicker.config.Configurations;
 import com.jaiselrahman.filepicker.model.MediaFile;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,15 +44,42 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+/**
+ * Current Leave apply logic is consider as below
+ * <p>
+ * Same day
+ * + first half to first half  - (0.5)
+ * + first half to  second half  - (1)
+ * + second half to  second half  - (0.5)
+ * + full
+ * <p>
+ * Day diff:
+ * + full to full
+ * 13-15(3)
+ * <p>
+ * + full to first half
+ * 13-15(2.5)
+ * <p>
+ * + full to second half
+ * 13-15(3)
+ * + first half to full
+ * 13-15(3)
+ * + second half to full
+ * 13-15(2.5)
+ * <p>
+ * + second half to second half
+ * 13-15=  2.5
+ * + second half to first half
+ * 13-15=  2
+ * <p>
+ * + first half to second half
+ * 13-15=  3
+ * <p>
+ * + first half to first half
+ * 13-15 = (2.5)
+ */
 
 public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBinding, AddModifyLeaveViewModel> {
-    @Inject
-    AddModifyLeaveViewModel addModifyLeaveViewModel;
-
-    DatePickerDialog.OnDateSetListener toDateSetListener = (view, year, month, day) -> {
-        getViewDataBinding().tvTo.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
-    };
-    private DatePickerDialog datePickerDialog, toDatePickerDialog;
     private final DatePickerDialog.OnDateSetListener fromOnDateSetListener = (view, year, month, day) -> {
         String fromDate = TimeUtility.getDisplayFormattedDate(year, month, day);
         getViewDataBinding().tvFrom.setText(fromDate);
@@ -62,12 +89,36 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
             if (fromCalender.after(toCalendar)) {
                 getViewDataBinding().tvTo.setText(fromDate);
             }
+            checkDateSelectionAndEnableTo();
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
     };
+    @Inject
+    AddModifyLeaveViewModel addModifyLeaveViewModel;
+    DatePickerDialog.OnDateSetListener toDateSetListener = (view, year, month, day) -> {
+        getViewDataBinding().tvTo.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
+        checkDateSelectionAndEnableTo();
+    };
+    private DatePickerDialog datePickerDialog, toDatePickerDialog;
     private IFragmentListener iFragmentListener;
+    private long numberOfLeaveDays;
+
+    /**
+     * this method calculate difference between to and from date if diff is zero(means same date selected)
+     * then leave for option of to is disable
+     */
+
+    private void checkDateSelectionAndEnableTo() {
+        try {
+            long diff = TimeUtility.convertDisplayTimeToLong(getViewDataBinding().tvTo.getText().toString()) - TimeUtility.convertDisplayTimeToLong(getViewDataBinding().tvFrom.getText().toString());
+            numberOfLeaveDays = TimeUtility.getDifferenceInDays(diff) + 1;
+            getViewDataBinding().spinnerLeaveForTo.setEnabled(numberOfLeaveDays > 1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public int getBindingVariable() {
@@ -140,7 +191,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
-
+        checkDateSelectionAndEnableTo();
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
             datePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
@@ -169,12 +220,40 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         });
 
         getViewDataBinding().btnApply.setOnClickListener(v -> {
-            LeaveFor leaveFor = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
-            LeaveApproval leaveApproval = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
-            Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
-            hideKeyboard();
-            addModifyLeaveViewModel.addModifyLeave(getViewDataBinding().tvFrom.getText().toString(),
-                    getViewDataBinding().tvTo.getText().toString(), leaveFor, leaveApproval, reason);
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            LeaveFor leaveForFrom = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
+            LeaveFor leaveForTo = (LeaveFor) getViewDataBinding().spinnerLeaveForTo.getSelectedItem();
+            if (numberOfLeaveDays > 1) {
+                com.gipl.notifyme.data.model.api.lib.utility.LeaveFor utility = addModifyLeaveViewModel.getDataManager().getUtility().getLeaveFor();
+                double finalNoOfLeaveDays = numberOfLeaveDays;
+                if (leaveForFrom.getSuid() == utility.getBitSecondHalfDay())
+                    finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
+
+                if (leaveForTo.getSuid() == utility.getBitFirstHalfDay())
+                    finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
+
+                DecimalFormat decimalFormat = new DecimalFormat("0.#####");
+                String displayDays = decimalFormat.format(finalNoOfLeaveDays);
+                builder.setTitle(getString(R.string.title_leave_for,displayDays ));
+                builder.setMessage(getString(R.string.msg_multiple_days_leave, displayDays,
+                        getViewDataBinding().tvFrom.getText().toString(), getViewDataBinding().tvTo.getText().toString()));
+            } else {
+                builder.setTitle(getString(R.string.title_leave_half_day));
+                builder.setMessage(getString(R.string.msg_single_day_leave,
+                        getViewDataBinding().tvFrom.getText().toString(), leaveForFrom.getName()));
+            }
+            builder.setPositiveButton(R.string.btn_lbl_leave_confirm, (dialog, which) -> {
+                LeaveApproval leaveApproval = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
+                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+                hideKeyboard();
+                dialog.dismiss();
+                addModifyLeaveViewModel.addModifyLeave(getViewDataBinding().tvFrom.getText().toString(),
+                        getViewDataBinding().tvTo.getText().toString(), leaveForFrom,
+                        numberOfLeaveDays > 0 ? leaveForTo : leaveForFrom, leaveApproval, reason);
+            });
+            builder.setNegativeButton(R.string.btn_lbl_leave_confirm_wrong, (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+
         });
 
         getViewDataBinding().btnMedicalCertificate.setOnClickListener(v -> showFilePickerOptions());
@@ -290,6 +369,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         forArrayList.add(new LeaveFor("Select", -1));
         Utility utility = addModifyLeaveViewModel.getDataManager().getUtility();
         forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_first_half), utility.getLeaveFor().getBitFirstHalfDay()));
         forArrayList.add(new LeaveFor(getString(R.string.lbl_second_half), utility.getLeaveFor().getBitSecondHalfDay()));
         ArrayAdapter<LeaveFor> leaveForFromArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
         getViewDataBinding().spinnerLeaveFor.setAdapter(leaveForFromArrayAdapter);
@@ -302,10 +382,9 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         forArrayList.add(new LeaveFor("Select", -1));
         Utility utility = addModifyLeaveViewModel.getDataManager().getUtility();
         forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
-        forArrayList.add(new LeaveFor(getString(R.string.lbl_half_day), utility.getLeaveFor().getBitFirstHalfDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_first_half), utility.getLeaveFor().getBitFirstHalfDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_second_half), utility.getLeaveFor().getBitSecondHalfDay()));
         ArrayAdapter<LeaveFor> leaveForToArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
         getViewDataBinding().spinnerLeaveForTo.setAdapter(leaveForToArrayAdapter);
-
-
     }
 }

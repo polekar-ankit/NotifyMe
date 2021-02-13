@@ -67,7 +67,7 @@ public class AddCoViewModel extends BaseViewModel {
         req.setsDtCO(coDate);
         User user = getDataManager().getUserObj();
         req.setSuidUser(user.getSuidUser());
-        req.setSuidUserAplicant(user.getSuidEmployee());
+        req.setSuidUserAplicant(user.getSuidUser());
         req.setjCOFor(coFor.getSuid());
         req.setsReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());
         req.setEmpCode(getDataManager().getEmpCode());

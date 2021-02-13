@@ -97,7 +97,7 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         getViewDataBinding().npHr.setMaxValue(16);
         getViewDataBinding().npMin.setMinValue(0);
         getViewDataBinding().npMin.setMaxValue(12);
-        getViewDataBinding().npMin.setFormatter(value -> String.valueOf(value * 5));
+        getViewDataBinding().npMin.setFormatter(value -> String.format(Locale.getDefault(), "%d", (value * 5)));
 
         getViewDataBinding().npHr.setOnValueChangedListener((picker, oldVal, newVal) -> {
             if (newVal == 16) {

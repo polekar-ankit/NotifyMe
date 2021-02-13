@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="@color/colorPrimary"
+    android:textColor="@xml/color_spinner"
     android:fontFamily="@font/proxima_nova_regular"
     android:textSize="@dimen/spinner_text"
     android:paddingTop="@dimen/_10sdp"

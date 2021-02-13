@@ -3,6 +3,9 @@ package com.gipl.notifyme.data.model.api.leavetype;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Leave type(sl,pl,co etc)
+ */
 public class LeaveApproval {
     @SerializedName("jLeaveType")
     @Expose
@@ -10,12 +13,17 @@ public class LeaveApproval {
     @SerializedName("sLeaveType")
     @Expose
     private String sLeaveType;
+    /**
+     * suid for leave type
+     */
     @SerializedName("suidLeaveApproval")
     @Expose
     private String suidLeaveApproval;
+
     @SerializedName("sDescription")
     @Expose
     private String sDescription;
+
     @SerializedName("sApprovalsRequired")
     @Expose
     private Integer sApprovalsRequired;
@@ -57,7 +65,7 @@ public class LeaveApproval {
         this.suidLeaveApproval = suidLeaveApproval;
     }
 
-    public Integer getSApprovalsRequired() {
+    public Integer getApprovalsRequired() {
         return sApprovalsRequired;
     }
 
