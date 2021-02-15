@@ -97,7 +97,6 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         return isLeaveDataValid;
     }
 
-    //TODO: check and correction in for error check method
     public void checkLeaveDataForError(String from, String to,
                                        LeaveFor leaveFor,
                                        LeaveFor leaveForTo,
