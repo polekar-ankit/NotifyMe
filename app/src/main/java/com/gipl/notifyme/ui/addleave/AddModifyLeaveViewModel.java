@@ -1,8 +1,6 @@
 package com.gipl.notifyme.ui.addleave;
 
 import android.util.Base64;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
@@ -12,9 +10,7 @@ import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
-import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveApproval;
-import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.domain.LeaveDomain;
 import com.gipl.notifyme.domain.SlipDomain;
 import com.gipl.notifyme.exceptions.CustomException;
@@ -37,18 +33,33 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.functions.Consumer;
-
 public class AddModifyLeaveViewModel extends BaseViewModel {
     private final ObservableField<String> reason = new ObservableField<>("");
     private final ObservableField<String> reasonError = new ObservableField<>("");
+    private final ObservableField<String> sessionToError = new ObservableField<>("");
+    private final ObservableField<String> sessionFromError = new ObservableField<>("");
+    private final ObservableField<String> leaveTypeError = new ObservableField<>("");
     private final LeaveDomain leaveDomain;
     private final MutableLiveData<ArrayList<LeaveApproval>> leaveTypeLiveData = new MutableLiveData<>();
+    AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();
     private MediaFile attachment;
+    private MutableLiveData<Double> isLeaveDataValid = new MutableLiveData<>();
 
     public AddModifyLeaveViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
         leaveDomain = new LeaveDomain(dataManager);
+    }
+
+    public ObservableField<String> getLeaveTypeError() {
+        return leaveTypeError;
+    }
+
+    public ObservableField<String> getSessionToError() {
+        return sessionToError;
+    }
+
+    public ObservableField<String> getSessionFromError() {
+        return sessionFromError;
     }
 
     public ObservableField<String> getReasonError() {
@@ -86,10 +97,6 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         return isLeaveDataValid;
     }
 
-    private MutableLiveData<Double>isLeaveDataValid = new MutableLiveData<>();
-
-    AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();
-
     //TODO: check and correction in for error check method
     public void checkLeaveDataForError(String from, String to,
                                        LeaveFor leaveFor,
@@ -97,10 +104,36 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
                                        LeaveApproval suidLeaveType,
                                        Reason selectedReason,
                                        long numberOfLeaveDays
-                                       ){
-        if (leaveFor.getSuid() == -1 || suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
+    ) {
+        leaveTypeError.set("");
+        sessionToError.set("");
+        sessionFromError.set("");
+        reasonError.set("");
+
+
+        if (leaveFor.getSuid() == -1) {
+            sessionFromError.set(getDataManager().getContext().getString(R.string.error_session_not_selected));
+        }
+        if (suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
+            leaveTypeError.set(getDataManager().getContext().getString(R.string.error_select_leave));
+        }
+        if (numberOfLeaveDays > 1) {
+            if (leaveForTo.getSuid() == -1) {
+                sessionToError.set(getDataManager().getContext().getString(R.string.error_session_not_selected));
+            }
+        }
+
+        if (selectedReason.getSuid() == -1) {
+            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_not_selected));
+        }
+
+        if (selectedReason.getSuid() == 32 && reason.get().isEmpty()) {
+            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_empty));
+        }
+        if (!leaveTypeError.get().isEmpty() || !sessionToError.get().isEmpty() || !sessionFromError.get().isEmpty() || !reasonError.get().isEmpty()) {
             return;
         }
+
         if (suidLeaveType.getSLeaveType().equals("SL")) {
             try {
                 Calendar calFrom = TimeUtility.convertDisplayDateTimeToCalender(from);
@@ -115,16 +148,7 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
                 e.printStackTrace();
             }
         }
-        if (selectedReason.getSuid() == -1) {
-            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_not_selected));
-        }
 
-        if (selectedReason.getSuid() == 32 && reason.get().isEmpty()) {
-            reasonError.set(getDataManager().getContext().getString(R.string.error_leave_reason_empty));
-        }
-        if (!reasonError.get().isEmpty()) {
-            return;
-        }
         try {
             addModifyLeaveReq.setsFrom(TimeUtility.convertDisplayDateToApi(from));
         } catch (ParseException e) {
@@ -135,6 +159,8 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         } catch (ParseException e) {
             addModifyLeaveReq.setsTo(to);
         }
+
+        addModifyLeaveReq.setjLeaveTo(leaveForTo.getSuid());
         addModifyLeaveReq.setjLeaveStatus(getDataManager().getUtility().getLeaveStatus().getBitPending());
         addModifyLeaveReq.setjLeaveFor(leaveFor.getSuid());
         addModifyLeaveReq.setSuidLeaveType(suidLeaveType.getSuidLeaveApproval());
@@ -142,8 +168,8 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
 
         if (attachment != null)
             addModifyLeaveReq.setArrFilesBase64(new String[]{getBase64OfAttachFile()});
-
-        if (numberOfLeaveDays>1) {
+        com.gipl.notifyme.data.model.api.lib.utility.LeaveFor utility = getDataManager().getUtility().getLeaveFor();
+        if (numberOfLeaveDays > 1) {
             /*
               if leave start in first session of from date then from date is consider as full day
               and if it start in second session of from date then form date is consider as half day
@@ -153,7 +179,6 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
 
               so we are making -0.5 from number of leave days for second session of from date and first session of to date
              */
-            com.gipl.notifyme.data.model.api.lib.utility.LeaveFor utility = getDataManager().getUtility().getLeaveFor();
             double finalNoOfLeaveDays = numberOfLeaveDays;
             if (leaveFor.getSuid() == utility.getBitSecondHalfDay())
                 finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
@@ -161,10 +186,16 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
             if (leaveForTo.getSuid() == utility.getBitFirstHalfDay())
                 finalNoOfLeaveDays = finalNoOfLeaveDays - 0.5;
 
+            addModifyLeaveReq.setDays(finalNoOfLeaveDays);
             getIsLeaveDataValid().postValue(finalNoOfLeaveDays);
-        }
-        else
+        } else {
+            double finalNoOfLeaveDays = 1;
+            if (leaveFor.getSuid() == utility.getBitSecondHalfDay()
+                    || leaveFor.getSuid() == utility.getBitFirstHalfDay())
+                finalNoOfLeaveDays = 0.5;
+            addModifyLeaveReq.setDays(finalNoOfLeaveDays);
             getIsLeaveDataValid().postValue(0.0);
+        }
     }
 
     public void addModifyLeave() {
@@ -191,8 +222,7 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         try {
             InputStream in = getDataManager().getContext().getContentResolver().openInputStream(attachment.getUri());
             byte[] bytes = getBytes(in);
-            String ansValue = Base64.encodeToString(bytes, Base64.DEFAULT);
-            return ansValue;
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
             return "";
@@ -213,5 +243,9 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
 
     public ObservableField<String> getReason() {
         return reason;
+    }
+
+    public String getFinalReason() {
+        return addModifyLeaveReq.getsReason();
     }
 }

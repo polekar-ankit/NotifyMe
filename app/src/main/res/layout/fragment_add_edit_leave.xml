@@ -88,6 +88,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima_nova_alt_regular"
+                            android:text="@{viewModel.sessionFromError}"
+                            android:textColor="@color/edit_text_error"
+                            android:textSize="@dimen/edit_text_error"
+                            tools:text="Wrong employee id" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -137,7 +145,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp" />
-
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/proxima_nova_alt_regular"
+                            android:text="@{viewModel.sessionToError}"
+                            android:textColor="@color/edit_text_error"
+                            android:textSize="@dimen/edit_text_error"
+                            tools:text="Wrong employee id" />
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -201,6 +216,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@{viewModel.leaveTypeError}"
+                    android:textColor="@color/edit_text_error"
+                    android:textSize="@dimen/edit_text_error"
+                    tools:text="Wrong employee id" />
 
                 <Button
                     android:id="@+id/btn_medical_certificate"

@@ -44,7 +44,7 @@
     <string name="shift_not_select_error">Please select your shift</string>
     <string name="activity_leave_list">Leave Requests</string>
     <string name="lbl_leave_type">Leave</string>
-    <string name="lbl_leave_for">Leave For</string>
+    <string name="lbl_leave_for">Session</string>
     <string name="lbl_reason">Reason</string>
     <string name="msg_otp_resend">OTP has been sent successfully.</string>
     <string name="btn_lbl_attachment">Add Medical certificate</string>
@@ -128,9 +128,13 @@
     <string name="nav_change_lng">Change language</string>
     <string name="title_leave_for">Leave for %1$s days</string>
     <string name="msg_multiple_days_leave" >You have apply %1$s day leave from %2$s to %3$s</string>
-<!--    "You have apply leave on " + getViewDataBinding().tvFrom.getText().toString() + "  for " + leaveForFrom.getName()-->
     <string name="msg_single_day_leave">You have apply leave on %1$s for %2$s leave</string>
     <string name="btn_lbl_leave_confirm">Correct</string>
     <string name="btn_lbl_leave_confirm_wrong">Wrong</string>
     <string name="title_leave_half_day">Leave</string>
+    <string name="error_session_not_selected">Please select session</string>
+    <string name="error_select_leave">Please select leave type.</string>
+    <string name="lbl_leave_period">Leave Period :</string>
+    <string name="lbl_leave_days">Total Days :</string>
+    <string name="days">%1$s Days</string>
 </resources>

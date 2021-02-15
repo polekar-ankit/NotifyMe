@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="leaveConfirm"
+            type="com.gipl.notifyme.ui.leaveconfirm.LeaveConfirmationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_dialog"
+            android:minWidth="@dimen/_200sdp"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="49dp">
+
+            <RelativeLayout
+                style="@style/dialogHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+
+                <ImageView
+                    android:id="@+id/iv_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    app:srcCompat="@drawable/ic_back_white"
+                    app:tint="@color/colorTextPrimary" />
+
+                <ImageView
+                    android:id="@+id/iv_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    app:layout_constraintVertical_bias="0.31" />
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/dialogHeaderTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/iv_save"
+                    android:layout_toEndOf="@id/iv_cancel"
+                    android:gravity="center"
+                    android:text="@string/check_out"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@string/lbl_leave_period"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_leave_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="12to 12"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@string/lbl_leave_days"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_leave_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="5 days"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@string/lbl_reason"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text=" : "
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="5 days"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@string/lbl_leave_type"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text=" : "
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_leave_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="5 days"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_alt_regular"
+                android:text=""
+                android:textColor="@color/colorTextPrimary"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:minWidth="@dimen/_200sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btn_wrong"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#fff"
+                    android:singleLine="true"
+                    android:text="@string/btn_lbl_leave_confirm_wrong"
+                    android:textAllCaps="false"
+                    android:textColor="@xml/btn_text"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/btn_correct"
+                    style="@style/buttonStyleBase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#fff"
+                    android:text="@string/btn_lbl_leave_confirm"
+                    android:textAllCaps="false"
+                    android:textColor="@xml/btn_text"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

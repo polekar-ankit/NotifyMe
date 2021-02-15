@@ -93,12 +93,12 @@
     <string name="lbl_co_date">सीओ तारीख</string>
     <string name="lbl_co_for">सत्र</string>
     <string name="btn_lbl_add_co">सीओ स्लिप द्या </string>
-        <string name="msg_co_added">तुमची सीओ ऍड करण्याची विनंती यशस्वीरित्या घेतली गेली आहे.</string>
+    <string name="msg_co_added">तुमची सीओ ऍड करण्याची विनंती यशस्वीरित्या घेतली गेली आहे.</string>
     <string name="lbl_add_co_for">सीओ चे सत्रा.</string>
     <string name="lbl_full_day">पूर्ण दिवस</string>
-    <string name="lbl_first_half">पहिला अर्धा दिवस</string>
+    <string name="lbl_first_half">पहिले सत्र</string>
     <string name="lbl_co_half_day">अर्धा दिवस</string>
-    <string name="lbl_second_half">दुसरा अर्धा दिवस</string>
+    <string name="lbl_second_half">दुसरे सत्र</string>
     <string name="activity_co">सीओ</string>
     <string name="error_shift_reason_empty">कृपया शिफ्ट बदलण्याचे कारण निवडा. </string>
     <string name="error_in_time">कृपया आत येण्याचा वेळ निवडा.</string>
@@ -113,8 +113,8 @@
     <string name="error_co_reason_empty">आपण सीओ चे कारण दिले नाही.</string>
     <string name="error_ot_reason_not_selected">आपल्याला जादा काम का करावे लागले याचे कारण निवडा.</string>
     <string name="error_shift_change_reason_not_selected">कृपया शिफ्ट बदलाचे कारण निवडा.</string>
-    <string name="error_leave_reason_not_selected" >कृपया रजेचे कारण निवडा</string>
-    <string name="error_leave_reason_empty" >कृपया रजा राहण्याचे  कारण द्या.</string>
+    <string name="error_leave_reason_not_selected">कृपया रजेचे कारण निवडा</string>
+    <string name="error_leave_reason_empty">कृपया रजा राहण्याचे  कारण द्या.</string>
     <string name="title_logout">लॉग आउट</string>
     <string name="msg_logout">खरंच ॲप मधून लॉगआउट करू इच्छिता?</string>
     <string name="btn_logout">लॉग आउट</string>
@@ -127,9 +127,14 @@
     <string name="btn_txt_change_language">भाषा बदला</string>
     <string name="nav_change_lng">भाषा बदला</string>
     <string name="title_leave_for">%1$s दिवसाठीच्या रजेसाठी चा अर्ज</string>
-    <string name="msg_multiple_days_leave" >तुम्ही %1$s दिवसाठीच्या रजेसाठी अर्ज भरला आहे.तुमची राजा %2$s पासून %3$s पर्यंत असेल.</string>
+    <string name="msg_multiple_days_leave">तुम्ही %1$s दिवसाठीच्या रजेसाठी अर्ज भरला आहे.तुमची राजा %2$s पासून %3$s पर्यंत असेल.</string>
     <string name="msg_single_day_leave">तुम्ही %1$s रोजी %2$s साठी राजेंचा अर्ज केला आहे.</string>
     <string name="btn_lbl_leave_confirm">बरोबर आहे</string>
     <string name="btn_lbl_leave_confirm_wrong">चूक आहे</string>
     <string name="title_leave_half_day">सुट्टी</string>
+    <string name="error_session_not_selected">कृपया रजे साठी सत्राची निवड करा</string>
+    <string name="error_select_leave">कृपया रजेचा प्रकार निवडा.</string>
+    <string name="lbl_leave_period">रजेचा कालावधी : </string>
+    <string name="lbl_leave_days">एकूण दिवस :</string>
+    <string name="days">%1$s दिवस</string>
 </resources>

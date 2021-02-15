@@ -33,6 +33,21 @@ public class AddModifyLeaveReq extends BaseReq {
     @Expose
     private int jLeaveFor;
 
+    @SerializedName("jLeaveTo")
+    @Expose
+    private int jLeaveTo;
+    @SerializedName("dDays")
+    @Expose
+    private double days;
+
+    public void setjLeaveTo(int jLeaveTo) {
+        this.jLeaveTo = jLeaveTo;
+    }
+
+    public void setDays(double days) {
+        this.days = days;
+    }
+
     @SerializedName("suidLeaveType")
     @Expose
     private String suidLeaveType;
@@ -97,5 +112,9 @@ public class AddModifyLeaveReq extends BaseReq {
 
     public void setsEmpCode(String sEmpCode) {
         this.sEmpCode = sEmpCode;
+    }
+
+    public String getsReason() {
+        return sReason;
     }
 }

@@ -24,6 +24,7 @@ import com.gipl.notifyme.databinding.FragmentAddEditLeaveBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.image.ImagePreviewActivity;
+import com.gipl.notifyme.ui.leaveconfirm.LeaveConfirmationDialog;
 import com.gipl.notifyme.ui.model.LeaveFor;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
@@ -140,28 +141,20 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         addModifyLeaveViewModel.getLeaveTypeLiveData().observe(this, this::processLeaveType);
         addModifyLeaveViewModel.getResponseMutableLiveData().observe(this, this::processRespnse);
         addModifyLeaveViewModel.getIsLeaveDataValid().observe(this, this::processValidLeave);
+        leaveConfirmationDialog = new LeaveConfirmationDialog(requireContext(), addModifyLeaveViewModel::addModifyLeave);
     }
 
+    private LeaveConfirmationDialog leaveConfirmationDialog;
+
     private void processValidLeave(double finalNoOfLeaveDays) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        if (numberOfLeaveDays > 1) {
-            DecimalFormat decimalFormat = new DecimalFormat("0.#####");
-            String displayDays = decimalFormat.format(finalNoOfLeaveDays);
-            builder.setTitle(getString(R.string.title_leave_for, displayDays));
-            builder.setMessage(getString(R.string.msg_multiple_days_leave, displayDays,
-                    getViewDataBinding().tvFrom.getText().toString(), getViewDataBinding().tvTo.getText().toString()));
-        } else {
-            builder.setTitle(getString(R.string.title_leave_half_day));
-            LeaveFor leaveForFrom = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
-            builder.setMessage(getString(R.string.msg_single_day_leave,
-                    getViewDataBinding().tvFrom.getText().toString(), leaveForFrom.getName()));
-        }
-        builder.setPositiveButton(R.string.btn_lbl_leave_confirm, (dialog, which) -> {
-            addModifyLeaveViewModel.addModifyLeave();
-            dialog.dismiss();
-        });
-        builder.setNegativeButton(R.string.btn_lbl_leave_confirm_wrong, (dialog, which) -> dialog.dismiss());
-        builder.create().show();
+        LeaveFor leaveForFrom = (LeaveFor) getViewDataBinding().spinnerLeaveFor.getSelectedItem();
+        LeaveApproval leaveApproval = (LeaveApproval) getViewDataBinding().spinnerLeaveType.getSelectedItem();
+        leaveConfirmationDialog.show(numberOfLeaveDays, finalNoOfLeaveDays,
+                getViewDataBinding().tvFrom.getText().toString(),
+                getViewDataBinding().tvTo.getText().toString(),
+                leaveForFrom.getName(),
+                addModifyLeaveViewModel.getFinalReason(),
+                leaveApproval.getSLeaveType());
     }
 
     private void processRespnse(Response response) {
