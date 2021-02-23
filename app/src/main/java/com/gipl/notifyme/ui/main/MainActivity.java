@@ -43,6 +43,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
         ((BaseActivity) context).finish();
     }

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.gipl.notifyme.BR;
+import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.databinding.ActivityLoginBinding;
@@ -19,6 +21,7 @@ import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.ui.notification.NotificationListFragment;
 import com.gipl.notifyme.ui.otpverify.OtpVerifyActivity;
 import com.gipl.notifyme.ui.splashscreen.SplashScreenActivity;
+import com.gipl.notifyme.uility.DialogUtility;
 import com.google.android.material.snackbar.Snackbar;
 
 import javax.inject.Inject;
@@ -83,6 +86,9 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 break;
             case SUCCESS:
                 hideLoading();
+                if (BuildConfig.DEBUG) {
+                    Toast.makeText(this, "" + loginViewModel.value, Toast.LENGTH_LONG).show();
+                }
                 OtpVerifyActivity.start(this, (User) response.data);
                 break;
             case ERROR:

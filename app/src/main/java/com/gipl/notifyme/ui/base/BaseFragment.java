@@ -1,6 +1,7 @@
 package com.gipl.notifyme.ui.base;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
+
+import com.gipl.notifyme.BuildConfig;
+import com.gipl.notifyme.data.local.prefs.AppPreferencesHelper;
+import com.gipl.notifyme.ui.changelng.ChangeLanguageFragment;
+import com.gipl.notifyme.uility.MyContextWrapper;
 
 import dagger.android.support.AndroidSupportInjection;
 
@@ -62,7 +68,12 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         super.onCreate(savedInstanceState);
         mViewModel = getViewModel();
 
+        SharedPreferences mPrefs = getBaseActivity().getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE);
+        Context context = MyContextWrapper.wrap(getBaseActivity(), mPrefs.getString(AppPreferencesHelper.KEY_LANG_CODE, ChangeLanguageFragment.englishCode));
+        getResources().updateConfiguration(context.getResources().getConfiguration(), context.getResources().getDisplayMetrics());
+
         setHasOptionsMenu(false);
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -95,6 +96,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
 
         getViewDataBinding().pullDown.setRefreshing(false);
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+//        getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(requireContext(),2));
         getViewDataBinding().recyclerView.setAdapter(leaveRequestListAdapter);
 
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {

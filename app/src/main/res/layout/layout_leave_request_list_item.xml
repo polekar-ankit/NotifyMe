@@ -31,13 +31,13 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/proxima_nova_regular"
                 android:text="@{leaveReq.leaveDates}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="15dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/tv_status"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Title" />
+                tools:text="@string/days" />
 
             <TextView
                 android:id="@+id/tv_status"
@@ -59,7 +59,21 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_title"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="CL" />
+
+            <TextView
+                android:id="@+id/tv_leave_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="@{leaveReq.days+` `+@string/lbl_leave_req_days}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                app:layout_constraintStart_toEndOf="@+id/tv_leave_type"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                tools:text="@string/lbl_leave_req_days" />
 
             <TextView
                 android:id="@+id/tv_leave_reason"

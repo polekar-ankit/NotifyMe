@@ -137,4 +137,5 @@
     <string name="lbl_leave_period">रजेचा कालावधी : </string>
     <string name="lbl_leave_days">एकूण दिवस :</string>
     <string name="days">%1$s दिवस</string>
+    <string name="lbl_leave_req_days">दिवस</string>
 </resources>

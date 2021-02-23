@@ -2,6 +2,7 @@ package com.gipl.notifyme.ui.login;
 
 import androidx.databinding.ObservableField;
 
+import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.ApiError;
@@ -32,7 +33,7 @@ public class LoginViewModel extends BaseViewModel {
         return empId;
     }
 
-
+    public String value = "";
 
     public void sendOtp() {
         empIdError.set(null);
@@ -47,6 +48,8 @@ public class LoginViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(sendOtpRes -> {
                     if (sendOtpRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        if (BuildConfig.DEBUG)
+                            value = sendOtpRes.getMessage();
                         getResponseMutableLiveData().postValue(Response.success(sendOtpRes.getUser()));
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(sendOtpRes.getApiError().getErrorMessage()))));

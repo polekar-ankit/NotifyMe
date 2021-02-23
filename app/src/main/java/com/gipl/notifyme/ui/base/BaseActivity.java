@@ -33,6 +33,7 @@ import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.local.prefs.AppPreferencesHelper;
 import com.gipl.notifyme.ui.changelng.ChangeLanguageFragment;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.gipl.notifyme.uility.MyContextWrapper;
 import com.gipl.notifyme.uility.NetworkUtils;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -95,6 +96,11 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
 
         mFirebaseAnalytics.setUserId(getViewModel().getDataManager().getEmpCode());
+
+        SharedPreferences mPrefs = getBaseContext().getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE);
+        Context context = MyContextWrapper.wrap(this, mPrefs.getString(AppPreferencesHelper.KEY_LANG_CODE, ChangeLanguageFragment.englishCode));
+
+        getResources().updateConfiguration(context.getResources().getConfiguration(), context.getResources().getDisplayMetrics());
 
     }
 
@@ -242,7 +248,9 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(ViewPumpContextWrapper.wrap(updateBaseContextLocale(newBase)));
+//        super.attachBaseContext(ViewPumpContextWrapper.wrap(updateBaseContextLocale(newBase)));
+        SharedPreferences mPrefs = newBase.getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE);
+        super.attachBaseContext(MyContextWrapper.wrap(newBase, mPrefs.getString(AppPreferencesHelper.KEY_LANG_CODE, ChangeLanguageFragment.englishCode)));
     }
 
     public Context updateBaseContextLocale(Context newBase) {
@@ -268,11 +276,13 @@ public abstract class BaseActivity<T extends ViewDataBinding, V extends BaseView
         return context;
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
     private Context updateResourcesLocale(Context context, Locale locale) {
-        Configuration configuration = context.getResources().getConfiguration();
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
         configuration.setLocale(locale);
         configuration.setLayoutDirection(locale);
+
+//        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
         return context.createConfigurationContext(configuration);
     }
 

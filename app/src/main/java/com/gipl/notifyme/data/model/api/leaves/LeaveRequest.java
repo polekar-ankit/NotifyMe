@@ -31,9 +31,9 @@ public class LeaveRequest {
     @SerializedName("jLeaveStatus")
     @Expose
     private int leaveStatus;
-    @SerializedName("jDays")
+    @SerializedName("dDays")
     @Expose
-    private int days;
+    private double days;
     @SerializedName("sComment")
     @Expose
     private String comment;
@@ -83,7 +83,7 @@ public class LeaveRequest {
         return leaveStatus;
     }
 
-    public int getDays() {
+    public double getDays() {
         return days;
     }
 

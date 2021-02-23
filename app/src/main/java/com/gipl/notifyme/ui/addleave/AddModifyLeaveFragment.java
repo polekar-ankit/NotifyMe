@@ -219,14 +219,18 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
         getViewDataBinding().tvTo.setOnClickListener(v -> {
             Calendar fromDate = null;
+            Calendar toDate = null;
             try {
                 fromDate = TimeUtility.convertDisplayDateTimeToCalender(getViewDataBinding().tvFrom.getText().toString());
+                toDate = Calendar.getInstance();
+                toDate.setTimeInMillis(fromDate.getTimeInMillis());
+                toDate.set(Calendar.DAY_OF_MONTH, toDate.get(Calendar.DAY_OF_MONTH) + 6);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
             toDatePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
                     getViewDataBinding().tvTo.getText().toString(),
-                    0,
+                    toDate != null ? toDate.getTime().getTime() : 0,
                     fromDate != null ? fromDate.getTime().getTime() : 0,
                     toDateSetListener);
 
@@ -341,6 +345,8 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                     .placeholder(R.drawable.ic_file)
                     .into(getViewDataBinding().ivFilePreview);
             getViewDataBinding().tvFileName.setText(mediaFile.getName());
+
+            getViewDataBinding().nsvLeave.post(() -> getViewDataBinding().nsvLeave.fullScroll(View.FOCUS_DOWN));
 
             getViewDataBinding().cvAttachment.setOnClickListener(v -> {
                 if (mediaFile.getMimeType().contains("image")) {

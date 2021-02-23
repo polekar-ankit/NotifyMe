@@ -1,12 +1,7 @@
 package com.gipl.notifyme.ui.me;
 
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,13 +9,9 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-import androidx.core.view.ViewCompat;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
 
 import com.gipl.notifyme.BR;
-import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.databinding.FragmentMeBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
@@ -56,8 +47,6 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         CheckOutDialog checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
-        // Set title
-
     }
 
     @Override
@@ -139,9 +128,15 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
             Navigation.findNavController(view).navigate(R.id.action_nav_user_to_missPunchListFragment);
         });
         getViewDataBinding().btnAddOvertime.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
-        getViewDataBinding().btnApplyLeave.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2));
+        getViewDataBinding().btnApplyLeave.setOnClickListener(v -> {
+            getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnApplyLeave.getText().toString());
+            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2);
+        });
 
-        getViewDataBinding().btnShiftChange.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_shiftChangeListFragment));
+        getViewDataBinding().btnShiftChange.setOnClickListener(v -> {
+            getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnShiftChange.getText().toString());
+            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_shiftChangeListFragment);
+        });
         getViewDataBinding().btnAddCo.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_coListFragment));
     }
 

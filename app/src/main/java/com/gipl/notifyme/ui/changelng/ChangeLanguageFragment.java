@@ -1,5 +1,6 @@
 package com.gipl.notifyme.ui.changelng;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 public class ChangeLanguageFragment extends BaseFragment<FragmentChangeLanguageBinding, ChangeLanguageViewModel> {
-    private final String marathiCode = "mr";
+    public static final String marathiCode = "mr";
     public static final String englishCode = "en";
     @Inject
     ChangeLanguageViewModel viewModel;
@@ -55,13 +56,8 @@ public class ChangeLanguageFragment extends BaseFragment<FragmentChangeLanguageB
             }
 
             viewModel.setLanguageCode(code);
-            Locale locale = new Locale(code);
-            Locale.setDefault(locale);
-            Resources resources = this.getResources();
-            Configuration config = resources.getConfiguration();
-            config.setLocale(locale);
-            resources.updateConfiguration(config, resources.getDisplayMetrics());
-            reloadActivity();
+            if (getBaseActivity().updateBaseContextLocale(getBaseActivity().getApplicationContext()) != null)
+                reloadActivity();
         });
     }
 

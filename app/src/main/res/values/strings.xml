@@ -127,8 +127,8 @@
     <string name="btn_txt_change_language">Change Language</string>
     <string name="nav_change_lng">Change language</string>
     <string name="title_leave_for">Leave for %1$s days</string>
-    <string name="msg_multiple_days_leave" >You have apply %1$s day leave from %2$s to %3$s</string>
-    <string name="msg_single_day_leave">You have apply leave on %1$s for %2$s leave</string>
+    <string name="msg_multiple_days_leave" >You have applied for %1$s day leave from %2$s to %3$s</string>
+    <string name="msg_single_day_leave">You have applied leave on %1$s for %2$s leave</string>
     <string name="btn_lbl_leave_confirm">Correct</string>
     <string name="btn_lbl_leave_confirm_wrong">Wrong</string>
     <string name="title_leave_half_day">Leave</string>
@@ -137,4 +137,5 @@
     <string name="lbl_leave_period">Leave Period :</string>
     <string name="lbl_leave_days">Total Days :</string>
     <string name="days">%1$s Days</string>
+    <string name="lbl_leave_req_days">Days</string>
 </resources>
