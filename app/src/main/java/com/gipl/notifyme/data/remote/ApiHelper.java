@@ -28,6 +28,8 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
@@ -78,6 +80,8 @@ public interface ApiHelper {
     Single<AddModifyLeaveRsp> addModifyLeave(AddModifyLeaveReq addModifyLeaveReq) throws JSONException;
 
     Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq);
+
+    Single<LeaveBalanceRsp> getLeaveBalance(LeaveBalanceReq req);
 
     //punching slip
     Single<AddPunchingSlipRsp> addPunchingSlip(AddPunchingSlipReq req);

@@ -6,14 +6,18 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.data.model.firebase.Employee;
+import com.gipl.notifyme.domain.LeaveDomain;
 import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
@@ -25,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,32 +42,11 @@ public class MeViewModel extends BaseViewModel {
     private final ObservableField<String> empMoNumber = new ObservableField<>("");
     private final ObservableField<String> empImage = new ObservableField<>("https://preview.keenthemes.com/conquer/assets/img/profile/profile-img.png");
     private final UserUseCase userUseCase;
-    private ExecutorService countDownTimer;
     private final ObservableField<String> checkInDateTime = new ObservableField<>("");
     private final ObservableField<String> checkInTime = new ObservableField<>("");
     private final ObservableBoolean showCheckInButton = new ObservableBoolean(true);
     private final FirebaseDb firebaseDb;
-
-    public MeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
-        super(dataManager, schedulerProvider);
-        userUseCase = new UserUseCase(dataManager);
-        User user = dataManager.getUserObj();
-        empName.set(user.getName());
-        empCode.set(user.getEmpId());
-        empMoNumber.set(user.getMobileNumber());
-        empPlant.set(user.getPlant());
-        firebaseDb = new FirebaseDb(empCode.get());
-
-    }
-
-    public void setEmpCheckInStatusListener() {
-        firebaseDb.checkEmployeeData(valueEventListener);
-    }
-
-    public void removeEmpCheckInStatusListener() {
-        firebaseDb.removeValueEvent(valueEventListener);
-    }
-
+    private ExecutorService countDownTimer;
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -94,6 +78,30 @@ public class MeViewModel extends BaseViewModel {
 
         }
     };
+    private MutableLiveData<ArrayList<LeaveBalance>> leaveBalanceLiveData = new MutableLiveData<>();
+
+    public MeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
+        super(dataManager, schedulerProvider);
+        userUseCase = new UserUseCase(dataManager);
+        User user = dataManager.getUserObj();
+        empName.set(user.getName());
+        empCode.set(user.getEmpId());
+        empMoNumber.set(user.getMobileNumber());
+        empPlant.set(user.getPlant());
+        firebaseDb = new FirebaseDb(empCode.get());
+    }
+
+    public MutableLiveData<ArrayList<LeaveBalance>> getLeaveBalanceLiveData() {
+        return leaveBalanceLiveData;
+    }
+
+    public void setEmpCheckInStatusListener() {
+        firebaseDb.checkEmployeeData(valueEventListener);
+    }
+
+    public void removeEmpCheckInStatusListener() {
+        firebaseDb.removeValueEvent(valueEventListener);
+    }
 
     public ObservableBoolean getShowCheckInButton() {
         return showCheckInButton;
@@ -128,6 +136,20 @@ public class MeViewModel extends BaseViewModel {
     public void endTimer() {
         if (countDownTimer != null)
             countDownTimer.shutdown();
+    }
+
+    public void getLeaveBalance() {
+        getLeaveBalanceLiveData().postValue(getDataManager().getLeaveBalance());
+        getCompositeDisposable().add(new LeaveDomain(getDataManager()).getLeaveBalance()
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(leaveBalanceRsp -> {
+                    if (leaveBalanceRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        leaveBalanceLiveData.postValue(leaveBalanceRsp.getBalanceArrayList());
+                        getResponseMutableLiveData().postValue(Response.success(true));
+                    } else
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(leaveBalanceRsp.getApiError().getErrorMessage()))));
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 
     public void checkOut(int type) {

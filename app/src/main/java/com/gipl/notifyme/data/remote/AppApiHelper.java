@@ -31,6 +31,8 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
@@ -164,6 +166,15 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(LeaveTypeRsp.class);
+    }
+
+    @Override
+    public Single<LeaveBalanceRsp> getLeaveBalance(LeaveBalanceReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_LEAVE_BALANCE)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(LeaveBalanceRsp.class);
     }
 
     @Override

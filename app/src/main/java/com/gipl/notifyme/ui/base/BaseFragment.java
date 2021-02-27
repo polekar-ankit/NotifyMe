@@ -1,4 +1,4 @@
-package com.gipl.notifyme.ui.base;
+ package com.gipl.notifyme.ui.base;
 
 import android.content.Context;
 import android.content.SharedPreferences;

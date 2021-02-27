@@ -20,6 +20,9 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeReq;
@@ -53,6 +56,7 @@ import com.gipl.notifyme.ui.model.Reason;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -134,6 +138,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<LeaveTypeRsp> getLeaveType(LeaveTypeReq leaveTypeReq) {
         return mApiHelper.getLeaveType(leaveTypeReq);
+    }
+
+    @Override
+    public Single<LeaveBalanceRsp> getLeaveBalance(LeaveBalanceReq req) {
+        return mApiHelper.getLeaveBalance(req);
     }
 
     @Override
@@ -314,6 +323,16 @@ public class AppDataManager implements DataManager {
     @Override
     public String getLanguageCode() {
         return mPreferencesHelper.getLanguageCode();
+    }
+
+    @Override
+    public void cacheLeaveBalance(LeaveBalanceRsp leaveBalanceRsp) {
+        mPreferencesHelper.cacheLeaveBalance(leaveBalanceRsp);
+    }
+
+    @Override
+    public ArrayList<LeaveBalance> getLeaveBalance() {
+        return mPreferencesHelper.getLeaveBalance();
     }
 
     @Override

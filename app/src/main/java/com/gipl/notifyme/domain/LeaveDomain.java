@@ -6,6 +6,8 @@ import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveReq;
 import com.gipl.notifyme.data.model.api.applyleave.AddModifyLeaveRsp;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeavesReq;
 import com.gipl.notifyme.data.model.api.leaves.LeaveRequest;
@@ -101,5 +103,19 @@ public class LeaveDomain extends UseCase {
                 }
             };
         }
+    }
+
+    public Single<LeaveBalanceRsp> getLeaveBalance() {
+        LeaveBalanceReq req = new LeaveBalanceReq();
+        req.setSuidSession(dataManager.getSession());
+        req.setSuidUser(dataManager.getUserObj().getSuidUser());
+        req.setPagination(false);
+        req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        return dataManager.getLeaveBalance(req).map(leaveBalanceRsp -> {
+            if (leaveBalanceRsp.getBalanceArrayList() != null) {
+                dataManager.cacheLeaveBalance(leaveBalanceRsp);
+            }
+            return leaveBalanceRsp;
+        });
     }
 }

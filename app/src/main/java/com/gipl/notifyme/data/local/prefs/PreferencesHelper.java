@@ -17,11 +17,14 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,4 +95,9 @@ public interface PreferencesHelper {
     void setLanguageCode(String code);
 
     String getLanguageCode();
+
+    void cacheLeaveBalance(LeaveBalanceRsp leaveBalanceRsp);
+
+    ArrayList<LeaveBalance> getLeaveBalance();
+
 }

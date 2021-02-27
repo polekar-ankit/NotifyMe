@@ -20,6 +20,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
 import com.gipl.notifyme.data.model.api.lib.Shifts;
 import com.gipl.notifyme.data.model.api.lib.Utility;
@@ -53,6 +55,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_CHECK_IN_TIME = "KEY_CHECK_IN_TIME";
     private static final String KEY_CHECK_TYPE = "KEY_CHECK_TYPE";
     private static final String KEY_CACHE_lEAVAE_TYPE = "KEY_CACHE_LEAVE_TYPE";
+    private static final String KEY_CACHE_lEAVE_BALANCE = "KEY_CACHE_lEAVE_BALANCE";
 
 
     private final SharedPreferences mPrefs;
@@ -83,6 +86,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
         mPrefs.edit().remove(KEY_NUM_CACHE_NOTIFICATION).apply();
         mPrefs.edit().remove(KEY_SHIFT_DATA).apply();
         mPrefs.edit().remove(KEY_ACTIVE_SHIFT_SUID).apply();
+        mPrefs.edit().remove(KEY_CACHE_lEAVE_BALANCE).apply();
     }
 
     @Override
@@ -209,6 +213,20 @@ public class AppPreferencesHelper implements PreferencesHelper {
     @Override
     public String getLanguageCode() {
         return mPrefs.getString(KEY_LANG_CODE, ChangeLanguageFragment.englishCode);
+    }
+
+    @Override
+    public void cacheLeaveBalance(LeaveBalanceRsp leaveBalanceRsp) {
+        mPrefs.edit().putString(KEY_CACHE_lEAVE_BALANCE, new Gson().toJson(leaveBalanceRsp)).apply();
+    }
+
+    @Override
+    public ArrayList<LeaveBalance> getLeaveBalance() {
+        String json = mPrefs.getString(KEY_CACHE_lEAVE_BALANCE, "");
+        if (json.isEmpty())
+            return new ArrayList<>();
+        LeaveBalanceRsp rsp = new Gson().fromJson(json, LeaveBalanceRsp.class);
+        return rsp.getBalanceArrayList();
     }
 
     @Override

@@ -138,4 +138,5 @@
     <string name="lbl_leave_days">Total Days :</string>
     <string name="days">%1$s Days</string>
     <string name="lbl_leave_req_days">Days</string>
+    <string name="lbl_leave_balance">Leave Balance</string>
 </resources>
