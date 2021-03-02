@@ -6,15 +6,17 @@ import com.google.gson.annotations.SerializedName;
 public class BaseReq {
     @SerializedName("jClientType")
     @Expose
-    private final int clientType = 2;
-
+    private int clientType = 2;
     @SerializedName("suidSession")
     @Expose
     private String suidSession;
-
     @SerializedName("sTag")
     @Expose
     private String tag;
+
+    public void setClientType(int clientType) {
+        this.clientType = clientType;
+    }
 
     public void setSuidSession(String suidSession) {
         this.suidSession = suidSession;

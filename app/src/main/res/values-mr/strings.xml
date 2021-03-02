@@ -139,4 +139,5 @@
     <string name="days">%1$s दिवस</string>
     <string name="lbl_leave_req_days">दिवस</string>
     <string name="lbl_leave_balance">शिल्लक रजा</string>
+    <string name="msg_pdf_link_empty">पी.डी.एफ. लिंक सापडली नाही.कृपया प्रशासकाशी संपर्क साधा.</string>
 </resources>

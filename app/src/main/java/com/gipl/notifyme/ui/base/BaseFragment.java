@@ -1,4 +1,4 @@
- package com.gipl.notifyme.ui.base;
+package com.gipl.notifyme.ui.base;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +19,7 @@ import com.gipl.notifyme.BuildConfig;
 import com.gipl.notifyme.data.local.prefs.AppPreferencesHelper;
 import com.gipl.notifyme.ui.changelng.ChangeLanguageFragment;
 import com.gipl.notifyme.uility.MyContextWrapper;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import dagger.android.support.AndroidSupportInjection;
 
@@ -67,6 +68,11 @@ public abstract class BaseFragment<T extends ViewDataBinding, V extends BaseView
         performDependencyInjection();
         super.onCreate(savedInstanceState);
         mViewModel = getViewModel();
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, this.getClass().getSimpleName());
+        bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, this.getClass().getSimpleName());
+        FirebaseAnalytics.getInstance(requireContext()).logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
 
         SharedPreferences mPrefs = getBaseActivity().getSharedPreferences(BuildConfig.PREF_NAME, Context.MODE_PRIVATE);
         Context context = MyContextWrapper.wrap(getBaseActivity(), mPrefs.getString(AppPreferencesHelper.KEY_LANG_CODE, ChangeLanguageFragment.englishCode));

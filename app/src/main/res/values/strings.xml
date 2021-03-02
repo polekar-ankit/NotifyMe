@@ -101,8 +101,8 @@
     <string name="lbl_second_half">Second Half</string>
     <string name="activity_co">CO</string>
     <string name="error_shift_reason_empty">Please enter shift change reason</string>
-    <string name="error_in_time">\"Please select in time \"</string>
-    <string name="error_out_time">Please select out time</string>
+    <string name="error_in_time">Please select in time.</string>
+    <string name="error_out_time">Please select out time.</string>
     <string name="lbl_misspunch_reason">Miss Punch Reason</string>
     <string name="hint_misspunch_reason">Miss punch reason</string>
     <string name="error_mispunch_reason_empty">Please enter miss punch reason</string>
@@ -139,4 +139,5 @@
     <string name="days">%1$s Days</string>
     <string name="lbl_leave_req_days">Days</string>
     <string name="lbl_leave_balance">Leave Balance</string>
+    <string name="msg_pdf_link_empty">PDF link not found.please contact admin</string>
 </resources>

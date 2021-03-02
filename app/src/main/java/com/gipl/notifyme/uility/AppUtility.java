@@ -22,7 +22,8 @@ public class AppUtility {
     }
 
     public static void openPdf(Uri uri, Context context, View view){
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         intent.setDataAndType(uri, "application/pdf");
         // check if there is any app that can open pdf
         try {
