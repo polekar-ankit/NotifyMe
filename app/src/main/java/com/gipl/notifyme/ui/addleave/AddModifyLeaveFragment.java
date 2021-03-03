@@ -167,7 +167,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                 if (response.data instanceof String) {
                     String name = (String) response.data;
                     if (name.equals(AddModifyLeaveReq.class.getSimpleName())) {
-                        DialogUtility.showToast(requireContext(), "Your Leave has been successfully applied");
+                        DialogUtility.showToast(requireContext(), getString(R.string.msg_leave_applied));
                         if (iFragmentListener != null) {
                             iFragmentListener.onActivityResult(null);
                         }

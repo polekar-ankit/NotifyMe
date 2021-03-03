@@ -113,8 +113,8 @@
     <string name="error_co_reason_empty">Please add reason for co.</string>
     <string name="error_ot_reason_not_selected">Please select over time reason</string>
     <string name="error_shift_change_reason_not_selected">Please select reason for shift change.</string>
-    <string name="error_leave_reason_not_selected" >Please select reason for leave</string>
-    <string name="error_leave_reason_empty" >Please add reason for leave.</string>
+    <string name="error_leave_reason_not_selected">Please select reason for leave</string>
+    <string name="error_leave_reason_empty">Please add reason for leave.</string>
     <string name="title_logout">Logout</string>
     <string name="msg_logout">Are you sure, do you want to logout from application?</string>
     <string name="btn_logout">Logout</string>
@@ -127,7 +127,7 @@
     <string name="btn_txt_change_language">Change Language</string>
     <string name="nav_change_lng">Change language</string>
     <string name="title_leave_for">Leave for %1$s days</string>
-    <string name="msg_multiple_days_leave" >You have applied for %1$s day leave from %2$s to %3$s</string>
+    <string name="msg_multiple_days_leave">You have applied for %1$s day leave from %2$s to %3$s</string>
     <string name="msg_single_day_leave">You have applied leave on %1$s for %2$s leave</string>
     <string name="btn_lbl_leave_confirm">Correct</string>
     <string name="btn_lbl_leave_confirm_wrong">Wrong</string>
@@ -140,4 +140,5 @@
     <string name="lbl_leave_req_days">Days</string>
     <string name="lbl_leave_balance">Leave Balance</string>
     <string name="msg_pdf_link_empty">PDF link not found.please contact admin</string>
+    <string name="msg_leave_applied">Your Leave has been successfully applied</string>
 </resources>

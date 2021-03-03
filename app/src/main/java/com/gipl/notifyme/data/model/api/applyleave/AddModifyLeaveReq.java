@@ -21,13 +21,9 @@ public class AddModifyLeaveReq extends BaseReq {
     @Expose
     private String sTo;
 
-    @SerializedName("jLeaveStatus")
+    @SerializedName("suidLeaveType")
     @Expose
-    private int jLeaveStatus;
-
-    @SerializedName("sReason")
-    @Expose
-    private String sReason;
+    private String suidLeaveType;
 
     @SerializedName("jLeaveFor")
     @Expose
@@ -36,9 +32,35 @@ public class AddModifyLeaveReq extends BaseReq {
     @SerializedName("jLeaveTo")
     @Expose
     private int jLeaveTo;
+
     @SerializedName("dDays")
     @Expose
     private double days;
+
+    @SerializedName("sReason")
+    @Expose
+    private String sReason;
+
+    @SerializedName("arrFilesBase64")
+    @Expose
+    private String[] arrFilesBase64;
+
+    @SerializedName("suidPlant")
+    @Expose
+    private String suidPlant;
+
+    @SerializedName("suidUserApplicant")
+    @Expose
+    private String suidUserApplicant;
+
+//    @SerializedName("jLeaveStatus")
+//    @Expose
+//    private int jLeaveStatus;
+//
+//    @SerializedName("sEmpCode")
+//    @Expose
+//    private String sEmpCode;
+
 
     public void setjLeaveTo(int jLeaveTo) {
         this.jLeaveTo = jLeaveTo;
@@ -47,24 +69,6 @@ public class AddModifyLeaveReq extends BaseReq {
     public void setDays(double days) {
         this.days = days;
     }
-
-    @SerializedName("suidLeaveType")
-    @Expose
-    private String suidLeaveType;
-
-    @SerializedName("arrFilesBase64")
-    @Expose
-    private String[] arrFilesBase64;
-
-    @SerializedName("sEmpCode")
-    @Expose
-    private String sEmpCode;
-    @SerializedName("suidPlant")
-    @Expose
-    private String suidPlant;
-    @SerializedName("suidUserApplicant")
-    @Expose
-    private String suidUserApplicant;
 
     public void setSuidPlant(String suidPlant) {
         this.suidPlant = suidPlant;
@@ -90,13 +94,9 @@ public class AddModifyLeaveReq extends BaseReq {
         this.sTo = sTo;
     }
 
-    public void setjLeaveStatus(int jLeaveStatus) {
-        this.jLeaveStatus = jLeaveStatus;
-    }
-
-    public void setsReason(String sReason) {
-        this.sReason = sReason;
-    }
+//    public void setjLeaveStatus(int jLeaveStatus) {
+//        this.jLeaveStatus = jLeaveStatus;
+//    }
 
     public void setjLeaveFor(int jLeaveFor) {
         this.jLeaveFor = jLeaveFor;
@@ -110,11 +110,15 @@ public class AddModifyLeaveReq extends BaseReq {
         this.arrFilesBase64 = arrFilesBase64;
     }
 
-    public void setsEmpCode(String sEmpCode) {
-        this.sEmpCode = sEmpCode;
-    }
+//    public void setsEmpCode(String sEmpCode) {
+//        this.sEmpCode = sEmpCode;
+//    }
 
     public String getsReason() {
         return sReason;
+    }
+
+    public void setsReason(String sReason) {
+        this.sReason = sReason;
     }
 }

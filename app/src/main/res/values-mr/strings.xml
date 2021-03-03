@@ -140,4 +140,5 @@
     <string name="lbl_leave_req_days">दिवस</string>
     <string name="lbl_leave_balance">शिल्लक रजा</string>
     <string name="msg_pdf_link_empty">पी.डी.एफ. लिंक सापडली नाही.कृपया प्रशासकाशी संपर्क साधा.</string>
+    <string name="msg_leave_applied">आपला रजेचा अर्ज यशस्वीरीत्या घेतलेला आहे.</string>
 </resources>

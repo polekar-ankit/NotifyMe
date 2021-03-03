@@ -160,7 +160,7 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         }
 
         addModifyLeaveReq.setjLeaveTo(leaveForTo.getSuid());
-        addModifyLeaveReq.setjLeaveStatus(getDataManager().getUtility().getLeaveStatus().getBitPending());
+//        addModifyLeaveReq.setjLeaveStatus(getDataManager().getUtility().getLeaveStatus().getBitPending());
         addModifyLeaveReq.setjLeaveFor(leaveFor.getSuid());
         addModifyLeaveReq.setSuidLeaveType(suidLeaveType.getSuidLeaveApproval());
         addModifyLeaveReq.setsReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());

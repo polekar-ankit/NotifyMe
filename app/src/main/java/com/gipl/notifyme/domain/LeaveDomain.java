@@ -63,7 +63,7 @@ public class LeaveDomain extends UseCase {
 //        else
         addModifyLeaveReq.setSuidUser(dataManager.getUserObj().getSuidUser());
         addModifyLeaveReq.setSuidUserApplicant(dataManager.getUserObj().getSuidUser());
-        addModifyLeaveReq.setsEmpCode(dataManager.getEmpCode());
+//        addModifyLeaveReq.setsEmpCode(dataManager.getEmpCode());
         return dataManager.addModifyLeave(addModifyLeaveReq);
     }
 
