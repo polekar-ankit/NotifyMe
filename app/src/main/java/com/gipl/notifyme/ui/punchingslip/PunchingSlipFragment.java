@@ -189,12 +189,12 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         getViewDataBinding().spinnerReason.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
-                if (reason.getSuid() == 32) {
-                    getViewDataBinding().tietMisspunchReason.setVisibility(View.VISIBLE);
-                } else {
-                    getViewDataBinding().tietMisspunchReason.setVisibility(View.GONE);
-                }
+//                Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
+//                if (reason.getSuid() == 32) {
+//                    getViewDataBinding().tietMisspunchReason.setVisibility(View.VISIBLE);
+//                } else {
+//                    getViewDataBinding().tietMisspunchReason.setVisibility(View.GONE);
+//                }
 
             }
 

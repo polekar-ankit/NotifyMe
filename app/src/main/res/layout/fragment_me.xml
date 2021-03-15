@@ -234,6 +234,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/_5sdp"
+            android:visibility="gone"
             android:textStyle="bold"
             android:textColor="@color/colorTextPrimary"
             app:layout_constraintBottom_toTopOf="@+id/rv_leave_balance"

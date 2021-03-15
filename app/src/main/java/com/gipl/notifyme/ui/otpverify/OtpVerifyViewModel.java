@@ -101,6 +101,20 @@ public class OtpVerifyViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(getLibRes -> {
                     if (getLibRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
+                        getUserShift();
+                    } else {
+                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(getLibRes.getApiError().getErrorMessage()))));
+                    }
+                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
+
+
+    }
+
+    private void getUserShift(){
+        getCompositeDisposable().add(userUseCase.getUserShift().subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(getLibRes -> {
+                    if (getLibRes.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         getDataManager().setIsLogin();
                         getResponseMutableLiveData().postValue(Response.success(getDataManager().getSession()));
                     } else {

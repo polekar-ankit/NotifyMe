@@ -1,5 +1,7 @@
 package com.gipl.notifyme.ui.punchingslip;
 
+import android.os.Bundle;
+
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -18,6 +20,7 @@ import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.gipl.notifyme.uility.rx.SchedulerProvider;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -91,12 +94,13 @@ public class PunchingSlipViewModel extends BaseViewModel {
                 inTimeError.set(getDataManager().getContext().getString(R.string.error_in_time));
                 outTimeError.set(getDataManager().getContext().getString(R.string.error_out_time));
             }
-            if (selectedReason.getSuid() == -1) {
-                reasonError.set(getDataManager().getContext().getString(R.string.error_mispunch_reason_not_selected));
-            }
-            if (selectedReason.getSuid() == 32 && reason.get().isEmpty()) {
+//            if (selectedReason.getSuid() == -1) {
+//                reasonError.set(getDataManager().getContext().getString(R.string.error_mispunch_reason_not_selected));
+//            }
+            if (/*selectedReason.getSuid() == 32 &&*/ reason.get().isEmpty()) {
                 reasonError.set(getDataManager().getContext().getString(R.string.error_mispunch_reason_empty));
             }
+
             if (!shiftError.get().isEmpty() || !inTimeError.get().isEmpty()
                     || !outTimeError.get().isEmpty() || !reasonError.get().isEmpty()) {
                 return;
@@ -107,7 +111,9 @@ public class PunchingSlipViewModel extends BaseViewModel {
             req.setInTime(inTime);
             req.setOutTime(outTime);
             req.setSuidShift(suidShift);
-            req.setsReason(selectedReason.getSuid() == 32 ? reason.get() : selectedReason.getReason());
+
+            req.setsReason(/*selectedReason.getSuid() == 32 ?*/ reason.get() /*: selectedReason.getReason()*/);
+
             getResponseMutableLiveData().postValue(Response.loading());
             getCompositeDisposable().add(slipDomain.addPunchingSlip(req)
                     .subscribeOn(getSchedulerProvider().io())

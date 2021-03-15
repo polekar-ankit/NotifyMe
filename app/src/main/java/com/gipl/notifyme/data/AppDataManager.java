@@ -47,6 +47,8 @@ import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeReq;
 import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftReq;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.data.model.db.TNotification;
@@ -173,6 +175,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<ShiftChangeListRsp> getShiftChangeList(ShiftChangeListReq req) {
         return mApiHelper.getShiftChangeList(req);
+    }
+
+    @Override
+    public Single<UserShiftRsp> getUserShift(UserShiftReq userShiftReq) {
+        return mApiHelper.getUserShift(userShiftReq);
     }
 
     @Override

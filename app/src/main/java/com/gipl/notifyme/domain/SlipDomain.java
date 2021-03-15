@@ -30,6 +30,8 @@ import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.notifyme.data.model.api.shiftchangelist.Scr;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
+import com.gipl.notifyme.ui.addco.AddCoFragment;
+import com.gipl.notifyme.ui.addco.AddCoFragment.CO_FOR;
 import com.gipl.notifyme.ui.model.Reason;
 import com.gipl.notifyme.uility.TimeUtility;
 
@@ -189,12 +191,14 @@ public class SlipDomain extends UseCase {
                     co.setColor(Color.parseColor("#FB8C00"));
                     co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
-                if (co.getCOFor() == leaveFor.getBitFirstHalfDay()) {
-                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_half_day));
-                } else if (co.getCOFor() == leaveFor.getBitFullDay()) {
+                if (co.getCOFor() == CO_FOR.HALF_DAY.getValue()) {
+                    co.setLblCOFor( dataManager.getContext().getString(R.string.lbl_co_half_day));
+                } else if (co.getCOFor() == CO_FOR.FULL_DAY.getValue()) {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_full_day));
-                } else if (co.getCOFor() == leaveFor.getBitSecondHalfDay()) {
-                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_second_half));
+                } else if (co.getCOFor() == CO_FOR.ONE_AND_HALF_DAYS.getValue()) {
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_one_half_day));
+                } else if (co.getCOFor() == CO_FOR.TWO_DAYS.getValue()) {
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_two));
                 }
             }
             Collections.sort(rsp.getCO(), (o1, o2) -> {
@@ -220,7 +224,8 @@ public class SlipDomain extends UseCase {
             return;
         }
 //        long days = TimeUtility.getDiff(lastSync) / (1000 * 60 * 60 * 24);
-         long days = TimeUtility.getDifferenceInDaysUpdateToCurrentTime(lastSync);;
+        long days = TimeUtility.getDifferenceInDaysUpdateToCurrentTime(lastSync);
+        ;
         if (days >= 1) {
             new FirebaseDb().getReason(type, dataManager);
         }

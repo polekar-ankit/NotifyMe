@@ -53,6 +53,8 @@ import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeReq;
 import com.gipl.notifyme.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.notifyme.data.model.api.shiftchangelist.ShiftChangeListRsp;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftReq;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.google.gson.Gson;
@@ -229,6 +231,15 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(ShiftChangeListRsp.class);
+    }
+
+    @Override
+    public Single<UserShiftRsp> getUserShift(UserShiftReq userShiftReq) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_SHIFTS_FOR_USER)
+                .addBodyParameter(userShiftReq)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(UserShiftRsp.class);
     }
 
     @Override

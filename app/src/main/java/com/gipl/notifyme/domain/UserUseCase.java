@@ -14,6 +14,8 @@ import com.gipl.notifyme.data.model.api.lib.utility.CheckInType;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
 import com.gipl.notifyme.data.model.api.sendotp.SendOTPReq;
 import com.gipl.notifyme.data.model.api.sendotp.SendOtpRes;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftReq;
+import com.gipl.notifyme.data.model.api.usershift.UserShiftRsp;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.uility.TimeUtility;
@@ -24,6 +26,7 @@ import java.util.Calendar;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 public class UserUseCase extends UseCase {
 
@@ -64,6 +67,18 @@ public class UserUseCase extends UseCase {
                 utility.setCheckOutType(new CheckOutType());
             }
             return getLibRes;
+        });
+    }
+
+    public Single<UserShiftRsp> getUserShift() {
+        UserShiftReq shiftReq = new UserShiftReq();
+        shiftReq.setSuidSession(dataManager.getSession());
+        shiftReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+        return dataManager.getUserShift(shiftReq).map(userShiftRsp -> {
+            if (userShiftRsp.getShiftsList() != null && userShiftRsp.getShiftsList().size() > 0) {
+                dataManager.setShiftList(userShiftRsp.getShiftsList());
+            }
+            return userShiftRsp;
         });
     }
 

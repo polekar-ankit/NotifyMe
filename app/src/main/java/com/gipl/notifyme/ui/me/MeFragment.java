@@ -26,6 +26,7 @@ import com.gipl.notifyme.ui.checkout.CheckOutDialog;
 import com.gipl.notifyme.ui.me.adapters.LeaveBalanceAdapter;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
 
     private void processLeaveBalance(ArrayList<LeaveBalance> leaveBalances) {
         if (leaveBalances.size() > 0) {//other wise it will create 'IllegalArgumentException: Span count should be at least 1. Provided 0' exception
+            getViewDataBinding().tvLeaveBalance.setVisibility(View.VISIBLE);
             getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext(), leaveBalances.size()));
             adapter.addItems(leaveBalances);
         }
@@ -153,17 +155,34 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
 
             Navigation.findNavController(view).navigate(R.id.action_nav_user_to_missPunchListFragment);
         });
-        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment));
+        getViewDataBinding().btnAddOvertime.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_overtimeListFragment);
+            Bundle param = new Bundle();
+            param.putString("name", getViewDataBinding().btnAddOvertime.getText().toString());
+            getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
+        });
         getViewDataBinding().btnApplyLeave.setOnClickListener(v -> {
             getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnApplyLeave.getText().toString());
+            Bundle param = new Bundle();
+            param.putString("name", getViewDataBinding().btnApplyLeave.getText().toString());
+            getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
             Navigation.findNavController(v).navigate(R.id.action_nav_user_to_leaveListFragment2);
         });
 
         getViewDataBinding().btnShiftChange.setOnClickListener(v -> {
             getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnShiftChange.getText().toString());
+            Bundle param = new Bundle();
+            param.putString("name", getViewDataBinding().btnShiftChange.getText().toString());
+            getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
+
             Navigation.findNavController(v).navigate(R.id.action_nav_user_to_shiftChangeListFragment);
         });
-        getViewDataBinding().btnAddCo.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_nav_user_to_coListFragment));
+        getViewDataBinding().btnAddCo.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_nav_user_to_coListFragment);
+            Bundle param = new Bundle();
+            param.putString("name", getViewDataBinding().btnAddCo.getText().toString());
+            getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
+        });
     }
 
 

@@ -70,7 +70,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
         }
         setLeaveFor();
 
-        viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(),this::setReasonSpinner);
+        viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
 
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
@@ -143,11 +143,28 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
     private void setLeaveFor() {
         ArrayList<LeaveFor> forArrayList = new ArrayList<>();
         forArrayList.add(new LeaveFor("Select", -1));
-        Utility utility = viewModel.getDataManager().getUtility();
-        forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), utility.getLeaveFor().getBitFullDay()));
-        forArrayList.add(new LeaveFor(getString(R.string.lbl_co_half_day), utility.getLeaveFor().getBitFirstHalfDay()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_full_day), CO_FOR.FULL_DAY.getValue()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_co_half_day), CO_FOR.HALF_DAY.getValue()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_co_one_half_day), CO_FOR.ONE_AND_HALF_DAYS.getValue()));
+        forArrayList.add(new LeaveFor(getString(R.string.lbl_co_two), CO_FOR.TWO_DAYS.getValue()));
 //        forArrayList.add(new LeaveFor(getString(R.string.lbl_second_half), utility.getLeaveFor().getBitSecondHalfDay()));
         ArrayAdapter<LeaveFor> leaveForArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, forArrayList);
         getViewDataBinding().spinnerCoFor.setAdapter(leaveForArrayAdapter);
+    }
+
+    public enum CO_FOR {
+        HALF_DAY(1),
+        FULL_DAY(2),
+        ONE_AND_HALF_DAYS(3),
+        TWO_DAYS(4);
+        private int value;
+
+        CO_FOR(int i) {
+            this.value = i;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 }

@@ -91,7 +91,7 @@
     <string name="from_shift_not_select_error">कृपया जुनी शिफ्ट निवडा.</string>
     <string name="to_shift_not_select_error">कृपया नवीन शिफ्ट निवडा.</string>
     <string name="lbl_co_date">सीओ तारीख</string>
-    <string name="lbl_co_for">सत्र</string>
+    <string name="lbl_co_for">सीओ जमा करा</string>
     <string name="btn_lbl_add_co">सीओ स्लिप द्या </string>
     <string name="msg_co_added">तुमची सीओ ऍड करण्याची विनंती यशस्वीरित्या घेतली गेली आहे.</string>
     <string name="lbl_add_co_for">सीओ चे सत्रा.</string>
@@ -141,4 +141,7 @@
     <string name="lbl_leave_balance">शिल्लक रजा</string>
     <string name="msg_pdf_link_empty">पी.डी.एफ. लिंक सापडली नाही.कृपया प्रशासकाशी संपर्क साधा.</string>
     <string name="msg_leave_applied">आपला रजेचा अर्ज यशस्वीरीत्या घेतलेला आहे.</string>
+    <string name="lbl_co_one_half_day">दीड दिवस</string>
+    <string name="lbl_co_two">दोन दिवस</string>
+    <string name="lbl_punching_slip_shift">शिफ्ट</string>
 </resources>
