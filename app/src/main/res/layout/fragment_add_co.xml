@@ -85,6 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/tv_co_for"
             app:layout_constraintTop_toBottomOf="@+id/tv_co_reason" />
 
@@ -100,8 +101,8 @@
             android:inputType="textPersonName"
             android:singleLine="true"
             android:text="@={addCo.reason}"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_reason"
-            app:layout_constraintStart_toStartOf="@+id/spinner_reason"
+            app:layout_constraintEnd_toEndOf="@+id/spinner_co_for"
+            app:layout_constraintStart_toStartOf="@+id/spinner_co_for"
             app:layout_constraintTop_toBottomOf="@+id/spinner_reason" />
 
         <TextView
@@ -111,8 +112,8 @@
             android:text="@{addCo.reasonError}"
             android:textColor="@color/edit_text_error"
             android:textSize="@dimen/edit_text_error"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_reason"
-            app:layout_constraintStart_toStartOf="@+id/spinner_reason"
+            app:layout_constraintEnd_toEndOf="@+id/et_reason"
+            app:layout_constraintStart_toStartOf="@+id/et_reason"
             app:layout_constraintTop_toBottomOf="@+id/et_reason"
             tools:text="Wrong employee id" />
 

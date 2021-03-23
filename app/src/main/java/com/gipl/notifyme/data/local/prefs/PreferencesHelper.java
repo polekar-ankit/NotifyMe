@@ -17,6 +17,7 @@
 package com.gipl.notifyme.data.local.prefs;
 
 
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
@@ -99,5 +100,9 @@ public interface PreferencesHelper {
     void cacheLeaveBalance(LeaveBalanceRsp leaveBalanceRsp);
 
     ArrayList<LeaveBalance> getLeaveBalance();
+
+    void setDashboardCount(DashboardCountRsp rsp);
+
+    DashboardCountRsp getDashboardCount();
 
 }

@@ -31,6 +31,8 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountReq;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
@@ -140,6 +142,15 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(CheckOutRsp.class);
+    }
+
+    @Override
+    public Single<DashboardCountRsp> getDashboardCount(DashboardCountReq req) throws JSONException {
+        return Rx2AndroidNetworking.post(ApiEndPoint.GET_DASHBOARD_COUNT)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(DashboardCountRsp.class);
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.gipl.notifyme.data.model.api.checkin.CheckInReq;
 import com.gipl.notifyme.data.model.api.checkin.CheckInRsp;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountReq;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.lib.GetLibReq;
 import com.gipl.notifyme.data.model.api.lib.GetLibRes;
 import com.gipl.notifyme.data.model.api.lib.SJson;
@@ -20,6 +22,8 @@ import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpReq;
 import com.gipl.notifyme.data.model.api.verifyotp.VerifyOtpRsp;
 import com.gipl.notifyme.uility.TimeUtility;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
 
 import java.util.Calendar;
 
@@ -124,6 +128,18 @@ public class UserUseCase extends UseCase {
                 observer.onSuccess(true);
             }
         };
+    }
+
+    public Single<DashboardCountRsp>getDashboardCount() throws JSONException {
+        DashboardCountReq dashboardCountReq = new DashboardCountReq();
+        dashboardCountReq.setSuidSession(dataManager.getSession());
+        dashboardCountReq.setTag("");
+        return dataManager.getDashboardCount(dashboardCountReq).map(dashboardCountRsp -> {
+            if (dashboardCountRsp.getApiError().getErrorVal()==ApiError.ERROR_CODE.OK){
+                dataManager.setDashboardCount(dashboardCountRsp);
+            }
+            return dashboardCountRsp;
+        });
     }
 
 }

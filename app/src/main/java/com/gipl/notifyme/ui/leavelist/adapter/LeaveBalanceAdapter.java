@@ -1,4 +1,4 @@
-package com.gipl.notifyme.ui.me.adapters;
+package com.gipl.notifyme.ui.leavelist.adapter;
 
 import android.view.View;
 

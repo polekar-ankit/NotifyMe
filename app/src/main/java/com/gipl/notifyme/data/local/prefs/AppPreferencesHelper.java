@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leavetype.LeaveTypeRsp;
@@ -56,6 +57,7 @@ public class AppPreferencesHelper implements PreferencesHelper {
     private static final String KEY_CHECK_TYPE = "KEY_CHECK_TYPE";
     private static final String KEY_CACHE_lEAVAE_TYPE = "KEY_CACHE_LEAVE_TYPE";
     private static final String KEY_CACHE_lEAVE_BALANCE = "KEY_CACHE_lEAVE_BALANCE";
+    private static final String KEY_CACHE_DASHBOARD_COUNT = "KEY_CACHE_DASHBOARD_COUNT";
 
 
     private final SharedPreferences mPrefs;
@@ -227,6 +229,19 @@ public class AppPreferencesHelper implements PreferencesHelper {
             return new ArrayList<>();
         LeaveBalanceRsp rsp = new Gson().fromJson(json, LeaveBalanceRsp.class);
         return rsp.getBalanceArrayList();
+    }
+
+    @Override
+    public void setDashboardCount(DashboardCountRsp rsp) {
+        mPrefs.edit().putString(KEY_CACHE_DASHBOARD_COUNT, new Gson().toJson(rsp)).apply();
+    }
+
+    @Override
+    public DashboardCountRsp getDashboardCount() {
+        String json = mPrefs.getString(KEY_CACHE_DASHBOARD_COUNT, "");
+        if (json.isEmpty())
+            return null;
+        return new Gson().fromJson(json, DashboardCountRsp.class);
     }
 
     @Override

@@ -11,10 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
@@ -23,10 +19,9 @@ import com.gipl.notifyme.databinding.FragmentMeBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
 import com.gipl.notifyme.ui.checkout.CheckOutDialog;
-import com.gipl.notifyme.ui.me.adapters.LeaveBalanceAdapter;
+import com.gipl.notifyme.ui.leavelist.adapter.LeaveBalanceAdapter;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.DialogUtility;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.ArrayList;
 
@@ -35,7 +30,7 @@ import javax.inject.Inject;
 public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Inject
     MeViewModel meViewModel;
-    private LeaveBalanceAdapter adapter;
+
 
     @Override
     public int getBindingVariable() {
@@ -58,16 +53,9 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         CheckOutDialog checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
-        meViewModel.getLeaveBalanceLiveData().observe(this, this::processLeaveBalance);
     }
 
-    private void processLeaveBalance(ArrayList<LeaveBalance> leaveBalances) {
-        if (leaveBalances.size() > 0) {//other wise it will create 'IllegalArgumentException: Span count should be at least 1. Provided 0' exception
-            getViewDataBinding().tvLeaveBalance.setVisibility(View.VISIBLE);
-            getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext(), leaveBalances.size()));
-            adapter.addItems(leaveBalances);
-        }
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -139,14 +127,14 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-        adapter = new LeaveBalanceAdapter();
-        meViewModel.getLeaveBalance();
+
 //        getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext()));
 
 //        SnapHelper snapHelper = new PagerSnapHelper();
 //        snapHelper.attachToRecyclerView(getViewDataBinding().rvLeaveBalance);
 
-        getViewDataBinding().rvLeaveBalance.setAdapter(adapter);
+        meViewModel.getDashboardCount();
+
         getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> {
             getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnPunchingSlip.getText().toString());
             Bundle param = new Bundle();

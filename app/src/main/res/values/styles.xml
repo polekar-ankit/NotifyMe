@@ -16,6 +16,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyTimePickerDialogStyle" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="showTitle">false</item>
+        <item name="colorControlActivated">#ffd600</item>
+        <item name="colorAccent">#b71c1c</item>
+        <item name="android:textColorPrimary">#43a047</item>
+        <item name="android:textColorSecondary">#f44336</item>
+        <item name="android:timePickerStyle">@style/MyTimePickerWidgetStyle</item>
+    </style>
+    <style name="MyTimePickerWidgetStyle" parent="Widget.MaterialComponents.TimePicker">
+        <item name="android:headerBackground">#ffe082</item>
+        <item name="android:numbersTextColor">#b71c1c</item>
+        <item name="android:numbersSelectorColor">@color/colorPrimary</item>
+        <item name="android:numbersBackgroundColor">#ef9a9a</item>
+        <item name="android:amPmTextColor">#9c27b0</item>
+    </style>
+
     <style name="dialogHeader">
         <item name="android:background">@drawable/bg_dialog_header</item>
     </style>

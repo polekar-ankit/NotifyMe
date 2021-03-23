@@ -56,29 +56,11 @@
                         android:padding="@dimen/_5sdp">
 
                         <TextView
-                            android:id="@+id/textView8"
-                            style="@style/TextSubTitleBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/proxima_nova_regular"
-                            android:text="@string/lbl_sch_from"
-                            android:textColor="@color/colorTextPrimary"
-                            android:textSize="16dp" />
-
-                        <TextView
-                            android:id="@+id/tv_from"
-                            style="@style/TextViewCalender"
-                            android:layout_width="@dimen/_100sdp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:text="textview" />
-
-                        <TextView
                             android:id="@+id/lbl_spinner"
                             style="@style/lblEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
                             android:text="@string/lbl_sch_from_shift"
                             android:textColor="@color/colorTextPrimary"
                             android:textSize="16dp" />
@@ -100,6 +82,26 @@
                             android:textColor="@color/edit_text_error"
                             android:textSize="12dp"
                             tools:text="sdadasd" />
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            style="@style/TextSubTitleBold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:fontFamily="@font/proxima_nova_regular"
+                            android:text="@string/lbl_sch_from"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textSize="16dp" />
+
+                        <TextView
+                            android:id="@+id/tv_from"
+                            style="@style/TextViewCalender"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:text="textview" />
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -198,9 +200,9 @@
                         style="@style/Widget.AppCompat.EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:backgroundTint="@color/colorPrimary"
                         android:drawablePadding="@dimen/_10sdp"
-                        android:layout_marginTop="@dimen/_2sdp"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:hint="@string/hint_shift_reason"
                         android:imeOptions="actionDone"

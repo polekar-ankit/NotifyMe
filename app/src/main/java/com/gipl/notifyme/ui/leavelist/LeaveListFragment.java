@@ -14,10 +14,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.gipl.notifyme.BR;
 import com.gipl.notifyme.R;
+import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
 import com.gipl.notifyme.data.model.api.leaves.LeaveRequest;
 import com.gipl.notifyme.databinding.FragmentLeaveListBinding;
 import com.gipl.notifyme.exceptions.ErrorMessageFactory;
 import com.gipl.notifyme.ui.base.BaseFragment;
+import com.gipl.notifyme.ui.leavelist.adapter.LeaveBalanceAdapter;
 import com.gipl.notifyme.ui.leavelist.adapter.LeaveRequestListAdapter;
 import com.gipl.notifyme.ui.model.Response;
 import com.gipl.notifyme.uility.AppUtility;
@@ -32,6 +34,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Inject
     LeaveListViewModel leaveListViewModel;
     LeaveRequestListAdapter leaveRequestListAdapter;
+    private LeaveBalanceAdapter adapter;
     private final IFragmentListener iFragmentListener = new IFragmentListener() {
         @Override
         public void onActivityResult(Bundle bundle) {
@@ -70,6 +73,15 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
         leaveListViewModel.getLeaveList();
         leaveRequestListAdapter = new LeaveRequestListAdapter();
         leaveListViewModel.getResponseMutableLiveData().observe(this, this::processLiveData);
+        leaveListViewModel.getLeaveBalanceLiveData().observe(this, this::processLeaveBalance);
+    }
+
+    private void processLeaveBalance(ArrayList<LeaveBalance> leaveBalances) {
+        if (leaveBalances.size() > 0) {//other wise it will create 'IllegalArgumentException: Span count should be at least 1. Provided 0' exception
+            getViewDataBinding().tvLeaveBalance.setVisibility(View.VISIBLE);
+            getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext(), leaveBalances.size()));
+            adapter.addItems(leaveBalances);
+        }
     }
 
     private void processLiveData(Response response) {
@@ -79,6 +91,8 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
                 break;
             case SUCCESS:
                 hideLoading();
+                if (response.data instanceof Boolean)
+                    break;
                 leaveRequestListAdapter.addItems((ArrayList<LeaveRequest>) response.data);
                 break;
             case ERROR:
@@ -93,6 +107,11 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        adapter = new LeaveBalanceAdapter();
+        leaveListViewModel.getLeaveBalance();
+
+        getViewDataBinding().rvLeaveBalance.setAdapter(adapter);
 
         getViewDataBinding().pullDown.setRefreshing(false);
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

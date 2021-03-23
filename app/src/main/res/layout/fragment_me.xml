@@ -103,70 +103,92 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.20" />
+            app:layout_constraintGuide_begin="146dp" />
 
         <TableRow
             android:id="@+id/devider"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:background="#ccc"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guideline2" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/_10sdp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_leave_balance"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/devider">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
 
                 <TextView
                     android:id="@+id/btn_punching_slip"
                     style="@style/meEmpButton"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:background="@drawable/bg_me_frag_button"
                     android:text="@string/btn_lbl_punching_slip"
                     app:drawableTopCompat="@drawable/ic_official_out"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline3"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/guideline2" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_percent="0.5" />
+
 
                 <TextView
                     android:id="@+id/btn_add_overtime"
                     style="@style/meEmpButton"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:text="@string/btn_lbl_over_time"
                     app:drawableTopCompat="@drawable/ic_check_out"
+                    app:layout_constraintBottom_toBottomOf="@+id/btn_punching_slip"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline3"
+                    app:layout_constraintStart_toEndOf="@+id/btn_punching_slip"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    tools:text="999"
+                    android:fontFamily="@font/proxima_nova_alt_regular"
+                    android:text="@{me.misPunchTimeCount}"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="12dp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_count_bubble"
+                    android:elevation="2dp"
+                    app:layout_constraintEnd_toEndOf="@+id/btn_punching_slip"
                     app:layout_constraintTop_toTopOf="@+id/btn_punching_slip" />
-            </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/btn_shift_change"
                     style="@style/meEmpButton"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="@string/btn_home_lbl_shift_change"
                     app:drawableTopCompat="@drawable/ic_shift_change"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -177,8 +199,8 @@
                     android:id="@+id/btn_apply_leave"
                     style="@style/meEmpButton"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="@string/btn_lbl_apply_for_leave"
                     app:drawableTopCompat="@drawable/ic_apply_leave"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -188,15 +210,15 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/btn_add_co"
                     style="@style/meEmpButton"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:text="@string/btn_lbl_add_co"
                     app:drawableTopCompat="@drawable/ic_add_co"
                     app:layout_constraintEnd_toStartOf="@+id/guideline3"
@@ -207,8 +229,8 @@
                     android:id="@+id/button6"
                     style="@style/meEmpButton"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:enabled="false"
                     android:text="@string/btn_lbl_attendance"
                     android:textColor="#DCDCDC"
@@ -228,29 +250,6 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
-        <TextView
-            android:id="@+id/tv_leave_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:visibility="gone"
-            android:textStyle="bold"
-            android:textColor="@color/colorTextPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/rv_leave_balance"
-            android:text="@string/lbl_leave_balance" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_leave_balance"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:layout_marginStart="@dimen/_2sdp"
-            android:layout_marginEnd="@dimen/_2sdp"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:itemCount="1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

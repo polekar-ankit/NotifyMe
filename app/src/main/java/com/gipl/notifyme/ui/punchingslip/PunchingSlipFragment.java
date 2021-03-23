@@ -1,5 +1,6 @@
 package com.gipl.notifyme.ui.punchingslip;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -59,7 +60,6 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        punchingSlipViewModel.getShiftLiveData().observe(this, this::processShift);
         punchingSlipViewModel.getResponseMutableLiveData().observe(this, this::processResponse);
     }
 
@@ -86,14 +86,15 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         }
     }
 
-    private void processShift(ArrayList<Shifts> shifts) {
-        shifts.add(0, new Shifts("Select"));
-        ArrayAdapter<Shifts> shiftsArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, shifts);
-        getViewDataBinding().spinnerShift.setAdapter(shiftsArrayAdapter);
-    }
+//    private void processShift(ArrayList<Shifts> shifts) {
+//        shifts.add(0, new Shifts("Select"));
+//        ArrayAdapter<Shifts> shiftsArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, shifts);
+//        getViewDataBinding().spinnerShift.setAdapter(shiftsArrayAdapter);
+//    }
 
     private IFragmentListener iFragmentListener;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -105,22 +106,10 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         punchingSlipViewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
 
-        getViewDataBinding().spinnerShift.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    punchingSlipViewModel.setShiftError(getString(R.string.shift_not_select_error));
 
-                } else
-                    punchingSlipViewModel.setShiftError("");
 
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        getViewDataBinding().tvInTime.setEnabled(false);
+        getViewDataBinding().tvOutTime.setEnabled(false);
 
         getViewDataBinding().cbIn.setOnCheckedChangeListener((buttonView, isChecked) -> {
             getViewDataBinding().tvInTime.setEnabled(isChecked);
@@ -142,14 +131,11 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
             Calendar calendar = getTimeCalender(getViewDataBinding().tvInTime.getText().toString());
             if (inTimePickerDialog != null && inTimePickerDialog.isShowing())
                 inTimePickerDialog.dismiss();
+
+
             inTimePickerDialog = new TimePickerDialog(requireContext(),
-                    (timePicker, h24, m24) -> {
-                        try {
-                            getViewDataBinding().tvInTime.setText(TimeUtility.convert24HrTimeTo12Hr(h24 + ":" + m24));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+                    R.style.MyTimePickerDialogStyle,
+                    (timePicker, h24, m24) -> getViewDataBinding().tvInTime.setText(h24+":"+m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             inTimePickerDialog.setTitle("In Time");
             inTimePickerDialog.show();
         });
@@ -159,13 +145,8 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
             if (inTimePickerDialog != null && inTimePickerDialog.isShowing())
                 inTimePickerDialog.dismiss();
             inTimePickerDialog = new TimePickerDialog(requireContext(),
-                    (timePicker, h24, m24) -> {
-                        try {
-                            getViewDataBinding().tvOutTime.setText(TimeUtility.convert24HrTimeTo12Hr(h24 + ":" + m24));
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                    }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+                    R.style.MyTimePickerDialogStyle,
+                    (timePicker, h24, m24) -> getViewDataBinding().tvOutTime.setText(h24+":"+m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             inTimePickerDialog.setTitle("Out Time");
             inTimePickerDialog.show();
         });
@@ -205,12 +186,11 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         });
 
         getViewDataBinding().btnApply.setOnClickListener(v -> {
-            Shifts shifts = (Shifts) getViewDataBinding().spinnerShift.getSelectedItem();
+//            Shifts shifts = (Shifts) getViewDataBinding().spinnerShift.getSelectedItem();
             Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
             punchingSlipViewModel.addPunchingSlip(getViewDataBinding().cbIn.isChecked() ? getViewDataBinding().tvInTime.getText().toString() : "",
                     getViewDataBinding().cbOut.isChecked() ? getViewDataBinding().tvOutTime.getText().toString() : "",
                     getViewDataBinding().tvFrom.getText().toString(),
-                    shifts.getSuidShift(),
                     reason
             );
         });

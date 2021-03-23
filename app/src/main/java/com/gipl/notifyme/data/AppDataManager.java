@@ -20,6 +20,8 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountReq;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
@@ -125,6 +127,11 @@ public class AppDataManager implements DataManager {
     @Override
     public Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq) {
         return mApiHelper.checkOut(checkOutReq);
+    }
+
+    @Override
+    public Single<DashboardCountRsp> getDashboardCount(DashboardCountReq req) throws JSONException {
+        return mApiHelper.getDashboardCount(req);
     }
 
     @Override
@@ -340,6 +347,16 @@ public class AppDataManager implements DataManager {
     @Override
     public ArrayList<LeaveBalance> getLeaveBalance() {
         return mPreferencesHelper.getLeaveBalance();
+    }
+
+    @Override
+    public void setDashboardCount(DashboardCountRsp rsp) {
+        mPreferencesHelper.setDashboardCount(rsp);
+    }
+
+    @Override
+    public DashboardCountRsp getDashboardCount() {
+        return mPreferencesHelper.getDashboardCount();
     }
 
     @Override

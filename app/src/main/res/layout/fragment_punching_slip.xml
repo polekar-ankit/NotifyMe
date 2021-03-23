@@ -49,40 +49,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         <TextView
-            android:id="@+id/lbl_spinner"
-            style="@style/lblEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:text="@string/lbl_punching_slip_shift"
-            android:textColor="@color/colorTextPrimary"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@+id/tv_from"
-            app:layout_constraintTop_toBottomOf="@id/tv_from" />
-
-        <Spinner
-            android:id="@+id/spinner_shift"
-            style="@style/Widget.AppCompat.Spinner.Underlined"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/lbl_spinner"
-            app:layout_constraintTop_toBottomOf="@+id/lbl_spinner" />
-
-        <TextView
-            android:id="@+id/tv_shift_error"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/proxima_nova_alt_regular"
-            android:text="@{slip.shiftError}"
-            android:textColor="@color/edit_text_error"
-            android:textSize="12dp"
-            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_shift"
-            tools:text="sdadasd" />
-
-        <TextView
             android:id="@+id/tv_in_time_error"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -118,20 +84,20 @@
             android:textColor="@color/colorTextPrimary"
             android:textSize="16dp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
-            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
-            app:layout_constraintTop_toBottomOf="@+id/tv_shift_error" />
+            app:layout_constraintEnd_toEndOf="@+id/ll_in"
+            app:layout_constraintStart_toStartOf="@+id/ll_in"
+            app:layout_constraintTop_toBottomOf="@+id/tv_from" />
 
         <LinearLayout
             android:id="@+id/ll_in"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tv_from"
             app:layout_constraintTop_toBottomOf="@+id/textView10">
 
             <CheckBox
@@ -147,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:hint="@string/cb_in_time"
-                android:text=""/>
+                android:text="" />
         </LinearLayout>
 
         <LinearLayout
@@ -157,9 +123,8 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@+id/spinner_shift"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/spinner_shift"
+            app:layout_constraintEnd_toEndOf="@+id/ll_in"
+            app:layout_constraintStart_toStartOf="@+id/ll_in"
             app:layout_constraintTop_toBottomOf="@+id/tv_in_time_error">
 
             <CheckBox
@@ -174,9 +139,9 @@
                 android:layout_width="@dimen/_100sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                tools:enabled="true"
                 android:hint="@string/cb_out_time"
-                android:text="" />
+                android:text=""
+                tools:enabled="true" />
         </LinearLayout>
 
         <LinearLayout

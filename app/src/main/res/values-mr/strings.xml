@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">नोटिफाय मी</string>
+    <string name="app_name">स्वयंम</string>
+    <string name="activity_notification">स्वयंम</string>
+    <string name="tag_line">कर्मचारी स्व: सेवा</string>
     <string name="msg_default_wait">कृपया थांबा…</string>
     <string name="msg_no_internet_connectivity">इंटरनेट कनेक्शन नाही</string>
     <string name="exception_not_found">काहीतरी चूक झाली</string>
@@ -23,7 +25,6 @@
     <string name="activity_image_preview">प्रतिमा दर्शक</string>
     <string name="message_text_copied">मजकूर कॉपी केला</string>
     <string name="error_pdf_viewer_not_installed">आपल्याला पीडीएफ व्ह्यूअर इन्स्टॉल करण्याची आवश्यकता आहे.</string>
-    <string name="activity_notification">नोटिफाय मी</string>
     <string name="lbl_employee_id">कर्मचारी आय डी</string>
     <string name="nav_title_notification">सूचना</string>
     <string name="nav_title_user">मी</string>
@@ -77,7 +78,7 @@
     <string name="lbl_ot_intentive">Intensive Hours</string>
     <string name="hint_ot_reason">ओव्हरटाईम कारण</string>
     <string name="lbl_sch_from">खालील तारखे पासून</string>
-    <string name="lbl_sch_from_shift">खालील शिफ्ट मधून</string>
+    <string name="lbl_sch_from_shift">सध्याची शिफ्ट</string>
     <string name="lbl_sch_to">खालील तारखे पर्यंत</string>
     <string name="lbl_sch_to_shift">खालील शिफ्ट मध्ये</string>
     <string name="lbl_shift_change_reason">शिफ्ट चेंज करण्याचे कारण</string>

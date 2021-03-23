@@ -29,7 +29,6 @@ import java.util.List;
 import io.reactivex.functions.Consumer;
 
 public class PunchingSlipViewModel extends BaseViewModel {
-    private final MutableLiveData<ArrayList<Shifts>> shiftLiveData = new MutableLiveData<>();
     private final ObservableField<String> shiftError = new ObservableField<>("");
     private final ObservableField<String> inTimeError = new ObservableField<>("");
     private final ObservableField<String> outTimeError = new ObservableField<>("");
@@ -41,7 +40,6 @@ public class PunchingSlipViewModel extends BaseViewModel {
         super(dataManager, schedulerProvider);
         slipDomain = new SlipDomain(dataManager);
         slipDomain.checkAndRefreshReason(Reason.Type.MISS_PUNCH_REASON);
-        getShiftData();
     }
 
 
@@ -65,10 +63,6 @@ public class PunchingSlipViewModel extends BaseViewModel {
         return outTimeError;
     }
 
-    public MutableLiveData<ArrayList<Shifts>> getShiftLiveData() {
-        return shiftLiveData;
-    }
-
     public ObservableField<String> getShiftError() {
         return shiftError;
     }
@@ -77,19 +71,15 @@ public class PunchingSlipViewModel extends BaseViewModel {
         shiftError.set(error);
     }
 
-    private void getShiftData() {
-        shiftLiveData.postValue((ArrayList<Shifts>) getDataManager().getShiftList());
-    }
 
-    public void addPunchingSlip(String inTime, String outTime, String slipDate, String suidShift, Reason selectedReason) {
+    public void addPunchingSlip(String inTime, String outTime, String slipDate, Reason selectedReason) {
         try {
             shiftError.set("");
             inTimeError.set("");
             outTimeError.set("");
             reasonError.set("");
-            if (suidShift == null) {
-                shiftError.set(getDataManager().getContext().getString(R.string.shift_not_select_error));
-            }
+
+
             if (inTime.isEmpty() && outTime.isEmpty()) {
                 inTimeError.set(getDataManager().getContext().getString(R.string.error_in_time));
                 outTimeError.set(getDataManager().getContext().getString(R.string.error_out_time));
@@ -110,7 +100,6 @@ public class PunchingSlipViewModel extends BaseViewModel {
             req.setDtMissPunch(TimeUtility.convertDisplayDateToApi(slipDate));
             req.setInTime(inTime);
             req.setOutTime(outTime);
-            req.setSuidShift(suidShift);
 
             req.setsReason(/*selectedReason.getSuid() == 32 ?*/ reason.get() /*: selectedReason.getReason()*/);
 
@@ -131,3 +120,4 @@ public class PunchingSlipViewModel extends BaseViewModel {
         }
     }
 }
+ 

@@ -1,23 +1,19 @@
 package com.gipl.notifyme.ui.me;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableBoolean;
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 
 import com.gipl.notifyme.R;
 import com.gipl.notifyme.data.DataManager;
 import com.gipl.notifyme.data.FirebaseDb;
 import com.gipl.notifyme.data.model.api.ApiError;
-import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance;
-import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.lib.utility.CheckOutType;
 import com.gipl.notifyme.data.model.api.sendotp.User;
 import com.gipl.notifyme.data.model.firebase.Employee;
-import com.gipl.notifyme.domain.LeaveDomain;
 import com.gipl.notifyme.domain.UserUseCase;
 import com.gipl.notifyme.exceptions.CustomException;
 import com.gipl.notifyme.ui.base.BaseViewModel;
@@ -28,8 +24,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
-import java.util.ArrayList;
+import org.json.JSONException;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -44,6 +40,7 @@ public class MeViewModel extends BaseViewModel {
     private final UserUseCase userUseCase;
     private final ObservableField<String> checkInDateTime = new ObservableField<>("");
     private final ObservableField<String> checkInTime = new ObservableField<>("");
+    private final ObservableField<String> misPunchTimeCount = new ObservableField<>("");
     private final ObservableBoolean showCheckInButton = new ObservableBoolean(true);
     private final FirebaseDb firebaseDb;
     private ExecutorService countDownTimer;
@@ -78,7 +75,6 @@ public class MeViewModel extends BaseViewModel {
 
         }
     };
-    private MutableLiveData<ArrayList<LeaveBalance>> leaveBalanceLiveData = new MutableLiveData<>();
 
     public MeViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
         super(dataManager, schedulerProvider);
@@ -91,8 +87,8 @@ public class MeViewModel extends BaseViewModel {
         firebaseDb = new FirebaseDb(empCode.get());
     }
 
-    public MutableLiveData<ArrayList<LeaveBalance>> getLeaveBalanceLiveData() {
-        return leaveBalanceLiveData;
+    public ObservableField<String> getMisPunchTimeCount() {
+        return misPunchTimeCount;
     }
 
     public void setEmpCheckInStatusListener() {
@@ -138,19 +134,6 @@ public class MeViewModel extends BaseViewModel {
             countDownTimer.shutdown();
     }
 
-    public void getLeaveBalance() {
-        getLeaveBalanceLiveData().postValue(getDataManager().getLeaveBalance());
-        getCompositeDisposable().add(new LeaveDomain(getDataManager()).getLeaveBalance()
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(leaveBalanceRsp -> {
-                    if (leaveBalanceRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
-                        leaveBalanceLiveData.postValue(leaveBalanceRsp.getBalanceArrayList());
-                        getResponseMutableLiveData().postValue(Response.success(true));
-                    } else
-                        getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(leaveBalanceRsp.getApiError().getErrorMessage()))));
-                }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
-    }
 
     public void checkOut(int type) {
         getResponseMutableLiveData().postValue(Response.loading());
@@ -208,5 +191,22 @@ public class MeViewModel extends BaseViewModel {
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(aBoolean -> getResponseMutableLiveData().postValue(Response.success("Logout")),
                         throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
+    }
+
+    public void getDashboardCount() {
+        try {
+            DashboardCountRsp cout = getDataManager().getDashboardCount();
+            if (cout != null)
+                misPunchTimeCount.set(String.valueOf(cout.getCounts().getMissPunchCount()));
+            getCompositeDisposable().add(userUseCase.getDashboardCount().subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(dashboardCountRsp -> {
+                        DashboardCountRsp rsp = getDataManager().getDashboardCount();
+                        if (rsp != null)
+                            misPunchTimeCount.set(String.valueOf(rsp.getCounts().getMissPunchCount()));
+                    }));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

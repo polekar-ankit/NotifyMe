@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Notify Me</string>
+    <string name="app_name">Swayam</string>
+    <string name="activity_notification">Swayam</string>
+    <string name="tag_line">Employee self service</string>
     <string name="msg_default_wait">Please Wait…</string>
     <string name="msg_no_internet_connectivity">No internet connection</string>
     <string name="exception_not_found">Something went wrong</string>
@@ -23,7 +25,6 @@
     <string name="activity_image_preview">Image Viewer</string>
     <string name="message_text_copied">Text copied</string>
     <string name="error_pdf_viewer_not_installed">You need to install PDF Viewer</string>
-    <string name="activity_notification">NotifyMe</string>
     <string name="lbl_employee_id">Employee Id</string>
     <string name="nav_title_notification">Notification</string>
     <string name="nav_title_user">Me</string>
@@ -77,7 +78,7 @@
     <string name="lbl_ot_intentive">Intensive Hours</string>
     <string name="hint_ot_reason">"Over time reason "</string>
     <string name="lbl_sch_from">Date From</string>
-    <string name="lbl_sch_from_shift">From Shift</string>
+    <string name="lbl_sch_from_shift">Current Shift</string>
     <string name="lbl_sch_to">Date To</string>
     <string name="lbl_sch_to_shift">To Shift</string>
     <string name="lbl_shift_change_reason">Shift Change Reason</string>

@@ -28,6 +28,8 @@ import com.gipl.notifyme.data.model.api.checkout.CheckOutReq;
 import com.gipl.notifyme.data.model.api.checkout.CheckOutRsp;
 import com.gipl.notifyme.data.model.api.colist.CoListReq;
 import com.gipl.notifyme.data.model.api.colist.CoListRsp;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountReq;
+import com.gipl.notifyme.data.model.api.dashbordcount.DashboardCountRsp;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceReq;
 import com.gipl.notifyme.data.model.api.leavebalance.LeaveBalanceRsp;
 import com.gipl.notifyme.data.model.api.leaves.GetLeaveRsp;
@@ -75,6 +77,8 @@ public interface ApiHelper {
     Single<CheckInRsp> checkIn(CheckInReq checkInReq);
 
     Single<CheckOutRsp> checkOut(CheckOutReq checkOutReq);
+
+    Single<DashboardCountRsp>getDashboardCount(DashboardCountReq req) throws JSONException;
 
     //leave
     Single<GetLeaveRsp> getLeaveRequestList(GetLeavesReq getLeavesListReq);

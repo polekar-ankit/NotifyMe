@@ -1,15 +1,15 @@
 ext {
 
     serverUrls = [
-            test_server_url = "\" http://gadgrp1.seesales.in/\"",
-            dev_server_url = "\" http://gadgrp.seesales.in/\"",
+            test_server_url = "\" https://gadgrp1.seesales.in/\"",
+            dev_server_url = "\" https://gadgrp.seesales.in/\"",
             live_server_url = "\" http://gadgrp.seesales.in/\"",
 
             noyifyMe = "\"NoyifyMe\"",
 
     ]
 
-    versionCode = 6//change it for final build
+    versionCode = 7//change it for final build
     String date = new Date().format("ddMMyy")
     String time = new Date().format("HHmmss")
     versionName = versionCode + ".0." + date + "." + time

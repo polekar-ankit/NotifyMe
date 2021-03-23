@@ -50,11 +50,11 @@ public class AddCoViewModel extends BaseViewModel {
     public void addCo(String coDate, LeaveFor coFor, Reason selectedReason) {
         reasonError.set("");
 
-        if (selectedReason.getSuid() == -1) {
-            reasonError.set(getDataManager().getContext().getString(R.string.error_co_reason_not_selected));
-        }
+//        if (selectedReason.getSuid() == -1) {
+//            reasonError.set(getDataManager().getContext().getString(R.string.error_co_reason_not_selected));
+//        }
 
-        if (selectedReason.getSuid() == 32 && reason.get().isEmpty()) {
+        if (/*selectedReason.getSuid() == 32 &&*/ reason.get().isEmpty()) {
             reasonError.set(getDataManager().getContext().getString(R.string.error_co_reason_empty));
         }
         if (coFor.getSuid() == -1 || !reasonError.get().isEmpty()) {
@@ -69,7 +69,7 @@ public class AddCoViewModel extends BaseViewModel {
         req.setSuidUser(user.getSuidUser());
         req.setSuidUserAplicant(user.getSuidUser());
         req.setjCOFor(coFor.getSuid());
-        req.setsReason(selectedReason.getSuid() == 32 ? this.reason.get() : selectedReason.getReason());
+        req.setsReason(/*selectedReason.getSuid() == 32 ? */this.reason.get() /*: selectedReason.getReason()*/);
         req.setEmpCode(getDataManager().getEmpCode());
         getResponseMutableLiveData().postValue(Response.loading());
         getCompositeDisposable().add(slipDomain.addCo(req)

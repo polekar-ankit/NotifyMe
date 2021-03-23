@@ -80,8 +80,8 @@ public class AddOverTimeViewModel extends BaseViewModel {
             double intesiveHrs = 0;
             try {
                 overTime = Double.parseDouble(otHours.get());
-                if (overTime > 16 || overTime < 2) {
-                    otHoursError.set("Minimum over time is 2Hr and Maximum overtime is 16Hr.");
+                if (overTime > 16 || overTime < 0.30) {
+                    otHoursError.set("Minimum over time is 30 Min and Maximum overtime is 16 Hr.");
                     return;
                 }
                 if (overTime > 2) {
