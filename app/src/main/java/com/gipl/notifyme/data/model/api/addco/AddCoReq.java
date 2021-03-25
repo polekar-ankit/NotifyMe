@@ -70,7 +70,8 @@ public class AddCoReq extends BaseReq {
     }
 
     public void setsReason(String sReason) {
-        this.sReason = sReason;
+//        this.sReason = sReason;
+        this.sReason = sReason.replaceAll("(\\s+)", "\n");
     }
 
     public void setsExtraInfo(String sExtraInfo) {

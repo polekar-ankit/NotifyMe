@@ -204,6 +204,10 @@ public class MeViewModel extends BaseViewModel {
                         DashboardCountRsp rsp = getDataManager().getDashboardCount();
                         if (rsp != null)
                             misPunchTimeCount.set(String.valueOf(rsp.getCounts().getMissPunchCount()));
+                    }, throwable -> {
+                        DashboardCountRsp rsp = getDataManager().getDashboardCount();
+                        if (rsp != null)
+                            misPunchTimeCount.set(String.valueOf(rsp.getCounts().getMissPunchCount()));
                     }));
         } catch (JSONException e) {
             e.printStackTrace();

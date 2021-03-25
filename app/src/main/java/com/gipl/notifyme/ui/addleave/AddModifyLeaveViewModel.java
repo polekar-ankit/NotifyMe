@@ -27,6 +27,7 @@ import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -109,11 +110,15 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         sessionFromError.set("");
         reasonError.set("");
 
+        if (!isNetworkConnected()) {
+            getResponseMutableLiveData().postValue(Response.error(new Exception(new ConnectException())));
+            return;
+        }
 
         if (leaveFor.getSuid() == -1) {
             sessionFromError.set(getDataManager().getContext().getString(R.string.error_session_not_selected));
         }
-        if (suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
+        if (suidLeaveType == null || suidLeaveType.getSuidLeaveApproval/*getSApprovalsRequired*/() == null) {
             leaveTypeError.set(getDataManager().getContext().getString(R.string.error_select_leave));
         }
         if (numberOfLeaveDays > 1) {

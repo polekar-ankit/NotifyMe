@@ -98,6 +98,7 @@
             android:ems="10"
             android:hint="@string/lbl_reason"
             android:imeOptions="actionDone"
+            android:maxLength="120"
             android:inputType="textPersonName"
             android:singleLine="true"
             android:text="@={addCo.reason}"

@@ -46,7 +46,8 @@ public class AddPunchingSlipReq extends BaseReq {
     }
 
     public void setsReason(String sReason) {
-        this.sReason = sReason;
+//        this.sReason = sReason;
+        this.sReason = sReason.replaceAll("(\\s+)", " ");
     }
 
     public void setsExtraInfo(String sExtraInfo) {

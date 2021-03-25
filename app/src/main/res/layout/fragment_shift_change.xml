@@ -205,8 +205,10 @@
                         android:drawablePadding="@dimen/_10sdp"
                         android:fontFamily="@font/proxima_nova_regular"
                         android:hint="@string/hint_shift_reason"
+                        android:maxLength="120"
                         android:imeOptions="actionDone"
-                        android:inputType="textMultiLine"
+                        android:inputType="text"
+                        android:singleLine="true"
                         android:paddingVertical="@dimen/_10sdp"
                         android:text="@={shiftChange.reason}"
                         android:textColor="@color/colorTextPrimary" />

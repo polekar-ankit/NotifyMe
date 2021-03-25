@@ -145,4 +145,5 @@
     <string name="lbl_co_one_half_day">दीड दिवस</string>
     <string name="lbl_co_two">दोन दिवस</string>
     <string name="lbl_punching_slip_shift">शिफ्ट</string>
+    <string name="lbl_reject_reson">नाकारण्याचे कारण : </string>
 </resources>

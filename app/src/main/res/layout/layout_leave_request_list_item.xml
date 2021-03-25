@@ -8,6 +8,8 @@
         <variable
             name="leaveReq"
             type="com.gipl.notifyme.data.model.api.leaves.LeaveRequest" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -86,6 +88,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_leave_type" />
+
+            <TextView
+                android:id="@+id/tv_leave_reject_reason"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:fontFamily="@font/proxima_nova_regular"
+                android:text="@{@string/lbl_reject_reson+` `+leaveReq.comment}"
+                android:textColor="@{leaveReq.color}"
+                android:textSize="12dp"
+                android:visibility="@{(leaveReq.comment.equals(`-`)||leaveReq.comment.empty)?View.GONE:View.VISIBLE}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_leave_reason"
+                tools:text="sdsajdjdksdlasdjaslkdjaslkdsjdklasdjasldkdjsdksjdlaksdjaslkdjasldkjasldkajsdksdslakdjsldkjsldkjasdlksjdlaskjdlaskdjslkdjslkdjsaldkjlkjslkjlkdjasldkajsdlkasjdlaskjdlaskdjdasldksajaldkjslkdjasldkjasldasda" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

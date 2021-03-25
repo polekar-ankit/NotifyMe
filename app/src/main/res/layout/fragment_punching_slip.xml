@@ -183,7 +183,9 @@
                 android:fontFamily="@font/proxima_nova_regular"
                 android:hint="@string/hint_misspunch_reason"
                 android:imeOptions="actionDone"
-                android:inputType="textMultiLine"
+                android:singleLine="true"
+                android:inputType="text"
+                android:maxLength="120"
                 android:paddingVertical="@dimen/_10sdp"
                 android:text="@={slip.reason}"
                 android:textColor="@color/colorTextPrimary" />

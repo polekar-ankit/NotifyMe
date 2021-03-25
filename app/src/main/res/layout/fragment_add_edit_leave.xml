@@ -184,6 +184,7 @@
                     android:layout_marginStart="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:ems="10"
+                    android:maxLength="120"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:singleLine="true"

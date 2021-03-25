@@ -86,7 +86,8 @@ public class ShiftChangeReq extends BaseReq {
     }
 
     public void setReason(String reason) {
-        this.reason = reason;
+//        this.reason = reason;
+        this.reason = reason.replaceAll("(\\s+)", " ");
     }
 
     public void setsExtraInfo(String sExtraInfo) {

@@ -145,4 +145,5 @@
     <string name="lbl_co_one_half_day">One And Half Days</string>
     <string name="lbl_co_two">Two Days</string>
     <string name="lbl_punching_slip_shift">Shift</string>
+    <string name="lbl_reject_reson">Reason for rejection : </string>
 </resources>
