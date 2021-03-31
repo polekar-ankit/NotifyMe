@@ -7,7 +7,7 @@
 
         <variable
             name="co"
-            type="com.gipl.notifyme.ui.colist.CoListViewModel" />
+            type="com.gipl.swayam.ui.colist.CoListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

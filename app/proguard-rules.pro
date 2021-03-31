@@ -48,7 +48,7 @@
 #-keep class com.google.gson.stream.** { *; }
 
 # Application classes that will be serialized/deserialized over Gson
--keep class com.gipl.notifyme.data.model.api.** { <fields>; }
+#-keep class com.gipl.swayam.data.model.api.** { <fields>; }
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
@@ -64,14 +64,27 @@
 
 ##---------------End: proguard configuration for Gson  ----------
 
--keep class me.dm7.barcodescanner.** {
-  *;
-}
+#-keep class me.dm7.barcodescanner.** {
+#  *;
+#}
 
--keep class net.sourceforge.zbar.** {
-  *;
-}
+#-keep class net.sourceforge.zbar.** {
+#  *;
+#}
 -keepclassmembers enum * {
 public static *[] values();
 public static * valueOf(java.lang.String);
 }
+##---------------End: proguard configuration for Gson  ----------
+
+##-----------------glide------------------------
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+##----------------------glide end

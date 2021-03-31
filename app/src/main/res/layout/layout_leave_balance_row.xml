@@ -6,7 +6,7 @@
 
         <variable
             name="leaveBal"
-            type="com.gipl.notifyme.data.model.api.leavebalance.LeaveBalance" />
+            type="com.gipl.swayam.data.model.api.leavebalance.LeaveBalance" />
     </data>
 
     <LinearLayout

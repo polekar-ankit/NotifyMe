@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.gipl.notifyme.ui.notification.NotificationListViewModel" />
+            type="com.gipl.swayam.ui.notification.NotificationListViewModel" />
 
         <import type="android.view.View" />
     </data>

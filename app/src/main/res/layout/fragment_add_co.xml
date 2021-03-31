@@ -7,7 +7,7 @@
 
         <variable
             name="addCo"
-            type="com.gipl.notifyme.ui.addco.AddCoViewModel" />
+            type="com.gipl.swayam.ui.addco.AddCoViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

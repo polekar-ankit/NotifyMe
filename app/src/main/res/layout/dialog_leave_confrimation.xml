@@ -7,7 +7,7 @@
 
         <variable
             name="leaveConfirm"
-            type="com.gipl.notifyme.ui.leaveconfirm.LeaveConfirmationViewModel" />
+            type="com.gipl.swayam.ui.leaveconfirm.LeaveConfirmationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

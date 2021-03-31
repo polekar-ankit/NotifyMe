@@ -7,7 +7,7 @@
 
         <variable
             name="ot"
-            type="com.gipl.notifyme.data.model.api.overtimelist.OT" />
+            type="com.gipl.swayam.data.model.api.overtimelist.OT" />
     </data>
 
     <androidx.cardview.widget.CardView

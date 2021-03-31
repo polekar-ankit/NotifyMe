@@ -7,7 +7,7 @@
 
         <variable
             name="otList"
-            type="com.gipl.notifyme.ui.shiftchangelist.ShiftChangeListViewModel" />
+            type="com.gipl.swayam.ui.shiftchangelist.ShiftChangeListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

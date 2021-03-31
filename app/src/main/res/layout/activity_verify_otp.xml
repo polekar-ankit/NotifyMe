@@ -7,7 +7,7 @@
 
         <variable
             name="verifyOtp"
-            type="com.gipl.notifyme.ui.otpverify.OtpVerifyViewModel" />
+            type="com.gipl.swayam.ui.otpverify.OtpVerifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/hint_otp" />
 
-            <com.gipl.notifyme.uility.PinEntryEditText
+            <com.gipl.swayam.uility.PinEntryEditText
                 android:id="@+id/tiet_otp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

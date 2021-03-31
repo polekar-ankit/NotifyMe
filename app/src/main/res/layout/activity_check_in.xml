@@ -7,7 +7,7 @@
 
         <variable
             name="checkIn"
-            type="com.gipl.notifyme.ui.checkin.CheckInViewModel" />
+            type="com.gipl.swayam.ui.checkin.CheckInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

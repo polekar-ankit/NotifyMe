@@ -41,6 +41,42 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853745208339:android:3c5bcc7bcefb08cb3303e6",
+        "android_client_info": {
+          "package_name": "com.gipl.swayam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "853745208339-khb0heud317pn9vhgdl0dhhu6r9pegc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqjtM-8udDcnZkbsby9eNIqsepJ-yJ0W4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "853745208339-khb0heud317pn9vhgdl0dhhu6r9pegc7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "853745208339-tj4pg0d9nssoftej1dgbkbr2nk0b5cq1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gipl.notifyme"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

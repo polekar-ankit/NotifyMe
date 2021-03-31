@@ -7,7 +7,7 @@
 
         <variable
             name="otList"
-            type="com.gipl.notifyme.ui.otlist.OvertimeListViewModel" />
+            type="com.gipl.swayam.ui.otlist.OvertimeListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -7,7 +7,7 @@
 
         <variable
             name="notification"
-            type="com.gipl.notifyme.data.model.api.notification.Notification" />
+            type="com.gipl.swayam.data.model.api.notification.Notification" />
 
         <variable
             name="linkLabel"

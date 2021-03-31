@@ -7,7 +7,7 @@
 
         <variable
             name="overtime"
-            type="com.gipl.notifyme.ui.addovertime.AddOverTimeViewModel" />
+            type="com.gipl.swayam.ui.addovertime.AddOverTimeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

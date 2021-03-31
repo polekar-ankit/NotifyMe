@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_user"
-        android:name="com.gipl.notifyme.ui.me.MeFragment"
+        android:name="com.gipl.swayam.ui.me.MeFragment"
         android:label="MeFragment" >
         <action
             android:id="@+id/action_nav_user_to_checkInActivity"
@@ -36,19 +36,19 @@
     <fragment
         android:id="@+id/nav_notification"
         tools:layout="@layout/layout_notification_list"
-        android:name="com.gipl.notifyme.ui.notification.NotificationListFragment"
+        android:name="com.gipl.swayam.ui.notification.NotificationListFragment"
         android:label="NotificationListActivity" />
     <activity
         android:id="@+id/checkInActivity"
-        android:name="com.gipl.notifyme.ui.checkin.CheckInActivity"
+        android:name="com.gipl.swayam.ui.checkin.CheckInActivity"
         android:label="CheckInActivity" />
     <fragment
         android:id="@+id/punchingSlipFragment"
-        android:name="com.gipl.notifyme.ui.punchingslip.PunchingSlipFragment"
+        android:name="com.gipl.swayam.ui.punchingslip.PunchingSlipFragment"
         android:label="PunchingSlipFragment" />
     <fragment
         android:id="@+id/missPunchListFragment"
-        android:name="com.gipl.notifyme.ui.misspunchlist.MissPunchListFragment"
+        android:name="com.gipl.swayam.ui.misspunchlist.MissPunchListFragment"
         android:label="MissPunchListFragment" >
         <action
             android:id="@+id/action_missPunchListFragment_to_punchingSlipFragment"
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/leaveListFragment2"
-        android:name="com.gipl.notifyme.ui.leavelist.LeaveListFragment"
+        android:name="com.gipl.swayam.ui.leavelist.LeaveListFragment"
         android:label="LeaveListFragment" >
         <action
             android:id="@+id/action_leaveListFragment2_to_addModifyLeaveFragment2"
@@ -64,11 +64,11 @@
     </fragment>
     <fragment
         android:id="@+id/addModifyLeaveFragment2"
-        android:name="com.gipl.notifyme.ui.addleave.AddModifyLeaveFragment"
+        android:name="com.gipl.swayam.ui.addleave.AddModifyLeaveFragment"
         android:label="AddModifyLeaveFragment" />
     <fragment
         android:id="@+id/overtimeListFragment"
-        android:name="com.gipl.notifyme.ui.otlist.OvertimeListFragment"
+        android:name="com.gipl.swayam.ui.otlist.OvertimeListFragment"
         tools:layout="@layout/fragment_ot_list"
         android:label="OvertimeListFragment" >
         <action
@@ -77,13 +77,13 @@
     </fragment>
     <fragment
         android:id="@+id/addOverTimeFragment"
-        android:name="com.gipl.notifyme.ui.addovertime.AddOverTimeFragment"
+        android:name="com.gipl.swayam.ui.addovertime.AddOverTimeFragment"
         tools:layout="@layout/fragment_add_overtime"
         android:label="AddOverTimeFragment" />
     <fragment
         android:id="@+id/shiftChangeListFragment"
         tools:layout="@layout/fragment_shift_change_list"
-        android:name="com.gipl.notifyme.ui.shiftchangelist.ShiftChangeListFragment"
+        android:name="com.gipl.swayam.ui.shiftchangelist.ShiftChangeListFragment"
         android:label="ShiftChangeListFragment" >
         <action
             android:id="@+id/action_shiftChangeListFragment_to_shiftChangeFragment"
@@ -92,12 +92,12 @@
     <fragment
         android:id="@+id/shiftChangeFragment"
         tools:layout="@layout/fragment_shift_change"
-        android:name="com.gipl.notifyme.ui.shiftchange.ShiftChangeFragment"
+        android:name="com.gipl.swayam.ui.shiftchange.ShiftChangeFragment"
         android:label="ShiftChangeFragment" />
     <fragment
         android:id="@+id/coListFragment"
         tools:layout="@layout/fragment_co_list"
-        android:name="com.gipl.notifyme.ui.colist.CoListFragment"
+        android:name="com.gipl.swayam.ui.colist.CoListFragment"
         android:label="CoListFragment" >
         <action
             android:id="@+id/action_coListFragment_to_addCoFragment"
@@ -106,15 +106,15 @@
     <fragment
         android:id="@+id/addCoFragment"
         tools:layout="@layout/fragment_add_co"
-        android:name="com.gipl.notifyme.ui.addco.AddCoFragment"
+        android:name="com.gipl.swayam.ui.addco.AddCoFragment"
         android:label="AddCoFragment" />
     <activity
         android:id="@+id/loginActivity"
-        android:name="com.gipl.notifyme.ui.login.LoginActivity"
+        android:name="com.gipl.swayam.ui.login.LoginActivity"
         android:label="LoginActivity" />
     <fragment
         android:id="@+id/nav_change_lang"
         tools:layout="@layout/fragment_change_language"
-        android:name="com.gipl.notifyme.ui.changelng.ChangeLanguageFragment"
+        android:name="com.gipl.swayam.ui.changelng.ChangeLanguageFragment"
         android:label="ChangeLanguageFragment" />
 </navigation>

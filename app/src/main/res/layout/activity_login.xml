@@ -7,7 +7,7 @@
 
         <variable
             name="loginView"
-            type="com.gipl.notifyme.ui.login.LoginViewModel" />
+            type="com.gipl.swayam.ui.login.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

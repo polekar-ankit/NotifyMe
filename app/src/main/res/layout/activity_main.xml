@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.gipl.notifyme.ui.main.MainViewModel" />
+            type="com.gipl.swayam.ui.main.MainViewModel" />
 
     </data>
 

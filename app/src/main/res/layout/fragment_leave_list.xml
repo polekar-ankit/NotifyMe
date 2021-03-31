@@ -7,7 +7,7 @@
 
         <variable
             name="leaveList"
-            type="com.gipl.notifyme.ui.leavelist.LeaveListViewModel" />
+            type="com.gipl.swayam.ui.leavelist.LeaveListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

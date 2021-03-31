@@ -16,7 +16,7 @@ limitations under the License. -->
     <data>
         <variable
             name="viewModel"
-            type="com.gipl.notifyme.ui.videoplayer.PlayerViewModel" />
+            type="com.gipl.swayam.ui.videoplayer.PlayerViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

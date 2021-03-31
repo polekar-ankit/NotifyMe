@@ -7,7 +7,7 @@
 
         <variable
             name="shiftChange"
-            type="com.gipl.notifyme.ui.shiftchange.ShiftChangeViewModel" />
+            type="com.gipl.swayam.ui.shiftchange.ShiftChangeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

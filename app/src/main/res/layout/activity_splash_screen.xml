@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gipl.notifyme.ui.splashscreen.SplashScreenViewModel" />
+            type="com.gipl.swayam.ui.splashscreen.SplashScreenViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

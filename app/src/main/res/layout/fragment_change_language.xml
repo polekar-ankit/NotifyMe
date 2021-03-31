@@ -5,7 +5,7 @@
 
         <variable
             name="changeLanguage"
-            type="com.gipl.notifyme.ui.changelng.ChangeLanguageViewModel" />
+            type="com.gipl.swayam.ui.changelng.ChangeLanguageViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

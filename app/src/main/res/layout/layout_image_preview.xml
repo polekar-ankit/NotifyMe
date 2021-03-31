@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.gipl.notifyme.ui.image.ImagePreviewViewModel" />
+            type="com.gipl.swayam.ui.image.ImagePreviewViewModel" />
     </data>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,7 +27,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>-->
 
-        <com.gipl.notifyme.uility.TouchImageView
+        <com.gipl.swayam.uility.TouchImageView
             android:id="@+id/iv_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -7,7 +7,7 @@
 
         <variable
             name="list"
-            type="com.gipl.notifyme.ui.misspunchlist.MissPunchListViewModel" />
+            type="com.gipl.swayam.ui.misspunchlist.MissPunchListViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

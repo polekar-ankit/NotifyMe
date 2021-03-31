@@ -7,7 +7,7 @@
 
         <variable
             name="slip"
-            type="com.gipl.notifyme.ui.punchingslip.PunchingSlipViewModel" />
+            type="com.gipl.swayam.ui.punchingslip.PunchingSlipViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
