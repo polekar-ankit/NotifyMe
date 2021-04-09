@@ -8,13 +8,13 @@ import java.util.TimeZone;
 
 public class TimeUtility {
     public static final String ONLY_DATE_FORMAT = "dd-MMM-yyyy";
-    public static final String DB_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DB_FORMAT = "yyyy-MM-dd HH:mm";
     private static final String API_FORMAT = "yyyy-MM-dd HH:mm";
-    public static final String API_RECEIVE_FORMAT = "dd-MMM-yyyy HH:mm a";
+    public static final String API_RECEIVE_FORMAT = "dd-MMM-yyyy hh:mm a";
     private static final String API_ONLY_DATE_FORMAT = "yyyy-MM-dd";
-    private static final String DISPLAY_FORMAT = "MM-dd-yyyy HH:mm a";
+    private static final String DISPLAY_FORMAT = "MM-dd-yyyy hh:mm a";
     private static final String TIME_24HR_FORMAT = "HH:mm";
-    private static final String TIME_12HR_FORMAT = "HH:mm a";
+    private static final String TIME_12HR_FORMAT = "hh:mm a";
 
     public static long convertUtcTimeToLong(String time) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(API_FORMAT, Locale.US);

@@ -39,11 +39,12 @@ public class NotificationListViewModel extends BaseViewModel {
             GetNotificationsReq req = new GetNotificationsReq();
 //            req.setSuidSession(getDataManager().getSession());
 //            req.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
+
             req.setStart(getDataManager().getCacheNotificationCount());
             if (req.getStart() == 0) {
                 getResponseMutableLiveData().setValue(Response.loading());
                 req.setPagination(false);
-                req.setCount(10);
+                req.setCount(2);
             } else {
                 req.setPagination(true);
                 req.setCount(120);
