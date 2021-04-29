@@ -42,6 +42,9 @@ public class User implements Parcelable {
     @SerializedName("sGender")
     @Expose
     private String gender;
+    @SerializedName("sProfilePicURL")
+    @Expose
+    private String sProfilePicURL;
 
     public User(String empId, String mobileNumber, String name) {
         this.empId = empId;
@@ -57,6 +60,11 @@ public class User implements Parcelable {
         gender = in.readString();
         suidPlant = in.readString();
         suidEmployee = in.readString();
+        sProfilePicURL = in.readString();
+    }
+
+    public String getsProfilePicURL() {
+        return sProfilePicURL;
     }
 
     public String getSuidEmployee() {
@@ -117,5 +125,6 @@ public class User implements Parcelable {
         dest.writeString(gender);
         dest.writeString(suidPlant);
         dest.writeString(suidEmployee);
+        dest.writeString(sProfilePicURL);
     }
 }

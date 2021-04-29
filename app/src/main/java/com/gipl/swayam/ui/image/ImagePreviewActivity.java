@@ -2,26 +2,42 @@ package com.gipl.swayam.ui.image;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.navigation.Navigation;
 
+import com.gipl.imagepicker.ImagePicker;
+import com.gipl.imagepicker.ImagePickerDialog;
+import com.gipl.imagepicker.ImageResult;
+import com.gipl.imagepicker.PickerConfiguration;
+import com.gipl.imagepicker.PickerResult;
 import com.gipl.swayam.R;
 import com.gipl.swayam.databinding.LayoutImagePreviewBinding;
+import com.gipl.swayam.exceptions.ErrorMessageFactory;
 import com.gipl.swayam.ui.base.BaseActivity;
+import com.gipl.swayam.ui.model.Response;
+import com.gipl.swayam.uility.DialogUtility;
 
 
 import javax.inject.Inject;
 
-public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding,ImagePreviewViewModel> {
+public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding, ImagePreviewViewModel> {
 
     private int position;
     private String url;
     private static final String KEY_POSITION = "position";
     private static final String KEY_IMAGE_URL = "imageUrl";
+    private static final String KEY_SHOW_EDIT = "showEdit";
 
     @Inject
     ImagePreviewViewModel imagePreviewViewModel;
+    private ImagePickerDialog imagePickerDialog;
 
     @Override
     public int getBindingVariable() {
@@ -30,7 +46,7 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
 
     @Override
     public int getLayoutId() {
-        return  R.layout.layout_image_preview;
+        return R.layout.layout_image_preview;
     }
 
     @Override
@@ -43,21 +59,92 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
         return imagePreviewViewModel;
     }
 
+    PickerConfiguration pickerConfiguration;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getViewModel().getResponseMutableLiveData().observe(this, this::processReponse);
         url = getIntent().getStringExtra(KEY_IMAGE_URL);
+
         //setActionBar(getViewDataBinding().toolbar,"");
 
-        if (url != null){
+        pickerConfiguration = PickerConfiguration.build();
+        pickerConfiguration.setSetCustomDialog(true)
+                .setIconColor(Color.parseColor("#ed1c24"))
+                .setTextColor(Color.parseColor("#7A1015"))
+                .setImagePickerResult(new PickerResult() {
+                    @Override
+                    public void onImageGet(ImageResult imageResult) {
+                        super.onImageGet(imageResult);
+                        getViewModel().setEmpImage(imageResult);
+                    }
+
+                    @Override
+                    public void onError(ImagePicker.ImageErrors imageErrors) {
+                        super.onError(imageErrors);
+                    }
+                });
+
+        if (url != null) {
             getViewModel().setImageUrl(url);
         }
     }
 
-    public static void start(Context context, String uri) {
+    private void processReponse(Response response) {
+        switch (response.status) {
+            case LOADING:
+                showLoading();
+                break;
+            case SUCCESS:
+                hideLoading();
+                break;
+            case ERROR:
+                hideLoading();
+                if (response.error != null) {
+                    DialogUtility.showToast(this, ErrorMessageFactory.create(this, (Exception) response.error));
+                }
+                break;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        boolean isShowEdit = getIntent().getBooleanExtra(KEY_SHOW_EDIT, false);
+        if (isShowEdit)
+            getMenuInflater().inflate(R.menu.menu_image_edit, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_item_edit) {
+            if (imagePickerDialog != null)
+                imagePickerDialog.dismiss();
+            imagePickerDialog = ImagePickerDialog.display(getSupportFragmentManager(), pickerConfiguration);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        imagePickerDialog.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        imagePickerDialog.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public static void start(Context context, String uri, boolean isShowEdit) {
         Intent intent = new Intent(context, ImagePreviewActivity.class);
-        intent.putExtra(KEY_IMAGE_URL,uri);
+        intent.putExtra(KEY_IMAGE_URL, uri);
+        intent.putExtra(KEY_SHOW_EDIT, isShowEdit);
         context.startActivity(intent);
     }
 }

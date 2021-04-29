@@ -348,7 +348,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
             getViewDataBinding().cvAttachment.setOnClickListener(v -> {
                 if (mediaFile.getMimeType().contains("image")) {
-                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString());
+                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString(),false);
                 } else {
                     AppUtility.openPdf(mediaFile.getUri(), requireContext(), getViewDataBinding().getRoot());
                 }

@@ -47,6 +47,7 @@ public final class ApiEndPoint {
     static final String GET_LEAVE_BALANCE = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/LeaveBalance/GetAllLeaveBalanceByUser";
     static final String GET_SHIFTS_FOR_USER = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/ShiftChangeReq/GetShiftsForUser";
     static final String GET_DASHBOARD_COUNT = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/User/GetMobileDashboardCount";
+    static final String UPDATE_PROFILE_IMAGE = BuildConfig.BASE_URL + BuildConfig.NOYIFY_ME + "/User/UploadProfileImage";
 
     private ApiEndPoint() {
         // This class is not publicly instantiable

@@ -59,6 +59,7 @@ public class MyContextWrapper extends ContextWrapper {
     @TargetApi(Build.VERSION_CODES.N)
     public static void setSystemLocale(Configuration config, Locale locale) {
         config.setLocale(locale);
+        config.setLayoutDirection(locale);
     }
 
 }

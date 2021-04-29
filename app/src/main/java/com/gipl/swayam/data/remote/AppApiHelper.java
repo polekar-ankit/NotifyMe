@@ -55,6 +55,8 @@ import com.gipl.swayam.data.model.api.shiftchange.ShiftChangeReq;
 import com.gipl.swayam.data.model.api.shiftchange.ShiftChangeRsp;
 import com.gipl.swayam.data.model.api.shiftchangelist.ShiftChangeListReq;
 import com.gipl.swayam.data.model.api.shiftchangelist.ShiftChangeListRsp;
+import com.gipl.swayam.data.model.api.userimg.UserProfileImgReq;
+import com.gipl.swayam.data.model.api.userimg.UserProfileImgRsp;
 import com.gipl.swayam.data.model.api.usershift.UserShiftReq;
 import com.gipl.swayam.data.model.api.usershift.UserShiftRsp;
 import com.gipl.swayam.data.model.api.verifyotp.VerifyOtpReq;
@@ -269,5 +271,14 @@ public class AppApiHelper implements ApiHelper {
                 .setOkHttpClient(okHttpClient)
                 .build()
                 .getObjectSingle(CoListRsp.class);
+    }
+
+    @Override
+    public Single<UserProfileImgRsp> updateUserProfileImg(UserProfileImgReq req) {
+        return Rx2AndroidNetworking.post(ApiEndPoint.UPDATE_PROFILE_IMAGE)
+                .addBodyParameter(req)
+                .setOkHttpClient(okHttpClient)
+                .build()
+                .getObjectSingle(UserProfileImgRsp.class);
     }
 }

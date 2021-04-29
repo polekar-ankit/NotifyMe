@@ -84,7 +84,7 @@ public class NotificationListFragment extends BaseFragment<LayoutNotificationLis
         adapter.setListener(notification -> {
             // Check if notification has any link attached and open it according to its type
             if (AppUtility.LINK_TYPE.IMAGE.equalsIgnoreCase(notification.getLinkType())) {
-                ImagePreviewActivity.start(getBaseActivity(), notification.getLink());
+                ImagePreviewActivity.start(getBaseActivity(), notification.getLink(),false);
             } else if (AppUtility.LINK_TYPE.VIDEO.equalsIgnoreCase(notification.getLinkType())) {
                 PlayerActivity.start(getBaseActivity(), notification.getLink());
             } else if (AppUtility.LINK_TYPE.PDF.equalsIgnoreCase(notification.getLinkType())) {

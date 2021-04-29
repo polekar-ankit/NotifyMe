@@ -3,11 +3,16 @@ package com.gipl.swayam.uility;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
 import android.view.View;
 
 import com.gipl.swayam.R;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.ByteArrayOutputStream;
 
 public class AppUtility {
     public static class INTENT_EXTRA {
@@ -19,6 +24,14 @@ public class AppUtility {
         public static final String VIDEO = "Video";
         public static final String IMAGE = "Image";
         public static final String PDF = "Pdf";
+    }
+
+    public static String convertImageToBase64(Bitmap imgBitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos); // bm is the bitmap object
+        byte[] b = baos.toByteArray();
+
+        return Base64.encodeToString(b, Base64.DEFAULT);
     }
 
     public static void openPdf(Uri uri, Context context, View view){

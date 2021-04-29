@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.databinding.library.baseAdapters.BR;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -19,6 +20,8 @@ import com.gipl.swayam.databinding.ActivityMainBinding;
 import com.gipl.swayam.ui.base.BaseActivity;
 import com.gipl.swayam.uility.TimeUtility;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -111,6 +114,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        ArrayList<Fragment> fragmentArrayList = (ArrayList<Fragment>) getSupportFragmentManager().getFragments().get(0).getChildFragmentManager().getFragments();
+        if (fragmentArrayList.size() > 0)
+            fragmentArrayList.get(0).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
