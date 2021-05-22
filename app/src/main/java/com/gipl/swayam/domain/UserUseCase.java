@@ -36,6 +36,7 @@ import java.util.Calendar;
 import io.reactivex.Single;
 import io.reactivex.SingleObserver;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Function;
 
 public class UserUseCase extends UseCase {
 
@@ -154,7 +155,12 @@ public class UserUseCase extends UseCase {
         imgReq.setTag(TimeUtility.getCurrentUtcDateTimeForApi());
         imgReq.setsEmpCode(dataManager.getEmpCode());
         imgReq.setsProfileBase64(AppUtility.convertImageToBase64(img));
-      return   dataManager.updateUserProfileImg(imgReq);
+      return   dataManager.updateUserProfileImg(imgReq).map(userProfileImgRsp -> {
+          if (userProfileImgRsp.getUser() != null) {
+              dataManager.setUserObj(userProfileImgRsp.getUser());
+          }
+          return userProfileImgRsp;
+      });
     }
 
 }

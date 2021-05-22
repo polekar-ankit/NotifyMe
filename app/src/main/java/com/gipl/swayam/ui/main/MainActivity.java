@@ -125,6 +125,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             fragmentArrayList.get(0).onActivityResult(requestCode, resultCode, data);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -29,39 +29,59 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:srcCompat="@drawable/bg_initial_footer" />
 
-            <TextView
-                android:id="@+id/tv_leave_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_leave_balance"
-                android:textColor="@color/colorTextPrimary"
-                android:textStyle="bold"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fab_add" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_leave_balance"
+            <LinearLayout
+                android:id="@+id/ll_leave_balance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:layout_marginEnd="@dimen/_2sdp"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_leave_balance"
-                tools:itemCount="1" />
+                app:layout_constraintTop_toBottomOf="@+id/fab_add">
+
+                <TextView
+                    android:id="@+id/tv_leave_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/lbl_leave_balance"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_leave_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_leave_balance"
+                    tools:itemCount="1" />
+
+                <TextView
+                    android:id="@+id/tv_empty_leave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/_10sdp"
+                    android:text="@string/sorry_we_not_found_leave_balance"
+                    android:textColor="#ccc"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_5sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/_5sdp"
-                app:layout_constraintTop_toBottomOf="@+id/rv_leave_balance" />
+                app:layout_constraintTop_toBottomOf="@+id/ll_leave_balance" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                 android:id="@+id/fab_add"

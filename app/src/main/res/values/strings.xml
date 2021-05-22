@@ -146,4 +146,5 @@
     <string name="lbl_co_two">Two Days</string>
     <string name="lbl_punching_slip_shift">Shift</string>
     <string name="lbl_reject_reson">Reason for rejection : </string>
+    <string name="sorry_we_not_found_leave_balance">Sorry!We not unable to find your leave balance.</string>
 </resources>

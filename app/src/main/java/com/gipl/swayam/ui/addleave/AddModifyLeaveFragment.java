@@ -207,10 +207,16 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         checkDateSelectionAndEnableTo();
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
+            Calendar todaysDate = Calendar.getInstance();
+            todaysDate.set(Calendar.DAY_OF_MONTH, 1);
+            long minDate = todaysDate.getTimeInMillis();
+            todaysDate.set(Calendar.DAY_OF_MONTH, todaysDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+            long maxDate = todaysDate.getTimeInMillis();
+
             datePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
                     getViewDataBinding().tvFrom.getText().toString(),
-                    0,
-                    0,
+                    maxDate,
+                    minDate,
                     fromOnDateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
         });
@@ -222,7 +228,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                 fromDate = TimeUtility.convertDisplayDateTimeToCalender(getViewDataBinding().tvFrom.getText().toString());
                 toDate = Calendar.getInstance();
                 toDate.setTimeInMillis(fromDate.getTimeInMillis());
-                toDate.set(Calendar.DAY_OF_MONTH, toDate.get(Calendar.DAY_OF_MONTH) + 6);
+                toDate.set(Calendar.DAY_OF_MONTH, toDate.get(Calendar.DAY_OF_MONTH) + 30);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -348,7 +354,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
             getViewDataBinding().cvAttachment.setOnClickListener(v -> {
                 if (mediaFile.getMimeType().contains("image")) {
-                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString(),false);
+                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString(), false);
                 } else {
                     AppUtility.openPdf(mediaFile.getUri(), requireContext(), getViewDataBinding().getRoot());
                 }

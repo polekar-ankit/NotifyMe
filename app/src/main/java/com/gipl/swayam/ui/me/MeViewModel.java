@@ -221,7 +221,7 @@ public class MeViewModel extends BaseViewModel {
                 .subscribe(rsp -> {
                     if (rsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         getResponseMutableLiveData().postValue(Response.success(null));
-                        this.empImage.set(imageResult.getsImagePath());
+                        this.empImage.set(getDataManager().getUserObj().getsProfilePicURL());
                     } else {
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(rsp.getApiError().getErrorMessage()))));
                     }

@@ -37,8 +37,10 @@ public class LeaveListViewModel extends BaseViewModel {
                     if (leaveBalanceRsp.getApiError().getErrorVal() == ApiError.ERROR_CODE.OK) {
                         leaveBalanceLiveData.postValue(leaveBalanceRsp.getBalanceArrayList());
                         getResponseMutableLiveData().postValue(Response.success(true));
-                    } else
+                    } else {
+                        leaveBalanceLiveData.postValue(new ArrayList<>());
                         getResponseMutableLiveData().postValue(Response.error(new Exception(new CustomException(leaveBalanceRsp.getApiError().getErrorMessage()))));
+                    }
                 }, throwable -> getResponseMutableLiveData().postValue(Response.error(throwable))));
     }
 

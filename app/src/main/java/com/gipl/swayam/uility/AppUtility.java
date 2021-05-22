@@ -31,7 +31,7 @@ public class AppUtility {
         imgBitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos); // bm is the bitmap object
         byte[] b = baos.toByteArray();
 
-        return Base64.encodeToString(b, Base64.DEFAULT);
+        return Base64.encodeToString(b, Base64.URL_SAFE);
     }
 
     public static void openPdf(Uri uri, Context context, View view){

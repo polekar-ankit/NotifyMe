@@ -77,9 +77,13 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
 
     private void processLeaveBalance(ArrayList<LeaveBalance> leaveBalances) {
         if (leaveBalances.size() > 0) {//other wise it will create 'IllegalArgumentException: Span count should be at least 1. Provided 0' exception
+            getViewDataBinding().tvEmptyLeave.setVisibility(View.GONE);
             getViewDataBinding().tvLeaveBalance.setVisibility(View.VISIBLE);
             getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext(), leaveBalances.size()));
             adapter.addItems(leaveBalances);
+        }
+        else {
+            getViewDataBinding().tvEmptyLeave.setVisibility(View.VISIBLE);
         }
     }
 
