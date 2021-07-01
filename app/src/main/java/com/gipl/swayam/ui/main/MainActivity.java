@@ -116,14 +116,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-        ArrayList<Fragment> fragmentArrayList = (ArrayList<Fragment>) getSupportFragmentManager().getFragments().get(0).getChildFragmentManager().getFragments();
-        if (fragmentArrayList.size() > 0)
-            fragmentArrayList.get(0).onActivityResult(requestCode, resultCode, data);
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        ArrayList<Fragment> fragmentArrayList = (ArrayList<Fragment>) getSupportFragmentManager().getFragments().get(0).getChildFragmentManager().getFragments();
+//        if (fragmentArrayList.size() > 0)
+//            fragmentArrayList.get(0).onActivityResult(requestCode, resultCode, data);
+//    }
 
 
     @Override

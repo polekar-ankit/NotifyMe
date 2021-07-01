@@ -1,14 +1,18 @@
 package com.gipl.swayam.ui.addleave;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.library.baseAdapters.BR;
@@ -29,11 +33,7 @@ import com.gipl.swayam.ui.model.Reason;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 import com.gipl.swayam.uility.TimeUtility;
-import com.jaiselrahman.filepicker.activity.FilePickerActivity;
-import com.jaiselrahman.filepicker.config.Configurations;
-import com.jaiselrahman.filepicker.model.MediaFile;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -100,7 +100,6 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         checkDateSelectionAndEnableTo();
     };
     private DatePickerDialog datePickerDialog, toDatePickerDialog;
-    private IFragmentListener iFragmentListener;
     private long numberOfLeaveDays;
 
     /**
@@ -166,10 +165,8 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
                     String name = (String) response.data;
                     if (name.equals(AddModifyLeaveReq.class.getSimpleName())) {
                         DialogUtility.showToast(requireContext(), getString(R.string.msg_leave_applied));
-                        if (iFragmentListener != null) {
-                            iFragmentListener.onActivityResult(null);
-                        }
                         getBaseActivity().onBackPressed();
+                        getParentFragmentManager().setFragmentResult(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, new Bundle());
                     }
                 }
                 break;
@@ -191,9 +188,6 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
-        }
         getViewDataBinding().cvAttachment.setVisibility(View.GONE);
         getViewDataBinding().btnMedicalCertificate.setVisibility(View.GONE);
 
@@ -205,17 +199,20 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvTo.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         checkDateSelectionAndEnableTo();
+
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
 //            if (datePickerDialog == null)
             Calendar todaysDate = Calendar.getInstance();
-            todaysDate.set(Calendar.DAY_OF_MONTH, 1);
-            long minDate = todaysDate.getTimeInMillis();
             todaysDate.set(Calendar.DAY_OF_MONTH, todaysDate.getActualMaximum(Calendar.DAY_OF_MONTH));
             long maxDate = todaysDate.getTimeInMillis();
 
+            todaysDate.set(Calendar.DAY_OF_MONTH, 1);
+            todaysDate.set(Calendar.MONTH, todaysDate.get(Calendar.MONTH) - 1);
+            long minDate = todaysDate.getTimeInMillis();
+
             datePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
                     getViewDataBinding().tvFrom.getText().toString(),
-                    maxDate,
+                    0,
                     minDate,
                     fromOnDateSetListener);
             if (datePickerDialog != null && !datePickerDialog.isShowing()) datePickerDialog.show();
@@ -223,7 +220,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
 
         getViewDataBinding().tvTo.setOnClickListener(v -> {
             Calendar fromDate = null;
-            Calendar toDate = null;
+            Calendar toDate;
             try {
                 fromDate = TimeUtility.convertDisplayDateTimeToCalender(getViewDataBinding().tvFrom.getText().toString());
                 toDate = Calendar.getInstance();
@@ -234,7 +231,7 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
             }
             toDatePickerDialog = DialogUtility.getDatePickerDialog(requireContext(),
                     getViewDataBinding().tvTo.getText().toString(),
-                    toDate != null ? toDate.getTime().getTime() : 0,
+                    0,
                     fromDate != null ? fromDate.getTime().getTime() : 0,
                     toDateSetListener);
 
@@ -297,29 +294,17 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         popup.getMenu().add(0, 2, 0, "Pdf");
         //registering popup with OnMenuItemClickListener
         popup.setOnMenuItemClickListener(item -> {
-            Intent intent = new Intent(getContext(), FilePickerActivity.class);
+//            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             if (item.getItemId() == 1) {
-                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
-                        .setCheckPermission(true)
-                        .setShowImages(true)
-                        .setShowVideos(false)
-                        .enableImageCapture(true)
-                        .setMaxSelection(1)
-                        .setSkipZeroSizeFiles(true)
-                        .build());
+//                intent.setType("image/*");
+                mGetContent.launch("image/*");
+
             } else if (item.getItemId() == 2) {
-                intent.putExtra(FilePickerActivity.CONFIGS, new Configurations.Builder()
-                        .setCheckPermission(true)
-                        .setShowImages(false)
-                        .setShowVideos(false)
-                        .setShowFiles(true)
-                        .setSuffixes("pdf")
-                        .setMaxSelection(1)
-                        .setSkipZeroSizeFiles(true)
-                        .build());
+//                intent.setType("application/pdf");
+                mGetContent.launch("application/pdf");
             }
 
-            startActivityForResult(intent, 123);
+//            startActivityForResult(intent, 123);
             return true;
         });
 
@@ -332,34 +317,63 @@ public class AddModifyLeaveFragment extends BaseFragment<FragmentAddEditLeaveBin
         getViewDataBinding().spinnerReason.setAdapter(reasonArrayAdapter);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == Activity.RESULT_OK && data != null) {
-            ArrayList<MediaFile> files;
-            getViewDataBinding().cvAttachment.setVisibility(View.VISIBLE);
-            files = data.getParcelableArrayListExtra(FilePickerActivity.MEDIA_FILES);
-            MediaFile mediaFile = files.get(0);
-            addModifyLeaveViewModel.setAttachment(mediaFile);
-            Glide.with(requireContext())
-                    .load(mediaFile.getUri())
-                    .centerInside()
-                    .priority(Priority.IMMEDIATE)
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_file)
-                    .into(getViewDataBinding().ivFilePreview);
-            getViewDataBinding().tvFileName.setText(mediaFile.getName());
 
-            getViewDataBinding().nsvLeave.post(() -> getViewDataBinding().nsvLeave.fullScroll(View.FOCUS_DOWN));
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+//                    Uri uri = data.getData();
+                    addModifyLeaveViewModel.setAttachment(uri);
+                    getViewDataBinding().cvAttachment.setVisibility(View.VISIBLE);
 
-            getViewDataBinding().cvAttachment.setOnClickListener(v -> {
-                if (mediaFile.getMimeType().contains("image")) {
-                    ImagePreviewActivity.start(requireContext(), mediaFile.getUri().toString(), false);
-                } else {
-                    AppUtility.openPdf(mediaFile.getUri(), requireContext(), getViewDataBinding().getRoot());
+
+                    addModifyLeaveViewModel.setAttachment(uri);
+                    Glide.with(requireContext())
+                            .load(uri)
+                            .centerInside()
+                            .priority(Priority.IMMEDIATE)
+                            .centerCrop()
+                            .placeholder(R.drawable.ic_file)
+                            .into(getViewDataBinding().ivFilePreview);
+                    getViewDataBinding().tvFileName.setText(getFileName(uri));
+//
+                    getViewDataBinding().nsvLeave.post(() -> getViewDataBinding().nsvLeave.fullScroll(View.FOCUS_DOWN));
+//
+                    getViewDataBinding().cvAttachment.setOnClickListener(v -> {
+                        if (requireContext().getContentResolver().getType(uri).contains("image")) {
+                            ImagePreviewActivity.start(requireContext(), uri.toString(), false);
+                        } else {
+                            AppUtility.openPdf(uri, requireContext(), getViewDataBinding().getRoot());
+                        }
+                    });
                 }
             });
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == 123 && resultCode == Activity.RESULT_OK && data != null) {
+//
+//        }
+//    }
+
+    public String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = requireContext().getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
         }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
 

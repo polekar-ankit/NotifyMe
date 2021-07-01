@@ -18,7 +18,6 @@ import com.gipl.swayam.ui.model.Reason;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 import com.gipl.swayam.uility.TimeUtility;
 
 import java.util.Calendar;
@@ -33,7 +32,6 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
         getViewDataBinding().tvFrom.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog;
-    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -59,9 +57,6 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
-        }
         viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         getViewDataBinding().tvFrom.setOnClickListener(v -> {
@@ -145,10 +140,8 @@ public class AddOverTimeFragment extends BaseFragment<FragmentAddOvertimeBinding
                 hideLoading();
                 if (response.data instanceof Boolean) {
                     DialogUtility.showToast(requireContext(), getString(R.string.msg_ot_added));
-                    if (iFragmentListener != null) {
-                        iFragmentListener.onActivityResult(null);
-                    }
                     getBaseActivity().onBackPressed();
+                    getParentFragmentManager().setFragmentResult(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, new Bundle());
                 }
                 break;
             case ERROR:

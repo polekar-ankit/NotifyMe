@@ -1,7 +1,6 @@
 package com.gipl.swayam.ui.leavelist;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,6 @@ import com.gipl.swayam.ui.leavelist.adapter.LeaveRequestListAdapter;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 
 import java.util.ArrayList;
 
@@ -34,22 +32,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
     LeaveListViewModel leaveListViewModel;
     LeaveRequestListAdapter leaveRequestListAdapter;
     private LeaveBalanceAdapter adapter;
-    private final IFragmentListener iFragmentListener = new IFragmentListener() {
-        @Override
-        public void onActivityResult(Bundle bundle) {
-            leaveListViewModel.getLeaveList();
-        }
 
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-
-        }
-    };
 
     @Override
     public int getBindingVariable() {
@@ -73,6 +56,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
         leaveRequestListAdapter = new LeaveRequestListAdapter();
         leaveListViewModel.getResponseMutableLiveData().observe(this, this::processLiveData);
         leaveListViewModel.getLeaveBalanceLiveData().observe(this, this::processLeaveBalance);
+        getParentFragmentManager().setFragmentResultListener(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, this, (s, bundle) -> leaveListViewModel.getLeaveList());
     }
 
     private void processLeaveBalance(ArrayList<LeaveBalance> leaveBalances) {
@@ -81,8 +65,7 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
             getViewDataBinding().tvLeaveBalance.setVisibility(View.VISIBLE);
             getViewDataBinding().rvLeaveBalance.setLayoutManager(new GridLayoutManager(requireContext(), leaveBalances.size()));
             adapter.addItems(leaveBalances);
-        }
-        else {
+        } else {
             getViewDataBinding().tvEmptyLeave.setVisibility(View.VISIBLE);
         }
     }
@@ -118,19 +101,13 @@ public class LeaveListFragment extends BaseFragment<FragmentLeaveListBinding, Le
 
         getViewDataBinding().pullDown.setRefreshing(false);
         getViewDataBinding().recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-//        getViewDataBinding().recyclerView.setLayoutManager(new GridLayoutManager(requireContext(),2));
         getViewDataBinding().recyclerView.setAdapter(leaveRequestListAdapter);
 
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);
             leaveListViewModel.getLeaveList();
         });
-        getViewDataBinding().fabAdd.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
-
-            Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2, bundle);
-        });
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_leaveListFragment2_to_addModifyLeaveFragment2));
         getViewDataBinding().recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

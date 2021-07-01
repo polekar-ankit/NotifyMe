@@ -15,7 +15,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.gipl.imagepicker.ImageResult;
+import com.gipl.imagepicker.models.ImageResult;
 import com.gipl.swayam.R;
 import com.gipl.swayam.data.DataManager;
 import com.gipl.swayam.data.FirebaseDb;

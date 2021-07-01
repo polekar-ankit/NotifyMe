@@ -116,6 +116,9 @@ public class SlipDomain extends UseCase {
                 } else if (ot.getStatus() == statusType.getBITDELETED()) {
                     ot.setColor(Color.parseColor("#E53935"));
                     ot.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                } else if (ot.getStatus() == statusType.getBITCANCELLED()) {
+                    ot.setColor(Color.parseColor("#E53935"));
+                    ot.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
                 } else if (ot.getStatus() == statusType.getBITACTIVE()) {
                     ot.setColor(Color.parseColor("#FB8C00"));
                     ot.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
@@ -149,6 +152,9 @@ public class SlipDomain extends UseCase {
                     scr.setColor(Color.parseColor("#43A047"));
                     scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_verify));
                 } else if (scr.getStatus() == statusType.getBITDELETED()) {
+                    scr.setColor(Color.parseColor("#E53935"));
+                    scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                } else if (scr.getStatus() == statusType.getBITCANCELLED()) {
                     scr.setColor(Color.parseColor("#E53935"));
                     scr.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
                 } else if (scr.getStatus() == statusType.getBITACTIVE()) {
@@ -186,12 +192,15 @@ public class SlipDomain extends UseCase {
                 } else if (co.getStatus() == statusType.getBITDELETED()) {
                     co.setColor(Color.parseColor("#E53935"));
                     co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
+                } else if (co.getStatus() == statusType.getBITCANCELLED()) {
+                    co.setColor(Color.parseColor("#E53935"));
+                    co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_cancelled));
                 } else if (co.getStatus() == statusType.getBITACTIVE()) {
                     co.setColor(Color.parseColor("#FB8C00"));
                     co.setStatusDis(dataManager.getContext().getString(R.string.lbl_status_pending));
                 }
                 if (co.getCOFor() == CO_FOR.HALF_DAY.getValue()) {
-                    co.setLblCOFor( dataManager.getContext().getString(R.string.lbl_co_half_day));
+                    co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_co_half_day));
                 } else if (co.getCOFor() == CO_FOR.FULL_DAY.getValue()) {
                     co.setLblCOFor(dataManager.getContext().getString(R.string.lbl_full_day));
                 } else if (co.getCOFor() == CO_FOR.ONE_AND_HALF_DAYS.getValue()) {

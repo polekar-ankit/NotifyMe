@@ -50,6 +50,7 @@
                     android:background="@drawable/bg_edit"
                     android:padding="@dimen/_5sdp"
                     android:scaleType="centerInside"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_edit_me"
                      />
             </FrameLayout>

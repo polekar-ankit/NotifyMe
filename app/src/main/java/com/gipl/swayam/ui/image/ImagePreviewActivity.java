@@ -14,9 +14,11 @@ import androidx.navigation.Navigation;
 
 import com.gipl.imagepicker.ImagePicker;
 import com.gipl.imagepicker.ImagePickerDialog;
-import com.gipl.imagepicker.ImageResult;
-import com.gipl.imagepicker.PickerConfiguration;
-import com.gipl.imagepicker.PickerResult;
+import com.gipl.imagepicker.exceptions.ImageErrors;
+import com.gipl.imagepicker.listener.PickerResult;
+import com.gipl.imagepicker.models.ImageResult;
+import com.gipl.imagepicker.models.PickerConfiguration;
+import com.gipl.imagepicker.resultwatcher.PickerResultObserver;
 import com.gipl.swayam.R;
 import com.gipl.swayam.databinding.LayoutImagePreviewBinding;
 import com.gipl.swayam.exceptions.ErrorMessageFactory;
@@ -65,8 +67,10 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        imagePickerDialog = new ImagePickerDialog(this, getLifecycle(), new PickerResultObserver(getActivityResultRegistry()));
 
         getViewModel().getResponseMutableLiveData().observe(this, this::processReponse);
+
         url = getIntent().getStringExtra(KEY_IMAGE_URL);
 
         //setActionBar(getViewDataBinding().toolbar,"");
@@ -83,7 +87,7 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
                     }
 
                     @Override
-                    public void onError(ImagePicker.ImageErrors imageErrors) {
+                    public void onError(ImageErrors imageErrors) {
                         super.onError(imageErrors);
                     }
                 });
@@ -121,24 +125,14 @@ public class ImagePreviewActivity extends BaseActivity<LayoutImagePreviewBinding
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_item_edit) {
-            if (imagePickerDialog != null)
+            if (imagePickerDialog != null) {
                 imagePickerDialog.dismiss();
-            imagePickerDialog = ImagePickerDialog.display(getSupportFragmentManager(), pickerConfiguration);
+                imagePickerDialog.display(imagePickerDialog, getSupportFragmentManager(), pickerConfiguration);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imagePickerDialog.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        imagePickerDialog.onActivityResult(requestCode, resultCode, data);
-    }
 
 
     public static void start(Context context, String uri, boolean isShowEdit) {

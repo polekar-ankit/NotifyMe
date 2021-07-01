@@ -13,11 +13,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.navigation.Navigation;
 
-import com.gipl.imagepicker.ImagePicker;
 import com.gipl.imagepicker.ImagePickerDialog;
-import com.gipl.imagepicker.ImageResult;
-import com.gipl.imagepicker.PickerConfiguration;
-import com.gipl.imagepicker.PickerResult;
+import com.gipl.imagepicker.exceptions.ImageErrors;
+import com.gipl.imagepicker.listener.PickerResult;
+import com.gipl.imagepicker.models.ImageResult;
+import com.gipl.imagepicker.models.PickerConfiguration;
+import com.gipl.imagepicker.resultwatcher.PickerResultObserver;
 import com.gipl.swayam.BR;
 import com.gipl.swayam.R;
 import com.gipl.swayam.databinding.FragmentMeBinding;
@@ -34,6 +35,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Inject
     MeViewModel meViewModel;
 
+    private ImagePickerDialog imagePickerDialog;
 
     @Override
     public int getBindingVariable() {
@@ -53,6 +55,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imagePickerDialog = new ImagePickerDialog(requireContext(), getLifecycle(), new PickerResultObserver(requireActivity().getActivityResultRegistry()));
         CheckOutDialog checkOutDialog = new CheckOutDialog(requireContext(), meViewModel.getDataManager().getUtility().getCheckOutType());
         checkOutDialog.getCheckOutTypeLiveData().observe(this, this::processCheckOut);
         meViewModel.getResponseMutableLiveData().observe(this, this::processReponse);
@@ -125,13 +128,11 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         meViewModel.checkOut(type);
     }
 
-    ImagePickerDialog imagePickerDialog;
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setHasOptionsMenu(true);
-
 
         PickerConfiguration pickerConfiguration = PickerConfiguration.build();
         pickerConfiguration.setSetCustomDialog(true)
@@ -145,7 +146,7 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
                     }
 
                     @Override
-                    public void onError(ImagePicker.ImageErrors imageErrors) {
+                    public void onError(ImageErrors imageErrors) {
                         super.onError(imageErrors);
                     }
                 });
@@ -153,13 +154,14 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
         meViewModel.getDashboardCount();
 
 
-        getViewDataBinding().ivEdit.setOnClickListener(v -> {
-            if (imagePickerDialog != null)
-                imagePickerDialog.dismiss();
-            imagePickerDialog = ImagePickerDialog.display(getChildFragmentManager(), pickerConfiguration);
-        });
+//        getViewDataBinding().ivEdit.setOnClickListener(v -> {
+//            if (imagePickerDialog != null) {
+//                imagePickerDialog.dismiss();
+//                imagePickerDialog.display(imagePickerDialog, getChildFragmentManager(), pickerConfiguration);
+//            }
+//        });
 
-        getViewDataBinding().ivUserImg.setOnClickListener(v -> ImagePreviewActivity.start(requireContext(), meViewModel.getEmpImage().get(),true));
+//        getViewDataBinding().ivUserImg.setOnClickListener(v -> ImagePreviewActivity.start(requireContext(), meViewModel.getEmpImage().get(), true));
 
         getViewDataBinding().btnPunchingSlip.setOnClickListener(v -> {
             getBaseActivity().getmFirebaseAnalytics().setUserProperty("slip", getViewDataBinding().btnPunchingSlip.getText().toString());
@@ -198,17 +200,5 @@ public class MeFragment extends BaseFragment<FragmentMeBinding, MeViewModel> {
             param.putString("name", getViewDataBinding().btnAddCo.getText().toString());
             getBaseActivity().getmFirebaseAnalytics().logEvent("button_click", param);
         });
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        imagePickerDialog.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        imagePickerDialog.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

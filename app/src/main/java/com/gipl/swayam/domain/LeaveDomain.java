@@ -40,7 +40,8 @@ public class LeaveDomain extends UseCase {
                         getLeaveRsp.getLeaveRequestArrayList()) {
                     if (leaveRequest.getLeaveStatus() == leaveStatus.getBitApproved()) {
                         leaveRequest.setColor(Color.parseColor("#43A047"));
-                    } else if (leaveRequest.getLeaveStatus() == leaveStatus.getBitRejected() || leaveRequest.getLeaveStatus() == leaveStatus.getBitCancelled()) {
+                    } else if (leaveRequest.getLeaveStatus() == leaveStatus.getBitRejected()
+                            || leaveRequest.getLeaveStatus() == leaveStatus.getBitCancelled()) {
                         leaveRequest.setColor(Color.parseColor("#E53935"));
                     } else if (leaveRequest.getLeaveStatus() == leaveStatus.getBitPending()) {
                         leaveRequest.setColor(Color.parseColor("#FB8C00"));

@@ -1,7 +1,6 @@
 package com.gipl.swayam.ui.otlist;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.ui.otlist.adapter.OvertimeListAdapter;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 
 import java.util.ArrayList;
 
@@ -30,21 +28,6 @@ public class OvertimeListFragment extends BaseFragment<FragmentOtListBinding, Ov
     @Inject
     OvertimeListViewModel viewModel;
     private OvertimeListAdapter overtimeListAdapter;
-    private final IFragmentListener iFragmentListener = new IFragmentListener() {
-        @Override
-        public void onActivityResult(Bundle bundle) {
-            viewModel.getOtList();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-        }
-    };
 
     @Override
     public int getBindingVariable() {
@@ -67,6 +50,7 @@ public class OvertimeListFragment extends BaseFragment<FragmentOtListBinding, Ov
         overtimeListAdapter = new OvertimeListAdapter();
         viewModel.getOtList();
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
+        getParentFragmentManager().setFragmentResultListener(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, this, (s, bundle) -> viewModel.getOtList());
     }
 
     @Override
@@ -77,11 +61,7 @@ public class OvertimeListFragment extends BaseFragment<FragmentOtListBinding, Ov
         getViewDataBinding().rvOt.setLayoutManager(new LinearLayoutManager(requireContext()));
         getViewDataBinding().pullDown.setRefreshing(false);
 
-        getViewDataBinding().fabAdd.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
-            Navigation.findNavController(v).navigate(R.id.action_overtimeListFragment_to_addOverTimeFragment, bundle);
-        });
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_overtimeListFragment_to_addOverTimeFragment));
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);
             viewModel.getOtList();

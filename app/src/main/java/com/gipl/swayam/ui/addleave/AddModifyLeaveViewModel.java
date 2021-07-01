@@ -1,5 +1,6 @@
 package com.gipl.swayam.ui.addleave;
 
+import android.net.Uri;
 import android.util.Base64;
 
 import androidx.databinding.ObservableField;
@@ -20,7 +21,7 @@ import com.gipl.swayam.ui.model.Reason;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.TimeUtility;
 import com.gipl.swayam.uility.rx.SchedulerProvider;
-import com.jaiselrahman.filepicker.model.MediaFile;
+
 
 import org.json.JSONException;
 
@@ -43,7 +44,7 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
     private final LeaveDomain leaveDomain;
     private final MutableLiveData<ArrayList<LeaveApproval>> leaveTypeLiveData = new MutableLiveData<>();
     AddModifyLeaveReq addModifyLeaveReq = new AddModifyLeaveReq();
-    private MediaFile attachment;
+    private Uri attachment;
     private MutableLiveData<Double> isLeaveDataValid = new MutableLiveData<>();
 
     public AddModifyLeaveViewModel(DataManager dataManager, SchedulerProvider schedulerProvider) {
@@ -71,7 +72,7 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         return new SlipDomain(getDataManager()).getReasonLocal(Reason.Type.LEAVE_REASON);
     }
 
-    public void setAttachment(MediaFile attachment) {
+    public void setAttachment(Uri attachment) {
         this.attachment = attachment;
     }
 
@@ -222,9 +223,10 @@ public class AddModifyLeaveViewModel extends BaseViewModel {
         }
     }
 
-    private String getBase64OfAttachFile() {
+    public String getBase64OfAttachFile() {
         try {
-            InputStream in = getDataManager().getContext().getContentResolver().openInputStream(attachment.getUri());
+            InputStream in = getDataManager().getContext()
+                    .getContentResolver().openInputStream(attachment);
             byte[] bytes = getBytes(in);
             return Base64.encodeToString(bytes, Base64.DEFAULT);
         } catch (IOException e) {

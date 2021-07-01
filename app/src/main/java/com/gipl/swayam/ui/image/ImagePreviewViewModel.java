@@ -12,7 +12,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.gipl.imagepicker.ImageResult;
+import com.gipl.imagepicker.models.ImageResult;
 import com.gipl.swayam.data.DataManager;
 import com.gipl.swayam.data.model.api.ApiError;
 import com.gipl.swayam.domain.UserUseCase;

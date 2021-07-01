@@ -20,7 +20,6 @@ import com.gipl.swayam.ui.model.Reason;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 import com.gipl.swayam.uility.TimeUtility;
 
 import java.text.ParseException;
@@ -70,8 +69,7 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
                 if (response.data instanceof Boolean) {
                     DialogUtility.showToast(requireContext(), getString(R.string.msg_punching_slip_created));
                     getBaseActivity().onBackPressed();
-                    if (iFragmentListener != null)
-                        iFragmentListener.onActivityResult(null);
+                    getParentFragmentManager().setFragmentResult(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, new Bundle());
                 }
                 break;
             case ERROR:
@@ -83,26 +81,13 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         }
     }
 
-//    private void processShift(ArrayList<Shifts> shifts) {
-//        shifts.add(0, new Shifts("Select"));
-//        ArrayAdapter<Shifts> shiftsArrayAdapter = new ArrayAdapter<>(requireContext(), R.layout.layout_spinner_item, shifts);
-//        getViewDataBinding().spinnerShift.setAdapter(shiftsArrayAdapter);
-//    }
-
-    private IFragmentListener iFragmentListener;
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (getArguments() != null) {
-            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
-        }
-
         getViewDataBinding().tvFrom.setText(TimeUtility.getTodayOnlyDateInDisplayFormat());
         punchingSlipViewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
-
 
 
         getViewDataBinding().tvInTime.setEnabled(false);
@@ -132,7 +117,7 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
 
             inTimePickerDialog = new TimePickerDialog(requireContext(),
                     R.style.MyTimePickerDialogStyle,
-                    (timePicker, h24, m24) -> getViewDataBinding().tvInTime.setText(h24+":"+m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                    (timePicker, h24, m24) -> getViewDataBinding().tvInTime.setText(h24 + ":" + m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             inTimePickerDialog.setTitle("In Time");
             inTimePickerDialog.show();
         });
@@ -143,7 +128,7 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
                 inTimePickerDialog.dismiss();
             inTimePickerDialog = new TimePickerDialog(requireContext(),
                     R.style.MyTimePickerDialogStyle,
-                    (timePicker, h24, m24) -> getViewDataBinding().tvOutTime.setText(h24+":"+m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                    (timePicker, h24, m24) -> getViewDataBinding().tvOutTime.setText(h24 + ":" + m24), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
             inTimePickerDialog.setTitle("Out Time");
             inTimePickerDialog.show();
         });
@@ -183,7 +168,6 @@ public class PunchingSlipFragment extends BaseFragment<FragmentPunchingSlipBindi
         });
 
         getViewDataBinding().btnApply.setOnClickListener(v -> {
-//            Shifts shifts = (Shifts) getViewDataBinding().spinnerShift.getSelectedItem();
             Reason reason = (Reason) getViewDataBinding().spinnerReason.getSelectedItem();
             punchingSlipViewModel.addPunchingSlip(getViewDataBinding().cbIn.isChecked() ? getViewDataBinding().tvInTime.getText().toString() : "",
                     getViewDataBinding().cbOut.isChecked() ? getViewDataBinding().tvOutTime.getText().toString() : "",

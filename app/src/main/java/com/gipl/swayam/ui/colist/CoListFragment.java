@@ -1,7 +1,6 @@
 package com.gipl.swayam.ui.colist;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,7 +19,6 @@ import com.gipl.swayam.ui.colist.adapters.CoListAdapter;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,23 +29,6 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
     @Inject
     CoListViewModel viewModel;
     private CoListAdapter coListAdapter;
-
-    private final IFragmentListener iFragmentListener = new IFragmentListener() {
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-
-        }
-
-        @Override
-        public void onActivityResult(Bundle bundle) {
-            viewModel.getCOList();
-        }
-    };
 
     @Override
     public int getBindingVariable() {
@@ -70,6 +51,7 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
         coListAdapter = new CoListAdapter();
         viewModel.getCOList();
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
+        getParentFragmentManager().setFragmentResultListener(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, this, (s, bundle) -> viewModel.getCOList());
     }
 
     @Override
@@ -96,11 +78,7 @@ public class CoListFragment extends BaseFragment<FragmentCoListBinding, CoListVi
             }
         });
 
-        getViewDataBinding().fabAdd.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
-            Navigation.findNavController(v).navigate(R.id.action_coListFragment_to_addCoFragment, bundle);
-        });
+        getViewDataBinding().fabAdd.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_coListFragment_to_addCoFragment));
     }
 
     private void processResponse(Response response) {

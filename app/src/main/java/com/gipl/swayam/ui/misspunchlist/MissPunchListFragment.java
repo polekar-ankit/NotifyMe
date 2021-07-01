@@ -1,7 +1,6 @@
 package com.gipl.swayam.ui.misspunchlist;
 
 import android.os.Bundle;
-import android.os.Parcel;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -20,33 +19,17 @@ import com.gipl.swayam.ui.misspunchlist.adapter.MissPunchListAdapter;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBinding, MissPunchListViewModel> {
+public class MissPunchListFragment
+        extends BaseFragment<FragmentMissPunchListBinding, MissPunchListViewModel> {
     @Inject
     MissPunchListViewModel viewModel;
     private MissPunchListAdapter missPunchListAdapter;
-    private final IFragmentListener iFragmentListener = new IFragmentListener() {
-        @Override
-        public void onActivityResult(Bundle bundle) {
-            viewModel.getMissPunchList();
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-
-        }
-    };
 
     @Override
     public int getBindingVariable() {
@@ -69,6 +52,7 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
         missPunchListAdapter = new MissPunchListAdapter();
         viewModel.getMissPunchList();
         viewModel.getResponseMutableLiveData().observe(this, this::processResponse);
+        getParentFragmentManager().setFragmentResultListener(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, this, (s, bundle) -> viewModel.getMissPunchList());
     }
 
     private void processResponse(Response response) {
@@ -100,10 +84,7 @@ public class MissPunchListFragment extends BaseFragment<FragmentMissPunchListBin
         getViewDataBinding().pullDown.setRefreshing(false);
 
         getViewDataBinding().fabAdd.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT, iFragmentListener);
-            Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment, bundle);
-
+            Navigation.findNavController(v).navigate(R.id.action_missPunchListFragment_to_punchingSlipFragment);
         });
         getViewDataBinding().pullDown.setOnRefreshListener(() -> {
             getViewDataBinding().pullDown.setRefreshing(false);

@@ -19,7 +19,6 @@ import com.gipl.swayam.ui.model.Reason;
 import com.gipl.swayam.ui.model.Response;
 import com.gipl.swayam.uility.AppUtility;
 import com.gipl.swayam.uility.DialogUtility;
-import com.gipl.swayam.uility.IFragmentListener;
 import com.gipl.swayam.uility.TimeUtility;
 
 import java.util.ArrayList;
@@ -37,7 +36,6 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
         getViewDataBinding().tvFrom.setText(TimeUtility.getDisplayFormattedDate(year, month, day));
     };
     private DatePickerDialog datePickerDialog;
-    private IFragmentListener iFragmentListener;
 
     @Override
     public int getBindingVariable() {
@@ -63,10 +61,6 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (getArguments() != null) {
-            iFragmentListener = getArguments().getParcelable(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT);
-        }
         setLeaveFor();
 
         viewModel.getPreDefineReasonList().observe(getViewLifecycleOwner(), this::setReasonSpinner);
@@ -127,7 +121,7 @@ public class AddCoFragment extends BaseFragment<FragmentAddCoBinding, AddCoViewM
                 if (response.data instanceof Boolean) {
                     DialogUtility.showToast(requireContext(), getString(R.string.msg_co_added));
                     getBaseActivity().onBackPressed();
-                    iFragmentListener.onActivityResult(null);
+                    getParentFragmentManager().setFragmentResult(AppUtility.INTENT_EXTRA.KEY_FRAG_LIST_RESULT,new Bundle());
                 }
                 break;
             case ERROR:
